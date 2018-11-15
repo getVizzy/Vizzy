@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, FileDrop} from './components'
 import {me} from './store'
 import Dashboard from './components/Dashboard'
+import BarChart from './components/BarChart'
 
 /**
  * COMPONENT
@@ -25,6 +26,7 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
+            <Route path="/chart" component={BarChart} />
             <Route path="/home" component={UserHome} />
             <Route path="/upload" component={FileDrop} />
             <Route path="/dashboard" component={Dashboard} />
