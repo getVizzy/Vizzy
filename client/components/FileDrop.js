@@ -3,6 +3,7 @@ import Dropzone from 'react-dropzone'
 import Modal from 'react-modal'
 import { addData } from '../store/user'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 
 class FileDrop extends Component {
@@ -34,11 +35,8 @@ class FileDrop extends Component {
         }
         result.push(obj);
       }
-      //return result; //JavaScript object
-      result= JSON.stringify(result); //JSON
-      console.log(result);
+      result= JSON.stringify(result);
       this.props.addData(result);
-      console.log(this.props.data)
     }
 
     this.setState({
@@ -64,7 +62,7 @@ class FileDrop extends Component {
             ariaHideApp={false}
               className="modal">
         <div>
-          <Dropzone onDrop={this.onDrop} accept="text/csv, application/vnd.ms-excel" className="dropzone"
+          <Dropzone onDrop={this.onDrop} className="dropzone"
             onChange={(e) => this.onChange(e)} >
             <p className="dz-message">Drop files here or <button>Choose file</button></p>
           </Dropzone>
@@ -77,7 +75,9 @@ class FileDrop extends Component {
         <div>
           {
             this.state.files.length ?
-            <button>Done</button>
+            <button>
+              <Link to="/dashboard">Done</Link>
+            </button>
             : <div />
           }
         </div>
