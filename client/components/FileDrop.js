@@ -1,22 +1,48 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import Modal from 'react-modal'
+import { addData } from '../store/user'
+import {connect} from 'react-redux'
 
-export default class FileDrop extends Component {
+
+class FileDrop extends Component {
   constructor() {
     super()
     this.state = {
       files: [],
       modalIsOpen: false
     }
-    this.onDrop = this.onDrop.bind(this)
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
 
-  onDrop(file) {
+  onChange(e) {
+    let files = e.target.files
+    let reader = new FileReader()
+    reader.readAsText(files[0])
+    reader.onload = (e) => {
+
+      var csv = reader.result;
+      var lines = csv.split("\r").join("").split("\n");
+      var result = [];
+      var headers=lines[0].split(",");
+      for(var i=1;i<lines.length;i++){
+        var obj = {};
+        var currentline=lines[i].split(",");
+        for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = currentline[j];
+        }
+        result.push(obj);
+      }
+      //return result; //JavaScript object
+      result= JSON.stringify(result); //JSON
+      console.log(result);
+      this.props.addData(result);
+      console.log(this.props.data)
+    }
+
     this.setState({
-      files: [...this.state.files, file]
+      files: [...this.state.files, files[0]]
     });
   }
 
@@ -38,13 +64,14 @@ export default class FileDrop extends Component {
             ariaHideApp={false}
               className="modal">
         <div>
-          <Dropzone onDrop={this.onDrop} accept="text/csv, application/vnd.ms-excel" className="dropzone">
+          <Dropzone onDrop={this.onDrop} accept="text/csv, application/vnd.ms-excel" className="dropzone"
+            onChange={(e) => this.onChange(e)} >
             <p className="dz-message">Drop files here or <button>Choose file</button></p>
           </Dropzone>
         </div>
         <div>
           {
-          this.state.files.map(f => <p key={f[0].name}>{f[0].name} {f[0].size + " bytes"}</p>)
+          this.state.files.map(f => <p key={f.name}>{f.name} {f.size + " bytes"}</p>)
           }
         </div>
         <div>
@@ -60,3 +87,12 @@ export default class FileDrop extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  data: state.user.data
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  addData: (data) => dispatch(addData(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(FileDrop)
