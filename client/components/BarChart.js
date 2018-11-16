@@ -19,8 +19,8 @@ class BarChart extends Component {
       d.Revenue = +d.Revenue
     })
 
-    const svgWidth = 500
-    const svgHeight = 800
+    const svgWidth = 700
+    const svgHeight = 300
     const barPadding = 5
     const barWidth = svgWidth / data.length
 
