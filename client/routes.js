@@ -26,7 +26,6 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/chart" component={BarChart} />
             <Route path="/home" component={UserHome} />
             <Route path="/upload" component={FileDrop} />
             <Route path="/dashboard" component={Dashboard} />
