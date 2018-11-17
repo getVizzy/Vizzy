@@ -6,6 +6,7 @@ import {Login, Signup, UserHome, FileDrop} from './components'
 import {me} from './store'
 import Dashboard from './components/Dashboard'
 import BarChart from './components/BarChart'
+import VictoryBarChart from './components/VictoryBarChart'
 
 /**
  * COMPONENT
@@ -29,6 +30,8 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route path="/upload" component={FileDrop} />
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/bar" component={VictoryBarChart} />
+
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
