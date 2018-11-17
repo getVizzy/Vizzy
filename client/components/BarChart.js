@@ -59,7 +59,19 @@ class BarChart extends Component {
   }
 
   render() {
-    return <div className="viz" />
+    return (
+      <div>
+        <div className="viz" />
+
+        <canvas
+          id="canvas"
+          width="400"
+          height="400"
+          display="none"
+          style={{visibility: 'hidden'}}
+        />
+      </div>
+    )
   }
 }
 
