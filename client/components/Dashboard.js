@@ -23,10 +23,10 @@ class Dashboard extends Component {
         </div>
 
         <div>
-          <BarChart data={this.props.data} />
+          {/* <BarChart data={data} /> */}
         </div>
         <div>
-          <LineChart data={this.props.data} />
+          {/* <LineChart data={data} /> */}
         </div>
 
         <div>
