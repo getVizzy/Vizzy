@@ -132,3 +132,9 @@ li {
   stroke-width: 2px;
   stroke-dasharray: 3, 3;
 }
+
+#cover {
+  margin-left: 50%;
+  margin-top: 50px;
+  margin-right: auto;
+}
