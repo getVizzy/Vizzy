@@ -34,11 +34,9 @@ class LineChart extends Component {
           "translate(" + margin.left + "," + margin.top + ")");
 
     data.forEach(function(d) {
-      console.log("MONTH", d.Month)
       d.Month = new Date(d.Month + ' 01, 2018');
       d.Apples = +d.Apples;
     });
-    console.log("DATA HERE", data)
 
     let valueline = d3.line()
     .x(function(d) { return x(d.Month); })

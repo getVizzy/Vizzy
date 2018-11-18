@@ -12,46 +12,59 @@ import {
   VictoryLabel
 } from 'victory'
 
+
 //TWO SETS OF DUMMY DATA FOR EXPERIMENTING
 //ENSURE JSON DATA VALUES ARE NUMBERS NOT STRINGS
 
-// let data = [
-//   {quarter: 1, earnings: 13000, items: 40000 },
-//   {quarter: 2, earnings: 16500, items: 60000 },
-//   {quarter: 3, earnings: 14250, items: 50000},
-//   {quarter: 4, earnings: 19000, items: 80000}
-// ];
+// let allData = [
+//   {Month: 'January', Apples: '50', Revenue: '1230'},
+//   {Month: 'February', Apples: '75', Revenue: '1500'},
+//   {Month: 'March', Apples: '90', Revenue: '1900'},
+//   {Month: 'April', Apples: '67', Revenue: '1300'},
+//   {Month: 'May', Apples: '123', Revenue: '1200'},
+//   {Month: 'June', Apples: '56', Revenue: '1345'},
+//   {Month: 'July', Apples: '87', Revenue: '1875'},
+//   {Month: 'August', Apples: '143', Revenue: '1300'},
+//   {Month: 'September', Apples: '59', Revenue: '1330'},
+//   {Month: 'October', Apples: '68', Revenue: '1450'},
+//   {Month: 'November', Apples: '89', Revenue: '1890'},
+//   {Month: 'December', Apples: '100', Revenue: '1100'}
+// ]
 
-let data = [
-  {Month: 'January', Apples: 50, Revenue: 1230},
-  {Month: 'February', Apples: 75, Revenue: 1500},
-  {Month: 'March', Apples: 90, Revenue: 1900},
-  {Month: 'April', Apples: 67, Revenue: 1300},
-  {Month: 'May', Apples: 123, Revenue: 1200},
-  {Month: 'June', Apples: 56, Revenue: 1345},
-  {Month: 'July', Apples: 87, Revenue: 1875},
-  {Month: 'August', Apples: 143, Revenue: 1300},
-  {Month: 'September', Apples: 59, Revenue: 1330},
-  {Month: 'October', Apples: 68, Revenue: 1450},
-  {Month: 'November', Apples: 89, Revenue: 1890},
-  {Month: 'December', Apples: 100, Revenue: 1100}
-]
+let allData = [
+  {quarter: '1', earnings: '13000', items: '40000', state: 'NY' },
+  {quarter: '1', earnings: '18000', items: '80000', state: 'NJ'},
+  {quarter: '1', earnings: '21000', items: '90000', state: 'CT'},
+  {quarter: '2', earnings: '16500', items: '60000', state: 'NY' },
+  {quarter: '2', earnings: '17500', items: '75000', state: 'NJ' },
+  {quarter: '2', earnings: '14500', items: '50000', state: 'CT' },
+  {quarter: '3', earnings: '15340', items: '30000', state: 'NY' },
+  {quarter: '3', earnings: '16250', items: '35000', state: 'NJ' },
+  {quarter: '3', earnings: '8250', items: '12000', state: 'CT' },
+  {quarter: '4', earnings: '18000', items: '70000', state: 'NY'},
+  {quarter: '4', earnings: '17500', items: '69000', state: 'NJ'},
+  {quarter: '4', earnings: '13000', items: '50000', state: 'CT'}
+];
+
+//This is just to set up the initial render for the dummy data. These two lines won't be necessary once we separate the chart and editing components (and are pulling in real data).
+let keys = Object.keys(allData[0])
+console.log("KEYS", keys[0], keys[1])
 
 class VictoryBarChart extends Component {
   constructor() {
     super()
     this.state = {
       color: 'tomato',
-      column: null,
       title: '',
       highlight: 'orange',
-      tooltip: '5'
+      tooltip: '5',
+      x: keys[0],
+      y: keys[1]
     }
-    // this.columnChange = this.columnChange.bind(this)
-    // this.addTitle = this.addTitle.bind(this)
+    this.reinstateNumbers = this.reinstateNumbers.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
     this.downloadPNG = this.downloadPNG.bind(this)
-    // this.changeHighlight = this.changeHighlight.bind(this)
+    this.getDataSlice = this.getDataSlice.bind(this)
   }
 
   componentDidMount() {
@@ -103,13 +116,47 @@ class VictoryBarChart extends Component {
     }
   }
 
+
+  getDataSlice(data, x, y) {
+    let dataSlice = [];
+    let dataObj = {};
+    data.forEach(datum => {
+      if(dataObj[datum[x]]) {
+        dataObj[datum[x]] = dataObj[datum[x]] + +datum[y];
+      } else {
+        dataObj[datum[x]] = +datum[y];
+      }
+    })
+    for(let key in dataObj) {
+      dataSlice.push({ [x]: key, [y]: dataObj[key] })
+    }
+    return dataSlice;
+  }
+
+  reinstateNumbers(array) {
+    let restoredData = array.map(dataObj => {
+      let numDataObj = {};
+      let alpha = "abcdefghijklmnopqrstuvwxyz"
+      for(let key in dataObj) {
+        if(!dataObj[key].split("").some(char => alpha.includes(char.toLowerCase()))) {
+          numDataObj[key] = +dataObj[key]
+        } else {
+          numDataObj[key] = dataObj[key]
+        }
+      }
+      return numDataObj;
+    })
+    return restoredData;
+  }
+
   render() {
-    if (!data) {
-      return 'Loading...'
+    if(!allData) {
+      return (
+        "Loading..."
+      )
     } else {
-      let keys = Object.keys(data[0])
-      let column = this.state.column || keys[1]
-      // let barWidth = 500/(data.length * 1.25) - 60
+      let data = this.reinstateNumbers(allData);
+      data = this.getDataSlice(data, this.state.x, this.state.y)
       return (
         <div id="container">
           <div id="chart">
@@ -136,24 +183,24 @@ class VictoryBarChart extends Component {
               />
 
               <VictoryAxis
-                label={keys[0]}
+                label={this.state.x}
                 style={{
                   axis: {stroke: '#756f6a'},
                   axisLabel: {fontSize: 12, padding: 30}
                 }}
-                tickValues={data.map(datum => datum[keys[0]])}
+                tickValues={data.map(datum => datum[this.state.x])}
                 tickFormat={data.map(datum => {
-                  if (typeof datum[keys[0]] === 'string') {
-                    return datum[keys[0]].slice(0, 3)
+                  if (typeof datum[this.state.x] === 'string') {
+                    return datum[this.state.x].slice(0, 3)
                   } else {
-                    return datum[keys[0]]
+                    return datum[this.state.x]
                   }
                 })}
               />
 
               <VictoryAxis
                 dependentAxis
-                label={column}
+                label={this.state.y}
                 style={{
                   axis: {stroke: '#756f6a'},
                   axisLabel: {fontSize: 12, padding: 60}
@@ -190,7 +237,6 @@ class VictoryBarChart extends Component {
                             }
                           ]
                         },
-
                         onMouseOut: () => {
                           return [
                             {
@@ -207,13 +253,13 @@ class VictoryBarChart extends Component {
                     }
                   ]}
                   data={data.map(datum => {
-                    let label = datum[column].toString()
+                    let label = datum[this.state.y].toString()
                     label = this.addComma(label) || label
                     datum.label = label
                     return datum
                   })}
-                  x={keys[0]}
-                  y={column}
+                  x={this.state.x}
+                  y={this.state.y}
                   barRatio={0.9}
                 />
               </VictoryStack>
@@ -222,18 +268,19 @@ class VictoryBarChart extends Component {
 
           <div id="controls">
             <p>Left Axis:</p>
-            <select onChange={e => this.changeStyle(e, 'column')}>
-              {keys.map((key, i) => {
-                if (key !== 'label' && key !== keys[0]) {
-                  return (
-                    <option
-                      key={i}
-                      name="column"
-                      value={key}
-                    >{`${key[0].toUpperCase()}${key.slice(1)}`}</option>
-                  )
-                }
-              })}
+            <select onChange={e => this.changeStyle(e, 'y')}>
+              <option />
+              {Object.keys(allData[0]).map((key, i) =>
+                <option key={i} value={key}>{key}</option>
+              )}
+            </select>
+
+            <p>Bottom Axis:</p>
+            <select onChange={e => this.changeStyle(e, 'x')}>
+              <option />
+              {Object.keys(allData[0]).map((key, i) =>
+                <option key={i} value={key}>{key}</option>
+              )}
             </select>
 
             <p>Bar Color:</p>
