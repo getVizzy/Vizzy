@@ -38,6 +38,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.15.3",
+    "chroma-js": "^1.4.0",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^4.1.0",
     "d3": "^5.7.0",
@@ -47,6 +48,7 @@
     "filereader": "^0.10.3",
     "fs": "0.0.1-security",
     "history": "^4.6.3",
+    "material-ui": "^0.20.2",
     "morgan": "^1.9.1",
     "passport": "^0.3.2",
     "passport-google-oauth": "^1.0.0",
