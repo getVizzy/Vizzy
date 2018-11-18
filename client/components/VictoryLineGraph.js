@@ -39,23 +39,6 @@ let data = [
   {Month: 'December', Apples: 100, Revenue: 1100}
 ]
 
-const xyplot = {}
-
-// let data2 = [
-//   {Key: 'January', Apples: 50, Revenue: 1230},
-//   {Key: 'February', Apples: 75, Revenue: 1500},
-//   {Key: 'March', Apples: 90, Revenue: 1900},
-//   {Key: 'April', Apples: 67, Revenue: 1300},
-//   {Key: 'May', Apples: 123, Revenue: 1200},
-//   {Key: 'June', Apples: 56, Revenue: 1345},
-//   {Key: 'July', Apples: 87, Revenue: 1875},
-//   {Key: 'August', Apples: 143, Revenue: 1300},
-//   {Key: 'September', Apples: 59, Revenue: 1330},
-//   {Key: 'October', Apples: 68, Revenue: 1450},
-//   {Key: 'November', Apples: 89, Revenue: 1890},
-//   {Key: 'December', Apples: 100, Revenue: 1100}
-// ]
-
 class VictoryLineGraph extends Component {
   constructor() {
     super()
@@ -82,22 +65,12 @@ class VictoryLineGraph extends Component {
     })
   }
 
-  addComma(stringNum) {
-    if (stringNum.length > 3) {
-      return `${stringNum.slice(0, stringNum.length - 3)},${stringNum.slice(
-        stringNum.length - 3
-      )}`
-    }
-  }
-
   render() {
     if (!data) {
       return 'Loading...'
     } else {
       let keys = Object.keys(data[0])
       let column = this.state.column || keys[1]
-
-      console.log('stateeee', this.state)
       return (
         <div id="container">
           <div id="chart">
@@ -142,10 +115,6 @@ class VictoryLineGraph extends Component {
                 data={data}
                 x={keys[0]}
                 y={column}
-                // labelComponent={
-                //   <VictoryTooltip cornerRadius={+this.state.tooltip} />
-                // }
-
                 animate={{
                   duration: 2000,
                   onLoad: {duration: 1000}
