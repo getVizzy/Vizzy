@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import ReactDOM from 'react-dom'
 import * as d3 from 'd3'
 import {
   VictoryBar,
@@ -49,6 +50,7 @@ class VictoryBarChart extends Component {
     // this.columnChange = this.columnChange.bind(this)
     // this.addTitle = this.addTitle.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
+    this.downloadPNG = this.downloadPNG.bind(this)
     // this.changeHighlight = this.changeHighlight.bind(this)
   }
 
@@ -67,6 +69,37 @@ class VictoryBarChart extends Component {
       return `${stringNum.slice(0, stringNum.length - 3)},${stringNum.slice(
         stringNum.length - 3
       )}`
+    }
+  }
+
+  downloadPNG(title) {
+    //draw canvas
+    let svgHtml = ReactDOM.findDOMNode(this).querySelector('svg')
+    var svgString = new XMLSerializer().serializeToString(svgHtml)
+    const canvas = ReactDOM.findDOMNode(this).querySelector('canvas')
+    var ctx = canvas.getContext('2d')
+    var DOMURL = window.self.URL || window.self.webkitURL || window.self
+    var img = new Image()
+    var svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'})
+    var url = DOMURL.createObjectURL(svg)
+    img.src = url
+
+    //function executes when image loads
+    img.onload = function() {
+      ctx.drawImage(img, 0, 0)
+      var png = canvas.toDataURL('image/png')
+      document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
+      DOMURL.revokeObjectURL(png)
+
+      //download png
+      const canvas2 = document.getElementsByTagName('canvas')[0]
+      let URL = canvas2.toDataURL('image/png')
+      let link = document.createElement('a')
+      link.href = URL
+      link.download = title ? title + '.png' : 'chart.png'
+
+      document.body.appendChild(link)
+      link.click()
     }
   }
 
@@ -235,7 +268,19 @@ class VictoryBarChart extends Component {
               value={this.state.title}
               onChange={e => this.changeStyle(e, 'title')}
             />
+            <p>
+              <button onClick={() => this.downloadPNG(this.state.title)}>
+                Download
+              </button>
+            </p>
           </div>
+          <canvas
+            id="canvas"
+            width="600"
+            height="400"
+            display="none"
+            style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
+          />
         </div>
       )
     }
