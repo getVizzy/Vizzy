@@ -86,7 +86,7 @@ li {
   border: 0;
   outline: 0;
   padding-bottom: 60px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
   border-radius: 4px;
   letter-spacing: 0.025em;
   text-decoration: none;
@@ -99,20 +99,20 @@ li {
 }
 
 .axis {
-	font: 10px sans-serif;
+  font: 10px sans-serif;
 }
 
 .axis path,
 .axis line {
   fill: none;
-  stroke: #D4D8DA;
+  stroke: #d4d8da;
   stroke-width: 2px;
   shape-rendering: crispEdges;
 }
 
 .line {
   fill: none;
-  stroke: #6F257F;
+  stroke: #6f257f;
   stroke-width: 5px;
 }
 
@@ -122,13 +122,13 @@ li {
 }
 
 .focus circle {
-  fill: #F1F3F3;
-  stroke: #6F257F;
+  fill: #f1f3f3;
+  stroke: #6f257f;
   stroke-width: 5px;
 }
 
 .hover-line {
-  stroke: #6F257F;
+  stroke: #6f257f;
   stroke-width: 2px;
-  stroke-dasharray: 3,3;
+  stroke-dasharray: 3, 3;
 }

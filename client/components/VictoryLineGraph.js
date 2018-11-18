@@ -2,13 +2,16 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import * as d3 from 'd3'
 import {
-  VictoryBar,
   VictoryChart,
+  VictoryLine,
+  VictoryZoomContainer,
+  VictoryBrushContainer,
   VictoryAxis,
   VictoryStack,
   VictoryTheme,
   VictoryTooltip,
-  VictoryLabel
+  VictoryLabel,
+  VictoryVoronoiContainer
 } from 'victory'
 
 //TWO SETS OF DUMMY DATA FOR EXPERIMENTING
@@ -36,7 +39,24 @@ let data = [
   {Month: 'December', Apples: 100, Revenue: 1100}
 ]
 
-class VictoryBarChart extends Component {
+const xyplot = {}
+
+// let data2 = [
+//   {Key: 'January', Apples: 50, Revenue: 1230},
+//   {Key: 'February', Apples: 75, Revenue: 1500},
+//   {Key: 'March', Apples: 90, Revenue: 1900},
+//   {Key: 'April', Apples: 67, Revenue: 1300},
+//   {Key: 'May', Apples: 123, Revenue: 1200},
+//   {Key: 'June', Apples: 56, Revenue: 1345},
+//   {Key: 'July', Apples: 87, Revenue: 1875},
+//   {Key: 'August', Apples: 143, Revenue: 1300},
+//   {Key: 'September', Apples: 59, Revenue: 1330},
+//   {Key: 'October', Apples: 68, Revenue: 1450},
+//   {Key: 'November', Apples: 89, Revenue: 1890},
+//   {Key: 'December', Apples: 100, Revenue: 1100}
+// ]
+
+class VictoryLineGraph extends Component {
   constructor() {
     super()
     this.state = {
@@ -44,16 +64,16 @@ class VictoryBarChart extends Component {
       column: null,
       title: '',
       highlight: 'orange',
-      tooltip: '5'
+      tooltip: '5',
+      zoomDomain: {
+        x: [new Date(2018, 1, 1), new Date(2018, 12, 1)]
+      }
     }
-    // this.columnChange = this.columnChange.bind(this)
-    // this.addTitle = this.addTitle.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
-    // this.changeHighlight = this.changeHighlight.bind(this)
   }
 
-  componentDidMount() {
-    //fetchData
+  handleZoom(domain) {
+    this.setState({zoomDomain: domain})
   }
 
   changeStyle(e, attribute) {
@@ -76,17 +96,31 @@ class VictoryBarChart extends Component {
     } else {
       let keys = Object.keys(data[0])
       let column = this.state.column || keys[1]
-      // let barWidth = 500/(data.length * 1.25) - 60
+
+      console.log('stateeee', this.state)
       return (
         <div id="container">
           <div id="chart">
             <VictoryChart
               theme={VictoryTheme.material}
               style={{parent: {maxWidth: '100%'}}}
-              domainPadding={60}
+              // domainPadding={60}
               width={600}
-              height={400}
+              height={470}
+              scale={{x: 'time'}}
               padding={{left: 100, right: 25, top: 35, bottom: 75}}
+              containerComponent={
+                <VictoryVoronoiContainer
+                  voronoiDimension="x"
+                  labels={d => `${column}:${d[column]}`}
+                  labelComponent={
+                    <VictoryTooltip
+                      cornerRadius={+this.state.tooltip}
+                      flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
+                    />
+                  }
+                />
+              }
             >
               <VictoryLabel
                 text={this.state.title}
@@ -101,7 +135,50 @@ class VictoryBarChart extends Component {
                 x={100}
                 y={24}
               />
+              <VictoryLine
+                style={{
+                  data: {stroke: this.state.color}
+                }}
+                data={data}
+                x={keys[0]}
+                y={column}
+                // labelComponent={
+                //   <VictoryTooltip cornerRadius={+this.state.tooltip} />
+                // }
 
+                animate={{
+                  duration: 2000,
+                  onLoad: {duration: 1000}
+                }}
+                events={[
+                  {
+                    target: 'data',
+                    eventHandlers: {
+                      onMouseOver: () => {
+                        return [
+                          {
+                            target: 'labels',
+                            mutation: () => ({active: true})
+                          }
+                        ]
+                      },
+
+                      onMouseOut: () => {
+                        return [
+                          {
+                            target: 'data',
+                            mutation: () => {}
+                          },
+                          {
+                            target: 'labels',
+                            mutation: () => ({active: false})
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]}
+              />
               <VictoryAxis
                 label={keys[0]}
                 style={{
@@ -117,7 +194,6 @@ class VictoryBarChart extends Component {
                   }
                 })}
               />
-
               <VictoryAxis
                 dependentAxis
                 label={column}
@@ -126,67 +202,8 @@ class VictoryBarChart extends Component {
                   axisLabel: {fontSize: 12, padding: 60}
                 }}
               />
-              <VictoryStack>
-                <VictoryBar
-                  labelComponent={
-                    <VictoryTooltip
-                      flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
-                      cornerRadius={+this.state.tooltip}
-                    />
-                  }
-                  style={{data: {fill: this.state.color}}}
-                  animate={{
-                    duration: 2000,
-                    onLoad: {duration: 1000}
-                  }}
-                  events={[
-                    {
-                      target: 'data',
-                      eventHandlers: {
-                        onMouseOver: () => {
-                          return [
-                            {
-                              target: 'data',
-                              mutation: () => ({
-                                style: {fill: this.state.highlight}
-                              })
-                            },
-                            {
-                              target: 'labels',
-                              mutation: () => ({active: true})
-                            }
-                          ]
-                        },
-
-                        onMouseOut: () => {
-                          return [
-                            {
-                              target: 'data',
-                              mutation: () => {}
-                            },
-                            {
-                              target: 'labels',
-                              mutation: () => ({active: false})
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ]}
-                  data={data.map(datum => {
-                    let label = datum[column].toString()
-                    label = this.addComma(label) || label
-                    datum.label = label
-                    return datum
-                  })}
-                  x={keys[0]}
-                  y={column}
-                  barRatio={0.9}
-                />
-              </VictoryStack>
             </VictoryChart>
           </div>
-
           <div id="controls">
             <p>Left Axis:</p>
             <select onChange={e => this.changeStyle(e, 'column')}>
@@ -203,21 +220,11 @@ class VictoryBarChart extends Component {
               })}
             </select>
 
-            <p>Bar Color:</p>
+            <p>Line Color:</p>
             <select onChange={e => this.changeStyle(e, 'color')}>
               <option value="tomato">Tomato</option>
               <option value="gold">Gold</option>
               <option value="orange">Orange</option>
-              <option value="#f77">Salmon</option>
-              <option value="#55e">Purple</option>
-              <option value="#8af">Periwinkle</option>
-            </select>
-
-            <p>Bar Highlight:</p>
-            <select onChange={e => this.changeStyle(e, 'highlight')}>
-              <option value="orange">Orange</option>
-              <option value="tomato">Tomato</option>
-              <option value="gold">Gold</option>
               <option value="#f77">Salmon</option>
               <option value="#55e">Purple</option>
               <option value="#8af">Periwinkle</option>
@@ -246,4 +253,4 @@ const mapStateToProps = state => ({
   data: state.user.data
 })
 
-export default connect(mapStateToProps)(VictoryBarChart)
+export default connect(mapStateToProps)(VictoryLineGraph)
