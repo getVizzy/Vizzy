@@ -108,7 +108,7 @@ const styles = theme => ({
 
 class PermanentDrawerLeft extends React.Component {
   state = {
-    open: true,
+    open: false,
   };
 
   handleDrawerOpen = () => {
