@@ -7,6 +7,7 @@ import {me} from './store'
 import Dashboard from './components/Dashboard'
 import VictoryBarChart from './components/VictoryBarChart'
 import VictoryLineGraph from './components/VictoryLineGraph'
+import VictoryScatterChart from './components/VictoryScatterChart'
 
 /**
  * COMPONENT
@@ -32,6 +33,7 @@ class Routes extends Component {
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/bar" component={VictoryBarChart} />
             <Route path="/line" component={VictoryLineGraph} />
+            <Route path="/scatter" component={VictoryScatterChart} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
