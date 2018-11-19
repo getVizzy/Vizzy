@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard'
 import VictoryBarChart from './components/VictoryBarChart'
 import VictoryLineGraph from './components/VictoryLineGraph'
 import VictoryScatterChart from './components/VictoryScatterChart'
+import EditView from './components/EditGraphs/EditView'
 
 /**
  * COMPONENT
@@ -34,6 +35,8 @@ class Routes extends Component {
             <Route path="/bar" component={VictoryBarChart} />
             <Route path="/line" component={VictoryLineGraph} />
             <Route path="/scatter" component={VictoryScatterChart} />
+            <Route path="/editgraph" component={EditView} />
+
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

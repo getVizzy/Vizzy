@@ -30,7 +30,7 @@ export const sideBarItems = (
     </ListItem>
     </Link>
 
-    <Link to="/bar">
+    <Link to="/editgraph">
     <ListItem button>
       <ListItemIcon>
         <CreateIcon fontSize="large"/>
