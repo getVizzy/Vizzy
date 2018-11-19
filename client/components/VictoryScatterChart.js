@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import ReactDOM from 'react-dom'
 import * as d3 from 'd3'
 import {
   VictoryChart,
@@ -15,7 +16,7 @@ import {
   VictoryVoronoiContainer
 } from 'victory'
 import * as tf from '@tensorflow/tfjs'
-
+import ReactFauxDOM from 'react-faux-dom'
 const data = [
   {'Degrees Celsius Below Zero': 1, 'Hundreds of Pounds of Cocoa Sold': 2},
   {'Degrees Celsius Below Zero': 2, 'Hundreds of Pounds of Cocoa Sold': 2},
@@ -46,16 +47,46 @@ class VictoryScatterChart extends Component {
     this.buildRegressionModel = this.buildRegressionModel.bind(this)
   }
 
-  handleZoom(domain) {
-    this.setState({zoomDomain: domain})
-  }
-
   changeStyle(value, attribute) {
     this.setState({
       [attribute]: value
     })
   }
+  downloadPNG(title) {
+    //draw canvas
+    let svgHtml = ReactDOM.findDOMNode(this).querySelector('svg')
+    var svgString = new XMLSerializer().serializeToString(svgHtml)
 
+    const canvas = ReactDOM.findDOMNode(this).querySelector('canvas')
+    canvas.innerHTML = ''
+    console.log('canvas is a', canvas)
+    var ctx = canvas.getContext('2d')
+    var DOMURL = window.self.URL || window.self.webkitURL || window.self
+    var img = new Image()
+    var svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'})
+    var url = DOMURL.createObjectURL(svg)
+    img.src = url
+
+    //function executes when image loads
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0)
+
+      var png = canvas.toDataURL('image/png')
+      document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
+      DOMURL.revokeObjectURL(png)
+
+      //download png
+      const canvas2 = ReactDOM.findDOMNode(this).querySelector('canvas')
+      let URL = canvas2.toDataURL('image/png')
+      let link = document.createElement('a')
+      link.href = URL
+      link.download = title ? title + '.png' : 'chart.png'
+
+      document.body.appendChild(link)
+      link.click()
+    }
+    ReactDOM.findDOMNode(this).querySelector('canvas').innerHTML = ''
+  }
   buildRegressionModel(xCol, yCol) {
     //there are different tensor types for different tensor dimensions
     const yData = data.map(elem => elem[xCol])
@@ -197,10 +228,10 @@ class VictoryScatterChart extends Component {
                 data={this.state.regressionLine}
                 x={x}
                 y={y}
-                animate={{
-                  duration: 2000,
-                  onLoad: {duration: 1000}
-                }}
+                // animate={{
+                //   duration: 2000,
+                //   onLoad: {duration: 1000}
+                // }}
               />
               <VictoryLabel
                 text={this.state.title}
@@ -294,7 +325,19 @@ class VictoryScatterChart extends Component {
                 }}
               />
             </p>
+            <p>
+              <button onClick={() => this.downloadPNG(this.state.title)}>
+                Download
+              </button>
+            </p>
           </div>
+          <canvas
+            id="canvas"
+            width="600"
+            height="470"
+            display="none"
+            style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
+          />
         </div>
       )
     }
