@@ -1,20 +1,20 @@
 const User = require('./user')
-const Dashboard = require('./dashboard')
+const Label = require('./label')
 const Data = require('./data')
 const Graph = require('./graph')
 
-User.hasMany(Dashboard)
-Dashboard.belongsTo(User)
+User.hasMany(Graph)
+Graph.belongsTo(User)
 
-Dashboard.hasMany(Data)
-Data.belongsTo(Dashboard)
+User.hasMany(Data)
+Data.belongsTo(User)
 
-Graph.belongsTo(Dashboard)
-Dashboard.hasMany(Graph)
+Label.belongsToMany(Graph, {through: 'GraphLabel'})
+Graph.belongsToMany(Label, {through: 'GraphLabel'})
 
 module.exports = {
   User,
-  Dashboard,
+  Label,
   Data,
   Graph
 }
