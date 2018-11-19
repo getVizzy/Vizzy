@@ -83,9 +83,10 @@ class FileDrop extends Component {
           </div>
           <div>{/* {f.name} {this.data.size + ' bytes'} */}</div>
           <div>
-            <button onClick={() => this.props.addData(this.state.data)}>
-              {/* <Link to="/dashboard">Done</Link> */}
-            </button>
+            <button onClick={() => {
+              this.props.addData(this.state.data);
+              this.closeModal()
+              }}>Done</button>
           </div>
         </Modal>
       </div>
