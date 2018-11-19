@@ -4,15 +4,17 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
+//Note: Currently not using this NavBar component anywhere in out code. Using SideBar component instead.
+
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <nav>
+  <div style={{backgroundColor:"white", marginTop:'20px'}}>
+    <nav style={{backgroundColor:'white'}}>
       <div>
         <h1>Vizzy</h1>
       </div>
       {isLoggedIn ? (
         <div>
-          {/* The navbar will show these links after you log in */}
+         {/* navbar will show these links after you log in */}
           <Link to="/home">Home</Link>
           <a href="#" onClick={handleClick}>
             Logout

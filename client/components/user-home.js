@@ -10,13 +10,12 @@ export const UserHome = props => {
   const {email} = props
 
   return (
+    <div>
     <div id="container-row">
-      <div>
-        <h3>Welcome, {email}</h3>
-      </div>
       <div>
         <FileDrop />
       </div>
+    </div>
     </div>
   )
 }

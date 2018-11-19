@@ -37,6 +37,8 @@
   "author": "Fullstack Academy of Code",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^3.5.1",
+    "@material-ui/icons": "^3.0.1",
     "@tensorflow/tfjs": "^0.13.5",
     "axios": "^0.15.3",
     "chroma-js": "^1.4.0",
