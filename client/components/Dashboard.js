@@ -4,10 +4,11 @@ import BarChart from './BarChart'
 import LineChart from './LineChart'
 const io = require('socket.io-client')
 const socket = io()
+// import socket from '../socket'
 
 class Dashboard extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       data: [],
       select: '',
@@ -27,14 +28,18 @@ class Dashboard extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-    socket.emit('new changes', {[event.target.name]: event.target.value})
+    // socket.emit('new changes','4kvi2mukbi9rkzz0p7', {
+    //   [event.target.name]: event.target.value
+    // })
+    socket.emit('new changes', 'xz6hu767fvl6vzdfow', {
+      [event.target.name]: event.target.value
+    })
   }
 
   componentDidMount() {}
   render() {
-    console.log('DATA', this.props.data)
     console.log('state', this.state)
-
+    console.log('this.props', this.props)
     return (
       <div id="container-row">
         <div>
@@ -66,7 +71,8 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.user.data
+  data: state.user.data,
+  room: state.room
 })
 
 export default connect(mapStateToProps)(Dashboard)
