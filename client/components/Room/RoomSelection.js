@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import socket from '../../socket'
-import {postRoom, fetchRooms} from '../../store/room'
+import { postRoom, fetchRooms, gotSingleRoom } from '../../store/room'
 import Dashboard from '../Dashboard'
 
 class RoomSelection extends Component {
@@ -18,8 +18,7 @@ class RoomSelection extends Component {
   }
 
   async componentDidMount() {
-    let rooms = await this.props.onFetchRooms()
-    // let roomKeys = rooms.map(currentRoom => currentRoom.roomKey)
+    await this.props.onFetchRooms()
   }
 
   handleCreateRoom() {
@@ -33,36 +32,40 @@ class RoomSelection extends Component {
     console.log('roomKey', roomKey)
     const userName = this.props.user.user.name
 
-    this.props.onPostRoom({roomKey: roomKey})
-    this.setState({roomKey: roomKey})
+    this.props.onPostRoom({ roomKey: roomKey })
+    this.setState({ roomKey: roomKey })
 
     socket.emit('createRoom', roomKey, userName)
+    this.props.onGotSingleRoom(roomKey)
 
     this.props.history.push('room/live')
   }
 
   joinRoomInput(event) {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   joinRoomSubmit(event) {
     event.preventDefault()
     let roomKey = this.state.roomKey
-    const room = this.props.room
-    const match = room.filter(currentRoom => {
+    const rooms = this.props.rooms
+    const match = rooms.filter(currentRoom => {
       return currentRoom.roomKey === roomKey
     })
-    console.log('match', match)
     if (match.length) {
       socket.emit('joinRoom', this.state.roomKey, this.props.user.user.email)
+
+      this.props.onGotSingleRoom(this.state.roomKey)
+
       this.props.history.push('room/live')
+
     } else {
       console.log('No Room FOUND!')
     }
   }
 
   render() {
-    console.log('ROOM SELECTION PROPS', this.props.room)
+    console.log('ROOM SELECTION PROPS', this.props)
     console.log('ROOM SELECTION STATE', this.state)
     console.log('email', this.props.user.user.email)
 
@@ -91,12 +94,14 @@ class RoomSelection extends Component {
 const mapStateToProps = state => ({
   data: state.user.data,
   user: state.user,
-  room: state.room
+  rooms: state.room.rooms,
+  singleRoom: state.room.singleRoom
 })
 
 const mapDispatchToProps = dispatch => ({
   onPostRoom: room => dispatch(postRoom(room)),
-  onFetchRooms: () => dispatch(fetchRooms())
+  onFetchRooms: () => dispatch(fetchRooms()),
+  onGotSingleRoom: (roomKey) => dispatch(gotSingleRoom(roomKey))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomSelection)

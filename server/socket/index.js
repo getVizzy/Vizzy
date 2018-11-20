@@ -21,13 +21,13 @@ module.exports = io => {
       socket.emit(`success, ${userName} has joined ${newRoom}`)
       console.log(`success, ${userName} has joined ${newRoom}`)
     })
-    socket.on('new changes', function(room, data) {
+    socket.on('new changes', function (room, data) {
       // socket.broadcast.to(room).emit('receive code', data)
       console.log(room)
       console.log(data)
-      socket.join('xz6hu767fvl6vzdfow') //MUST HAVE JOIN!
+      socket.join(room) //MUST HAVE JOIN!
 
-      socket.broadcast.to('xz6hu767fvl6vzdfow').emit('receive code', data)
+      socket.broadcast.to(room).emit('receive code', data)
     })
 
     // socket.on('new changes', function(data) {
