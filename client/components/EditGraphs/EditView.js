@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import BarChart from '../VictoryBarChart'
 import ScatterChart from '../VictoryScatterChart'
 import {gotData} from '../../store/data'
+import {postGraph} from '../../store/graph'
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
 import {connect} from 'react-redux'
-import ReactDOM from 'react-dom'
 import {
   reinstateNumbers,
   download,
@@ -49,8 +49,6 @@ class EditView extends React.Component {
     this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
     this.downloadPNG = download.bind(this)
-    // this.addComma = this.addComma.bind(this)
-    // this.getDataSlice = this.getDataSlice.bind(this)
   }
 
   componentDidMount() {
@@ -78,10 +76,10 @@ class EditView extends React.Component {
   }
 
   render() {
-    // console.log('did thunk work data', this.props.data)
     const {classes} = this.props
     const graphSelected = this.state.graphSelected
     let data
+
     if (!this.props.data) {
       return 'Loading...'
     } else {
@@ -96,8 +94,11 @@ class EditView extends React.Component {
         let dataElem = this.props.data.filter(
           elem => elem.id === this.state.dataId
         )
+        console.log('DATA ELEM', dataElem, 'DATA PROPS', this.props.data)
+        //The data elements used to end with ".data" --- find out what circusmtances this worked.
+        console.log('DATA BEFORE REINSTATE', dataElem[0].dataJSON)
         data = reinstateNumbers(dataElem[0].dataJSON.data)
-        console.log('data after reinstate', data)
+        console.log('data after reinstate', data.data)
       }
       return (
         <div>
@@ -136,7 +137,12 @@ class EditView extends React.Component {
               />
             ) : null}
             <GraphMenu handleGraphSelected={this.handleGraphSelected} />
-            <Button variant="contained" size="small" className={classes.button}>
+            <Button
+              variant="contained"
+              size="small"
+              className={classes.button}
+              onClick={() => this.props.addGraph(this.state)}
+            >
               <SaveIcon
                 className={classNames(classes.leftIcon, classes.iconSmall)}
               />
@@ -245,6 +251,9 @@ EditView.propTypes = {
 const mapDispatchToProps = dispatch => ({
   gotData: function() {
     dispatch(gotData())
+  },
+  addGraph: function(graphData) {
+    dispatch(postGraph(graphData))
   }
 })
 
