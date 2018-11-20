@@ -34,32 +34,32 @@ async function seed() {
     Graph.create({
       userId: 1,
       properties: {
-          graphSelected: 'bar',
-          color: 'tomato',
-          title: 'Test Graph',
-          highlight: 'orange',
-          tooltip: '5',
-          x: 'x',
-          y: 'y',
-          dataId: 1
-        },
+        graphSelected: 'bar',
+        color: 'tomato',
+        title: 'Test Graph',
+        highlight: 'orange',
+        tooltip: '5',
+        x: 'x',
+        y: 'y',
+        dataId: 1
+      },
       datumId: 1
-      }),
-      Graph.create({
-        userId: 1,
-        properties: {
-            graphSelected: 'bar',
-            color: 'salmon',
-            title: 'Another Test Graph',
-            highlight: 'periwinkle',
-            tooltip: '5',
-            x: 'y',
-            y: 'x',
-            dataId: 1
-          },
-        datumId: 1
-        }),
-    ])
+    }),
+    Graph.create({
+      userId: 1,
+      properties: {
+        graphSelected: 'bar',
+        color: 'salmon',
+        title: 'Another Test Graph',
+        highlight: 'periwinkle',
+        tooltip: '5',
+        x: 'y',
+        y: 'x',
+        dataId: 1
+      },
+      datumId: 1
+    })
+  ])
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${data.length} data`)
