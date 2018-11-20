@@ -39,6 +39,9 @@ class EditView extends React.Component {
       tooltip: '5',
       x: '',
       y: '',
+      regression: false,
+      regressionLine: [],
+      regressionModel: {},
       dataId: 0
     }
     this.handleGraphSelected = this.handleGraphSelected.bind(this)
@@ -56,6 +59,10 @@ class EditView extends React.Component {
     if (attribute === 'dataId') {
       this.setState({
         [attribute]: +e.target.value
+      })
+    } else if (!e.target) {
+      this.setState({
+        [attribute]: e
       })
     } else {
       this.setState({
@@ -226,6 +233,24 @@ class EditView extends React.Component {
               value={this.state.title}
               onChange={e => this.changeStyle(e, 'title')}
             />
+            {graphSelected === 'scatter' ? (
+              <p>
+                Regression Line:{' '}
+                <input
+                  type={'checkbox'}
+                  onChange={async e => {
+                    await this.changeStyle(!this.state.regression, 'regression')
+                    if (this.state.regression) {
+                      this.buildRegressionModel(data, x, y, this.changeStyle)
+                    } else {
+                      this.changeStyle([], 'regressionLine')
+                    }
+                  }}
+                />
+              </p>
+            ) : (
+              ''
+            )}
           </div>
         </div>
       )

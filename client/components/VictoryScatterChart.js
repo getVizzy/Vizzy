@@ -17,77 +17,36 @@ import {
 } from 'victory'
 import * as tf from '@tensorflow/tfjs'
 import ReactFauxDOM from 'react-faux-dom'
-const data = [
-  {'Degrees Celsius Below Zero': 1, 'Hundreds of Pounds of Cocoa Sold': 2},
-  {'Degrees Celsius Below Zero': 2, 'Hundreds of Pounds of Cocoa Sold': 2},
-  {'Degrees Celsius Below Zero': 3, 'Hundreds of Pounds of Cocoa Sold': 4},
-  {'Degrees Celsius Below Zero': 4, 'Hundreds of Pounds of Cocoa Sold': 3},
-  {'Degrees Celsius Below Zero': 5, 'Hundreds of Pounds of Cocoa Sold': 4.5},
-  {'Degrees Celsius Below Zero': 6, 'Hundreds of Pounds of Cocoa Sold': 4.5},
-  {'Degrees Celsius Below Zero': 7, 'Hundreds of Pounds of Cocoa Sold': 7},
-  {'Degrees Celsius Below Zero': 8, 'Hundreds of Pounds of Cocoa Sold': 10}
-]
-const xs = tf.tensor1d([1, 2, 3, 4, 5, 6, 7, 8])
-const ys = tf.tensor1d([2, 2, 4, 3, 4.5, 4.5, 7, 10])
+// const data = [
+//   {'Degrees Celsius Below Zero': 1, 'Hundreds of Pounds of Cocoa Sold': 2},
+//   {'Degrees Celsius Below Zero': 2, 'Hundreds of Pounds of Cocoa Sold': 2},
+//   {'Degrees Celsius Below Zero': 3, 'Hundreds of Pounds of Cocoa Sold': 4},
+//   {'Degrees Celsius Below Zero': 4, 'Hundreds of Pounds of Cocoa Sold': 3},
+//   {'Degrees Celsius Below Zero': 5, 'Hundreds of Pounds of Cocoa Sold': 4.5},
+//   {'Degrees Celsius Below Zero': 6, 'Hundreds of Pounds of Cocoa Sold': 4.5},
+//   {'Degrees Celsius Below Zero': 7, 'Hundreds of Pounds of Cocoa Sold': 7},
+//   {'Degrees Celsius Below Zero': 8, 'Hundreds of Pounds of Cocoa Sold': 10}
+// ]
+// const xs = tf.tensor1d([1, 2, 3, 4, 5, 6, 7, 8])
+// const ys = tf.tensor1d([2, 2, 4, 3, 4.5, 4.5, 7, 10])
 
-class VictoryScatterChart extends Component {
-  constructor() {
-    super()
-    this.state = {
-      color: 'tomato',
-      x: null,
-      y: null,
-      title: '',
-      highlight: 'orange',
-      tooltip: '5',
-      regression: false,
-      regressionLine: []
-    }
-    this.changeStyle = this.changeStyle.bind(this)
-    this.buildRegressionModel = this.buildRegressionModel.bind(this)
-  }
+export default class VictoryScatterChart extends Component {
+  // constructor() {
+  //   super()
+  //   this.state = {
+  //     color: 'tomato',
+  //     x: null,
+  //     y: null,
+  //     title: '',
+  //     highlight: 'orange',
+  //     tooltip: '5',
+  //     regression: false,
+  //     regressionLine: []
+  //   }
+  // this.buildRegressionModel = this.buildRegressionModel.bind(this)
+  //}
 
-  changeStyle(value, attribute) {
-    this.setState({
-      [attribute]: value
-    })
-  }
-  downloadPNG(title) {
-    //draw canvas
-    let svgHtml = ReactDOM.findDOMNode(this).querySelector('svg')
-    var svgString = new XMLSerializer().serializeToString(svgHtml)
-
-    const canvas = ReactDOM.findDOMNode(this).querySelector('canvas')
-    canvas.innerHTML = ''
-    console.log('canvas is a', canvas)
-    var ctx = canvas.getContext('2d')
-    var DOMURL = window.self.URL || window.self.webkitURL || window.self
-    var img = new Image()
-    var svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'})
-    var url = DOMURL.createObjectURL(svg)
-    img.src = url
-
-    //function executes when image loads
-    img.onload = () => {
-      ctx.drawImage(img, 0, 0)
-
-      var png = canvas.toDataURL('image/png')
-      document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
-      DOMURL.revokeObjectURL(png)
-
-      //download png
-      const canvas2 = ReactDOM.findDOMNode(this).querySelector('canvas')
-      let URL = canvas2.toDataURL('image/png')
-      let link = document.createElement('a')
-      link.href = URL
-      link.download = title ? title + '.png' : 'chart.png'
-
-      document.body.appendChild(link)
-      link.click()
-    }
-    ReactDOM.findDOMNode(this).querySelector('canvas').innerHTML = ''
-  }
-  buildRegressionModel(xCol, yCol) {
+  buildRegressionModel(data, xCol, yCol, setStateFunction) {
     //there are different tensor types for different tensor dimensions
     const yData = data.map(elem => elem[xCol])
     const xData = data.map(elem => elem[yCol])
@@ -136,12 +95,13 @@ class VictoryScatterChart extends Component {
       {[xCol]: x2, [yCol]: y_pred_2}
     ]
     console.log(regressionLine, 'regressionLine')
-    this.setState({
-      regressionLine: regressionLine
-    })
+    changeStyle(regressionLine, 'regressionLine')
+    changeStyle(model, 'regressionModel')
   }
 
   render() {
+    let data = this.props.data
+    const changeStyle = this.props.changeStyle
     if (!data) {
       return 'Loading...'
     } else {
@@ -275,8 +235,8 @@ class VictoryScatterChart extends Component {
                   newX = keys[1]
                 }
 
-                this.changeStyle(e.target.value, 'y')
-                this.changeStyle(newX, 'x')
+                changeStyle(e, 'y')
+                changeStyle(newX, 'x')
               }}
             >
               <option
@@ -291,45 +251,10 @@ class VictoryScatterChart extends Component {
                 value={keys[0]}
               >{`${keys[0][0].toUpperCase()}${keys[0].slice(1)}`}</option>
             </select>
-            <p>Dot Color:</p>
-            <select onChange={e => this.changeStyle(e.target.value, 'color')}>
-              <option value="tomato">Tomato</option>
-              <option value="gold">Gold</option>
-              <option value="orange">Orange</option>
-              <option value="#f77">Salmon</option>
-              <option value="#55e">Purple</option>
-              <option value="#8af">Periwinkle</option>
-            </select>
-            <p>Pointer:</p>
-            <select onChange={e => this.changeStyle(e.target.value, 'tooltip')}>
-              <option value={5}>Round edge</option>
-              <option value={0}>Square</option>
-              <option value={25}>Circle</option>
-            </select>
-            <p>Graph Title:</p>
-            <input
-              value={this.state.title}
-              onChange={e => this.changeStyle(e.target.value, 'title')}
-            />
-            <p>
-              Regression Line:{' '}
-              <input
-                type={'checkbox'}
-                onChange={async e => {
-                  await this.changeStyle(!this.state.regression, 'regression')
-                  if (this.state.regression) {
-                    this.buildRegressionModel(x, y)
-                  } else {
-                    this.changeStyle([], 'regressionLine')
-                  }
-                }}
-              />
-            </p>
-            <p>
-              <button onClick={() => this.downloadPNG(this.state.title)}>
-                Download
-              </button>
-            </p>
+
+            <button onClick={() => this.props.downloadPNG(this.state.title)}>
+              Download
+            </button>
           </div>
           <canvas
             id="canvas"
@@ -343,9 +268,3 @@ class VictoryScatterChart extends Component {
     }
   }
 }
-
-const mapStateToProps = state => ({
-  data: state.user.data
-})
-
-export default connect(mapStateToProps)(VictoryScatterChart)
