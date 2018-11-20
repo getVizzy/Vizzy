@@ -9,8 +9,13 @@ import VictoryBarChart from './components/VictoryBarChart'
 import VictoryLineGraph from './components/VictoryLineGraph'
 import VictoryScatterChart from './components/VictoryScatterChart'
 import EditView from './components/EditGraphs/EditView'
+
 import RoomSelection from './components/Room/RoomSelection'
 import EditRoom from './components/Room/EditRoom'
+
+import CreateRoom from './components/Room/CreateRoom'
+import TestSave from './components/TestSave';
+
 
 /**
  * COMPONENT
@@ -28,6 +33,9 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        {/* Below route only for testing PC */}
+        <Route path="/test" component={TestSave} />
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
