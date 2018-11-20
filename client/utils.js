@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom'
 
 export function reinstateNumbers(array) {
+  console.log("ARRAY IN RN", array)
   let restoredData = array.map(data => {
     let newFormat = {};
     let alpha = "abcdefghijklmnopqrstuvwxyz!#/@^*()"
