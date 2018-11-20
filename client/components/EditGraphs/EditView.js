@@ -81,8 +81,8 @@ class EditView extends React.Component {
         console.log("DATA ELEM", dataElem, "DATA PROPS", this.props.data)
         //The data elements used to end with ".data" --- find out what circusmtances this worked.
         console.log("DATA BEFORE REINSTATE", dataElem[0].dataJSON)
-        data = reinstateNumbers(dataElem[0].dataJSON)
-        console.log('data after reinstate', data)
+        data = reinstateNumbers(dataElem[0].dataJSON.data)
+        console.log('data after reinstate', data.data)
       }
       return (
         <div>

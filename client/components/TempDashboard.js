@@ -11,12 +11,10 @@ class TempDashboard extends Component {
   }
 
   componentDidMount() {
-    console.log("HITTING HERE")
     this.props.getGraphs()
   }
 
   render() {
-    console.log("GRAPHS IN RENDER", this.props.graphs)
     if(!this.props.graphs) {
       return (
         "Getting your graphs!"
@@ -25,15 +23,14 @@ class TempDashboard extends Component {
       return (
         this.props.graphs.map((graph, i) => {
           let savedProps = graph.properties;
-          let data = reinstateNumbers(graph.datum.dataJSON);
-          console.log("DATA IN DASHBOARD", data, "Y", savedProps.y, "X", savedProps.x)
+          let data = reinstateNumbers(graph.datum.dataJSON.data);
           return  <Bar color={savedProps.color}
                       title={savedProps.title}
                       highlight={savedProps.highlight}
                       tooltip={savedProps.tooltip}
                       x={savedProps.x}
                       y={savedProps.y}
-                      download={download}
+                      downloadPNG={download}
                       addComma={addComma}
                       data={data}
                       key={i}
