@@ -9,5 +9,12 @@ module.exports = io => {
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`)
     })
+
+    socket.on('room', function(data) {
+      console.log("SOCKET", data.room)
+      console.log("SOCKET USER JUST JOINED", data.user)
+
+      socket.join(data.room)
+    })
   })
 }
