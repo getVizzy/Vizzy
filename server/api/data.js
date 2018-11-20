@@ -13,4 +13,21 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.get('/', async (req, res, next) => {
+  try {
+    if (req.user.id) {
+      const data = await Data.findAll({
+        where: {
+          userId: req.user.id
+        }
+      })
+      res.send(data)
+    } else {
+      res.sendStatus(404)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
 module.exports = router

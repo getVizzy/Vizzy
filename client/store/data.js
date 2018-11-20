@@ -7,6 +7,11 @@ export const addData = data => ({
   type: ADD_DATA,
   data
 })
+
+export const getData = data => ({
+  type: GET_DATA,
+  data
+})
 //ignore-prettier
 export const postData = data => async dispatch => {
   try {
@@ -17,10 +22,19 @@ export const postData = data => async dispatch => {
     console.error(err)
   }
 }
+
+export const gotData = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/data')
+    dispatch(getData(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_DATA:
-      return state
+      return [...action.data]
     case ADD_DATA:
       return [...state, action.data]
     default:
