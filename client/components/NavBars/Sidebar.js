@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {logout} from '../../store'
-import VisitorNav from './VisitorNav'
+import { connect } from 'react-redux'
+import { logout } from '../../store'
+import { sideBarItems } from './SidebarItems';
 
-
-//for styling
+//Material UI Styling
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -20,11 +17,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
-import Badge from '@material-ui/core/Badge';
-
-
-import { sideBarItems } from './SidebarItems';
-
 
 
 const drawerWidth = 240;
@@ -121,13 +113,6 @@ class PermanentDrawerLeft extends React.Component {
 
   render() {
     const { classes } = this.props;
-    if (!this.props.isLoggedIn) {
-      return (
-        <VisitorNav />
-      )
-    }
-
-    else {
     return (
       <div className={classes.root}>
 
@@ -146,7 +131,7 @@ class PermanentDrawerLeft extends React.Component {
                 this.state.open && classes.menuButtonHidden,
               )}
             >
-             <MenuIcon />
+              <MenuIcon />
             </IconButton>
             <Typography
               component="h1"
@@ -166,7 +151,7 @@ class PermanentDrawerLeft extends React.Component {
                 variant="h6"
                 color="inherit"
                 noWrap
-                >
+              >
                 Logout
               </Typography>
               <LogoutIcon onClick={this.props.handleClick} />
@@ -195,7 +180,7 @@ class PermanentDrawerLeft extends React.Component {
     );
   }
 }
-}
+
 
 PermanentDrawerLeft.propTypes = {
   classes: PropTypes.object.isRequired,
