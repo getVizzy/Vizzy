@@ -3,18 +3,13 @@ import ReactDOM from 'react-dom'
 export function reinstateNumbers(array) {
   let restoredData = array.map(data => {
     let newFormat = {};
-    let alpha = "abcdefghijklmnopqrstuvwxyz"
+    let alpha = "abcdefghijklmnopqrstuvwxyz!#/@^*()"
     for(let key in data) {
       let value = data[key]
       if(!value.split("").some(char =>
         alpha.includes(char.toLowerCase()))
         &&
-        !value.includes('/')
-        &&
-        (!value.split("").find(char => char === '-') ||
-        !value.split("").find(char => char === '-').length > 1)
-        &&
-        (value.indexOf('-') === 0 || value.indexOf('-') === -1)) {
+        (value.indexOf('-') === -1 || (value.indexOf('-') === 0 && value.split("").filter(elem => elem === '-').length === 1 ))) {
           newFormat[key] = +value;
       } else {
         newFormat[key] = value;
@@ -25,8 +20,7 @@ export function reinstateNumbers(array) {
   return restoredData;
 }
 
-
-export function downloadPNG(title) {
+export function download(title) {
   //draw canvas
   let svgHtml = ReactDOM.findDOMNode(this).querySelector('svg')
   var svgString = new XMLSerializer().serializeToString(svgHtml)
@@ -54,5 +48,13 @@ export function downloadPNG(title) {
 
     document.body.appendChild(link)
     link.click()
+  }
+}
+
+export function addComma(stringNum) {
+  if (stringNum.length > 3) {
+    return `${stringNum.slice(0, stringNum.length - 3)},${stringNum.slice(
+      stringNum.length - 3
+    )}`
   }
 }
