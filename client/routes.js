@@ -8,13 +8,16 @@ import Dashboard from './components/Dashboard'
 import VictoryBarChart from './components/VictoryBarChart'
 import VictoryLineGraph from './components/VictoryLineGraph'
 import VictoryScatterChart from './components/VictoryScatterChart'
-import EditView from './components/EditGraphs/EditView'
 
+import TempDashboard from './components/TempDashboard';
+
+import EditView from './components/EditGraphs/EditView'
 import RoomSelection from './components/Room/RoomSelection'
 import EditRoom from './components/Room/EditRoom'
 
 import CreateRoom from './components/Room/CreateRoom'
 import TestSave from './components/TestSave';
+
 
 
 /**
@@ -34,7 +37,7 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {/* Below route only for testing PC */}
-        <Route path="/test" component={TestSave} />
+        <Route path="/test" component={TempDashboard} />
 
         {isLoggedIn && (
           <Switch>
