@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, FileDrop} from './components'
-import {me} from './store'
+import { Login, Signup, UserHome, FileDrop } from './components'
+import { me } from './store'
 import Dashboard from './components/Dashboard'
 import VictoryBarChart from './components/VictoryBarChart'
 import VictoryLineGraph from './components/VictoryLineGraph'
@@ -27,7 +27,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const { isLoggedIn } = this.props
 
     return (
       <Switch>
@@ -48,7 +48,7 @@ class Routes extends Component {
             <Route path="/scatter" component={VictoryScatterChart} />
             <Route path="/editgraph" component={EditView} />
             <Route exact path="/room" component={RoomSelection} />
-            <Route path="/room/live" component={Dashboard} />
+            <Route path="/room/live" component={EditView} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
