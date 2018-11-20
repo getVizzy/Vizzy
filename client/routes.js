@@ -9,7 +9,7 @@ import VictoryBarChart from './components/VictoryBarChart'
 import VictoryLineGraph from './components/VictoryLineGraph'
 import VictoryScatterChart from './components/VictoryScatterChart'
 import EditView from './components/EditGraphs/EditView'
-import CreateRoom from './components/Room/CreateRoom'
+import RoomSelection from './components/Room/RoomSelection'
 import EditRoom from './components/Room/EditRoom';
 
 
@@ -40,11 +40,8 @@ class Routes extends Component {
             <Route path="/line" component={VictoryLineGraph} />
             <Route path="/scatter" component={VictoryScatterChart} />
             {/* <Route path="/editgraph" component={EditView} /> */}
-            <Route exact path="/room" component={CreateRoom} />
-            <Route path="/room/:userId/:uniqueStr"  render={(props) => <EditRoom {...props}/>} />
-
-
-
+            <Route exact path="/room" component={RoomSelection} />
+            <Route path="/room/live" component={EditRoom} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

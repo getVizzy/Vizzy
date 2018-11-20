@@ -108,7 +108,7 @@ class EditView extends React.Component {
   }
 
   render() {
-    console.log('did thunk work data', this.props.data)
+    // console.log('did thunk work data', this.props.data)
     const {classes} = this.props
     const graphSelected = this.state.graphSelected
     let data

@@ -1,3 +1,6 @@
+let roomGenerator = 0
+
+
 module.exports = io => {
   io.on('connection', socket => {
     console.log(`A socket connection to the server has been made: ${socket.id}`)
@@ -10,11 +13,18 @@ module.exports = io => {
       console.log(`Connection ${socket.id} has left the building`)
     })
 
-    socket.on('room', function(data) {
-      console.log("SOCKET", data.room)
-      console.log("SOCKET USER JUST JOINED", data.user)
+    socket.on('createRoom', (roomKey, userName) => {
+      const newRoom = `room:${roomKey}`
+      const participant = userName
+      socket.join(newRoom)
+      socket.emit(`success, ${participant} has created and joined ${newRoom}`)
+    })
 
-      socket.join(data.room)
+    socket.on('joinRoom', (roomKey, userName) => {
+      const newRoom = `room:${roomKey}`
+      const participant = userName
+      socket.join(roomKey)
+      socket.emit(`success, ${participant} has joined ${newRoom}`)
     })
   })
 }
