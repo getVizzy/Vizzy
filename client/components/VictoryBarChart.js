@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import ReactDOM from 'react-dom'
-import * as d3 from 'd3'
+
 import {
   VictoryBar,
   VictoryChart,
@@ -31,132 +29,13 @@ import {
 //   {Month: 'December', Apples: '100', Revenue: '1100'}
 // ]
 
-let allData = [
-  {quarter: '1', earnings: '13000', items: '40000', state: 'NY' },
-  {quarter: '1', earnings: '18000', items: '80000', state: 'NJ'},
-  {quarter: '1', earnings: '21000', items: '90000', state: 'CT'},
-  {quarter: '2', earnings: '16500', items: '60000', state: 'NY' },
-  {quarter: '2', earnings: '17500', items: '75000', state: 'NJ' },
-  {quarter: '2', earnings: '14500', items: '50000', state: 'CT' },
-  {quarter: '3', earnings: '15340', items: '30000', state: 'NY' },
-  {quarter: '3', earnings: '16250', items: '35000', state: 'NJ' },
-  {quarter: '3', earnings: '8250', items: '12000', state: 'CT' },
-  {quarter: '4', earnings: '18000', items: '70000', state: 'NY'},
-  {quarter: '4', earnings: '17500', items: '69000', state: 'NJ'},
-  {quarter: '4', earnings: '13000', items: '50000', state: 'CT'}
-];
-
-//This is just to set up the initial render for the dummy data. These two lines won't be necessary once we separate the chart and editing components (and are pulling in real data).
-let keys = Object.keys(allData[0])
-console.log("KEYS", keys[0], keys[1])
-
-class VictoryBarChart extends Component {
+export default class VictoryBarChart extends Component {
   constructor() {
     super()
-    this.state = {
-      color: 'tomato',
-      title: '',
-      highlight: 'orange',
-      tooltip: '5',
-      x: keys[0],
-      y: keys[1]
-    }
-    this.reinstateNumbers = this.reinstateNumbers.bind(this)
-    this.changeStyle = this.changeStyle.bind(this)
-    this.downloadPNG = this.downloadPNG.bind(this)
-    this.getDataSlice = this.getDataSlice.bind(this)
-  }
-
-  componentDidMount() {
-    //fetchData
-  }
-
-  changeStyle(e, attribute) {
-    this.setState({
-      [attribute]: e.target.value
-    })
-  }
-
-  addComma(stringNum) {
-    if (stringNum.length > 3) {
-      return `${stringNum.slice(0, stringNum.length - 3)},${stringNum.slice(
-        stringNum.length - 3
-      )}`
-    }
-  }
-
-  downloadPNG(title) {
-    //draw canvas
-    let svgHtml = ReactDOM.findDOMNode(this).querySelector('svg')
-    var svgString = new XMLSerializer().serializeToString(svgHtml)
-    const canvas = ReactDOM.findDOMNode(this).querySelector('canvas')
-    var ctx = canvas.getContext('2d')
-    var DOMURL = window.self.URL || window.self.webkitURL || window.self
-    var img = new Image()
-    var svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'})
-    var url = DOMURL.createObjectURL(svg)
-    img.src = url
-
-    //function executes when image loads
-    img.onload = function() {
-      ctx.drawImage(img, 0, 0)
-      var png = canvas.toDataURL('image/png')
-      document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
-      DOMURL.revokeObjectURL(png)
-
-      //download png
-      const canvas2 = document.getElementsByTagName('canvas')[0]
-      let URL = canvas2.toDataURL('image/png')
-      let link = document.createElement('a')
-      link.href = URL
-      link.download = title ? title + '.png' : 'chart.png'
-
-      document.body.appendChild(link)
-      link.click()
-    }
-  }
-
-
-  getDataSlice(data, x, y) {
-    let dataSlice = [];
-    let dataObj = {};
-    data.forEach(datum => {
-      if(dataObj[datum[x]]) {
-        dataObj[datum[x]] = dataObj[datum[x]] + +datum[y];
-      } else {
-        dataObj[datum[x]] = +datum[y];
-      }
-    })
-    for(let key in dataObj) {
-      dataSlice.push({ [x]: key, [y]: dataObj[key] })
-    }
-    return dataSlice;
-  }
-
-  reinstateNumbers(array) {
-    let restoredData = array.map(dataObj => {
-      let numDataObj = {};
-      let alpha = "abcdefghijklmnopqrstuvwxyz"
-      for(let key in dataObj) {
-        if(!dataObj[key].split("").some(char => alpha.includes(char.toLowerCase()))) {
-          numDataObj[key] = +dataObj[key]
-        } else {
-          numDataObj[key] = dataObj[key]
-        }
-      }
-      return numDataObj;
-    })
-    return restoredData;
   }
 
   render() {
-    if(!allData) {
-      return (
-        "Loading..."
-      )
-    } else {
-      let data = this.reinstateNumbers(allData);
-      data = this.getDataSlice(data, this.state.x, this.state.y)
+      let data = this.props.data;
       return (
         <div id="container">
           <div id="chart">
@@ -169,7 +48,7 @@ class VictoryBarChart extends Component {
               padding={{left: 100, right: 25, top: 35, bottom: 75}}
             >
               <VictoryLabel
-                text={this.state.title}
+                text={this.props.title}
                 style={{
                   fontSize: 16,
                   textAnchor: 'start',
@@ -183,24 +62,24 @@ class VictoryBarChart extends Component {
               />
 
               <VictoryAxis
-                label={this.state.x}
+                label={this.props.x}
                 style={{
                   axis: {stroke: '#756f6a'},
                   axisLabel: {fontSize: 12, padding: 30}
                 }}
-                tickValues={data.map(datum => datum[this.state.x])}
+                tickValues={data.map(datum => datum[this.props.x])}
                 tickFormat={data.map(datum => {
-                  if (typeof datum[this.state.x] === 'string') {
-                    return datum[this.state.x].slice(0, 3)
+                  if (typeof datum[this.props.x] === 'string') {
+                    return datum[this.props.x].slice(0, 3)
                   } else {
-                    return datum[this.state.x]
+                    return datum[this.props.x]
                   }
                 })}
               />
 
               <VictoryAxis
                 dependentAxis
-                label={this.state.y}
+                label={this.props.y}
                 style={{
                   axis: {stroke: '#756f6a'},
                   axisLabel: {fontSize: 12, padding: 60}
@@ -211,10 +90,10 @@ class VictoryBarChart extends Component {
                   labelComponent={
                     <VictoryTooltip
                       flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
-                      cornerRadius={+this.state.tooltip}
+                      cornerRadius={+this.props.tooltip}
                     />
                   }
-                  style={{data: {fill: this.state.color}}}
+                  style={{data: {fill: this.props.color}}}
                   animate={{
                     duration: 2000,
                     onLoad: {duration: 1000}
@@ -228,7 +107,7 @@ class VictoryBarChart extends Component {
                             {
                               target: 'data',
                               mutation: () => ({
-                                style: {fill: this.state.highlight}
+                                style: {fill: this.props.highlight}
                               })
                             },
                             {
@@ -253,89 +132,33 @@ class VictoryBarChart extends Component {
                     }
                   ]}
                   data={data.map(datum => {
-                    let label = datum[this.state.y].toString()
-                    label = this.addComma(label) || label
+                    let label = datum[this.props.y].toString()
+                    label = this.props.addComma(label) || label
                     datum.label = label
                     return datum
                   })}
-                  x={this.state.x}
-                  y={this.state.y}
+                  x={this.props.x}
+                  y={this.props.y}
                   barRatio={0.9}
                 />
               </VictoryStack>
             </VictoryChart>
           </div>
-
-          <div id="controls">
-            <p>Left Axis:</p>
-            <select onChange={e => this.changeStyle(e, 'y')}>
-              <option />
-              {Object.keys(allData[0]).map((key, i) =>
-                <option key={i} value={key}>{key}</option>
-              )}
-            </select>
-
-            <p>Bottom Axis:</p>
-            <select onChange={e => this.changeStyle(e, 'x')}>
-              <option />
-              {Object.keys(allData[0]).map((key, i) =>
-                <option key={i} value={key}>{key}</option>
-              )}
-            </select>
-
-            <p>Bar Color:</p>
-            <select onChange={e => this.changeStyle(e, 'color')}>
-              <option value="tomato">Tomato</option>
-              <option value="gold">Gold</option>
-              <option value="orange">Orange</option>
-              <option value="#f77">Salmon</option>
-              <option value="#55e">Purple</option>
-              <option value="#8af">Periwinkle</option>
-            </select>
-
-            <p>Bar Highlight:</p>
-            <select onChange={e => this.changeStyle(e, 'highlight')}>
-              <option value="orange">Orange</option>
-              <option value="tomato">Tomato</option>
-              <option value="gold">Gold</option>
-              <option value="#f77">Salmon</option>
-              <option value="#55e">Purple</option>
-              <option value="#8af">Periwinkle</option>
-            </select>
-
-            <p>Pointer:</p>
-            <select onChange={e => this.changeStyle(e, 'tooltip')}>
-              <option value={5}>Round edge</option>
-              <option value={0}>Square</option>
-              <option value={25}>Circle</option>
-            </select>
-
-            <p>Graph Title:</p>
-            <input
-              value={this.state.title}
-              onChange={e => this.changeStyle(e, 'title')}
+          <p>
+            <button onClick={() => this.props.downloadPNG(this.props.title)}>
+              Download
+            </button>
+          </p>
+            <canvas
+              id="canvas"
+              width="600"
+              height="400"
+              display="none"
+              style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
             />
-            <p>
-              <button onClick={() => this.downloadPNG(this.state.title)}>
-                Download
-              </button>
-            </p>
-          </div>
-          <canvas
-            id="canvas"
-            width="600"
-            height="400"
-            display="none"
-            style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
-          />
         </div>
       )
     }
-  }
 }
 
-const mapStateToProps = state => ({
-  data: state.user.data
-})
 
-export default connect(mapStateToProps)(VictoryBarChart)
