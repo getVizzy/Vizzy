@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
 import {connect} from 'react-redux'
 import ReactDOM from 'react-dom'
-
+import { reinstateNumbers } from '../../utils'
 import {withStyles} from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -69,37 +69,6 @@ class EditView extends React.Component {
       return `${stringNum.slice(0, stringNum.length - 3)},${stringNum.slice(
         stringNum.length - 3
       )}`
-    }
-  }
-
-  downloadPNG(title) {
-    //draw canvas
-    let svgHtml = ReactDOM.findDOMNode(this).querySelector('svg')
-    var svgString = new XMLSerializer().serializeToString(svgHtml)
-    const canvas = ReactDOM.findDOMNode(this).querySelector('canvas')
-    var ctx = canvas.getContext('2d')
-    var DOMURL = window.self.URL || window.self.webkitURL || window.self
-    var img = new Image()
-    var svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'})
-    var url = DOMURL.createObjectURL(svg)
-    img.src = url
-
-    //function executes when image loads
-    img.onload = function() {
-      ctx.drawImage(img, 0, 0)
-      var png = canvas.toDataURL('image/png')
-      document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
-      DOMURL.revokeObjectURL(png)
-
-      //download png
-      const canvas2 = document.getElementsByTagName('canvas')[0]
-      let URL = canvas2.toDataURL('image/png')
-      let link = document.createElement('a')
-      link.href = URL
-      link.download = title ? title + '.png' : 'chart.png'
-
-      document.body.appendChild(link)
-      link.click()
     }
   }
 
