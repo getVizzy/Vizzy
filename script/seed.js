@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Dashboard, Graph, Data} = require('../server/db/models')
+const {User, Graph, Data} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -29,7 +29,7 @@ async function seed() {
 
   const data = await Promise.all([
     Data.create({
-      dashboardId: 1,
+      userId: 1,
       dataJSON: [
         {x: 1, y: 2},
         {x: 2, y: 2},
