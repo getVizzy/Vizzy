@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import BarChart from '../VictoryBarChart'
 import ScatterChart from '../VictoryScatterChart'
+import LineChart from '../VictoryLineGraph'
 import {gotData} from '../../store/data'
 import {postGraph} from '../../store/graph'
 import classNames from 'classnames'
@@ -135,6 +136,18 @@ class EditView extends React.Component {
                 downloadPNG={this.downloadPNG}
                 regressionLine={this.state.regressionLine}
               />
+            ) : graphSelected === 'line' ? (
+              <LineChart
+                color={this.state.color}
+                title={this.state.title}
+                highlight={this.state.highlight}
+                tooltip={this.state.tooltip}
+                x={this.state.x}
+                y={this.state.y}
+                changeStyle={this.changeStyle}
+                data={data}
+                downloadPNG={this.downloadPNG}
+              />
             ) : null}
             <GraphMenu handleGraphSelected={this.handleGraphSelected} />
             <Button
@@ -189,16 +202,21 @@ class EditView extends React.Component {
               <option value="#55e">Purple</option>
               <option value="#8af">Periwinkle</option>
             </select>
-
-            <p>Highlight:</p>
-            <select onChange={e => this.changeStyle(e, 'highlight')}>
-              <option value="orange">Orange</option>
-              <option value="tomato">Tomato</option>
-              <option value="gold">Gold</option>
-              <option value="#f77">Salmon</option>
-              <option value="#55e">Purple</option>
-              <option value="#8af">Periwinkle</option>
-            </select>
+            {graphSelected === 'line' ? (
+              ''
+            ) : (
+              <div>
+                <p>Highlight:</p>
+                <select onChange={e => this.changeStyle(e, 'highlight')}>
+                  <option value="orange">Orange</option>
+                  <option value="tomato">Tomato</option>
+                  <option value="gold">Gold</option>
+                  <option value="#f77">Salmon</option>
+                  <option value="#55e">Purple</option>
+                  <option value="#8af">Periwinkle</option>
+                </select>
+              </div>
+            )}
 
             <p>Pointer:</p>
             <select onChange={e => this.changeStyle(e, 'tooltip')}>
