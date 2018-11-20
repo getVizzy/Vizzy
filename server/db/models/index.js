@@ -9,6 +9,8 @@ Graph.belongsTo(User)
 User.hasMany(Data)
 Data.belongsTo(User)
 
+Graph.belongsTo(Data)
+
 Label.belongsToMany(Graph, {through: 'GraphLabel'})
 Graph.belongsToMany(Label, {through: 'GraphLabel'})
 

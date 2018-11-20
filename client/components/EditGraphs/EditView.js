@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import BarChart from '../VictoryBarChart'
-import {gotData} from '../../store/data'
+import { gotData } from '../../store/data'
+import { postGraph } from '../../store/graph'
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
-import {connect} from 'react-redux'
-import ReactDOM from 'react-dom'
+import { connect } from 'react-redux'
 import { reinstateNumbers, download, addComma } from '../../utils'
-import {withStyles} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import SaveIcon from '@material-ui/icons/Save'
@@ -37,8 +37,6 @@ class EditView extends React.Component {
     this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
     this.downloadPNG = download.bind(this)
-    // this.addComma = this.addComma.bind(this)
-    // this.getDataSlice = this.getDataSlice.bind(this)
   }
 
   componentDidMount() {
@@ -62,10 +60,10 @@ class EditView extends React.Component {
   }
 
   render() {
-    console.log('did thunk work data', this.props.data)
     const {classes} = this.props
     const graphSelected = this.state.graphSelected
-    let data
+    let data;
+
     if (!this.props.data) {
       return 'Loading...'
     } else {
@@ -80,7 +78,10 @@ class EditView extends React.Component {
         let dataElem = this.props.data.filter(
           elem => elem.id === this.state.dataId
         )
-        data = reinstateNumbers(dataElem[0].dataJSON.data)
+        console.log("DATA ELEM", dataElem, "DATA PROPS", this.props.data)
+        //The data elements used to end with ".data" --- find out what circusmtances this worked.
+        console.log("DATA BEFORE REINSTATE", dataElem[0].dataJSON)
+        data = reinstateNumbers(dataElem[0].dataJSON)
         console.log('data after reinstate', data)
       }
       return (
@@ -109,7 +110,7 @@ class EditView extends React.Component {
               <BarChart />
             ) : null}
             <GraphMenu handleGraphSelected={this.handleGraphSelected} />
-            <Button variant="contained" size="small" className={classes.button}>
+            <Button variant="contained" size="small" className={classes.button} onClick={() => this.props.addGraph(this.state)}>
               <SaveIcon
                 className={classNames(classes.leftIcon, classes.iconSmall)}
               />
@@ -193,6 +194,9 @@ EditView.propTypes = {
 const mapDispatchToProps = dispatch => ({
   gotData: function() {
     dispatch(gotData())
+  },
+  addGraph: function(graphData) {
+    dispatch(postGraph(graphData))
   }
 })
 
