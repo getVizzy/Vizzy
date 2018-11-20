@@ -1,13 +1,15 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import BarChart from './BarChart'
 import LineChart from './LineChart'
+
 const io = require('socket.io-client')
 const socket = io()
+// import socket from '../socket'
 
 class Dashboard extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       data: [],
       select: '',
@@ -27,17 +29,23 @@ class Dashboard extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-    socket.emit('new changes', {[event.target.name]: event.target.value})
+    // socket.emit('new changes','4kvi2mukbi9rkzz0p7', {
+    //   [event.target.name]: event.target.value
+    // })
+    socket.emit('new changes', this.props.singleRoom, {
+      [event.target.name]: event.target.value
+    })
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
   render() {
-    console.log('DATA', this.props.data)
     console.log('state', this.state)
-
+    console.log('this.props', this.props)
+    console.log('DASHBOARD', this.props)
     return (
       <div id="container-row">
         <div>
+          <div>Your Room Id is: {this.props.singleRoom}, please share with participants</div>
           <form>
             <input
               type="text"
@@ -66,7 +74,9 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.user.data
+  data: state.user.data,
+  rooms: state.room.rooms,
+  singleRoom: state.room.singleRoom
 })
 
 export default connect(mapStateToProps)(Dashboard)
