@@ -1,12 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import BarChart from '../VictoryBarChart'
+import ScatterChart from '../VictoryScatterChart'
 import {gotData} from '../../store/data'
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
 import {connect} from 'react-redux'
 import ReactDOM from 'react-dom'
-import { reinstateNumbers, download, addComma } from '../../utils'
+import {
+  reinstateNumbers,
+  download,
+  addComma,
+  buildRegressionModel
+} from '../../utils'
 import {withStyles} from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -25,7 +31,7 @@ class EditView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      graphSelected: 'bar',
+      graphSelected: 'scatter',
       color: 'tomato',
       title: '',
       highlight: 'orange',
@@ -35,7 +41,10 @@ class EditView extends React.Component {
       regression: false,
       regressionLine: [],
       regressionModel: {},
-      dataId: 0
+      dataId: 0,
+      zoomDomain: {
+        x: [new Date(2018, 1, 1), new Date(2018, 12, 1)]
+      }
     }
     this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
@@ -78,10 +87,10 @@ class EditView extends React.Component {
     } else {
       if (this.state.dataId === 0) {
         data = [
-          {quarter: '1', earnings: 13000, items: 40000, state: 'NY'},
-          {quarter: '2', earnings: 16500, items: 60000, state: 'NY'},
-          {quarter: '3', earnings: 15340, items: 30000, state: 'NY'},
-          {quarter: '4', earnings: 18000, items: 70000, state: 'NY'}
+          {quarter: '1', earnings: 13000, items: 4000, state: 'NY'},
+          {quarter: '2', earnings: 16000, items: 6000, state: 'NY'},
+          {quarter: '3', earnings: 17000, items: 7000, state: 'NY'},
+          {quarter: '4', earnings: 18000, items: 8000, state: 'NY'}
         ]
       } else {
         let dataElem = this.props.data.filter(
@@ -112,8 +121,19 @@ class EditView extends React.Component {
                 downloadPNG={this.downloadPNG}
                 addComma={addComma}
               />
-            ) : graphSelected === 'line' ? (
-              <BarChart />
+            ) : graphSelected === 'scatter' ? (
+              <ScatterChart
+                color={this.state.color}
+                title={this.state.title}
+                highlight={this.state.highlight}
+                tooltip={this.state.tooltip}
+                x={this.state.x}
+                y={this.state.y}
+                changeStyle={this.changeStyle}
+                data={data}
+                downloadPNG={this.downloadPNG}
+                regressionLine={this.state.regressionLine}
+              />
             ) : null}
             <GraphMenu handleGraphSelected={this.handleGraphSelected} />
             <Button variant="contained" size="small" className={classes.button}>
@@ -154,7 +174,7 @@ class EditView extends React.Component {
               ))}
             </select>
 
-            <p>Bar Color:</p>
+            <p>Color:</p>
             <select onChange={e => this.changeStyle(e, 'color')}>
               <option value="tomato">Tomato</option>
               <option value="gold">Gold</option>
@@ -164,7 +184,7 @@ class EditView extends React.Component {
               <option value="#8af">Periwinkle</option>
             </select>
 
-            <p>Bar Highlight:</p>
+            <p>Highlight:</p>
             <select onChange={e => this.changeStyle(e, 'highlight')}>
               <option value="orange">Orange</option>
               <option value="tomato">Tomato</option>
@@ -193,11 +213,18 @@ class EditView extends React.Component {
                   type={'checkbox'}
                   onChange={async e => {
                     await this.changeStyle(!this.state.regression, 'regression')
+                    console.log('x and y on state', this.state.x, this.state.y)
                     if (this.state.regression) {
-                      this.buildRegressionModel(data, x, y, this.changeStyle)
+                      buildRegressionModel(
+                        data,
+                        this.state.x,
+                        this.state.y,
+                        this.changeStyle
+                      )
                     } else {
                       this.changeStyle([], 'regressionLine')
                     }
+                    console.log('regression line', this.state.regressionLine)
                   }}
                 />
               </p>
