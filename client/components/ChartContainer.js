@@ -2,17 +2,19 @@ import React from 'react'
 import Bar from './VictoryBarChart'
 import Line from './VictoryLineGraph'
 import Scatter from './VictoryScatterChart'
+import Pie from './VictoryPieChart'
 
-export default function ChartContainer (props) {
+
+export default function ChartContainer(props) {
   return props.graphSelected === 'bar' ?
-    <Bar {...props } /> :
+    <Bar {...props} /> :
     props.graphSelected === 'line' ?
-    <Line {...props } /> :
-    props.graphSelected === 'scatter' ?
-    <Scatter {...props } /> :
-    props.graphSelected === 'pie' ?
-    <Line {...props } /> :
-    <div />
+      <Line {...props} /> :
+      props.graphSelected === 'scatter' ?
+        <Scatter {...props} /> :
+        props.graphSelected === 'pie' ?
+          <Pie {...props} /> :
+          <div />
 }
 
 

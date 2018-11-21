@@ -26,9 +26,8 @@ const styles = theme => ({
   primary: {
     // color: '#71A9F7'
   },
-  icon: {
-    // color: '#71A9F7'
-  },
+
+
 });
 
 function ListItemComposition(props) {
