@@ -1,21 +1,14 @@
 import React from 'react'
 import {buildRegressionModel} from '../../utils'
+import SimpleSelect from './SimpleSelect'
 
 export const CustomizeMenu = function(props) {
   const changeStyle = props.changeStyle
   const graphData = props.graphData
   const graphSelected = props.graphSelected
 
-  const filterColumn = function(data, dataType, key, i) {
-    if (typeof data[0][key] === dataType) {
-      return (
-        <option key={i} value={key}>
-          {key}
-        </option>
-      )
-    } else {
-      return ''
-    }
+  const filterColumn = function(data, dataType) {
+    return Object.keys(data[0]).filter(key => typeof data[0][key] === dataType)
   }
   return (
     <div id="controls">
@@ -28,17 +21,16 @@ export const CustomizeMenu = function(props) {
           </option>
         ))}
       </select>
-      <p>Left Axis:</p>
-      <select name="y" onChange={e => changeStyle(e, 'y')}>
+      {/* <p>Left Axis:</p> */}
+      {/* <select name="y" onChange={e => changeStyle(e, 'y')}>
         <option />
-        {/* {Only map columns with numeric values} */}
         {Object.keys(graphData[0]).map((key, i) => {
           return filterColumn(graphData, 'number', key, i)
         })}
-      </select>
+      </select> */}
 
-      <p>Bottom Axis:</p>
-      <select name="x" onChange={e => changeStyle(e, 'x')}>
+      {/* <p>Bottom Axis:</p> */}
+      {/* <select name="x" onChange={e => changeStyle(e, 'x')}>
         <option />
         {Object.keys(graphData[0]).map((key, i) => {
           if (graphSelected === 'bar') {
@@ -53,7 +45,28 @@ export const CustomizeMenu = function(props) {
             )
           }
         })}
-      </select>
+      </select> */}
+
+      <SimpleSelect
+        items={filterColumn(graphData, 'number')}
+        name="Left Axis"
+        changeStyle={changeStyle}
+        column="y"
+        message="Choose a column"
+      />
+
+      <SimpleSelect
+        items={
+          graphSelected === 'scatter'
+            ? filterColumn(graphData, 'number')
+            : graphSelected === 'bar'
+              ? filterColumn(graphData, 'string')
+              : Object.keys(graphData[0])
+        }
+        changeStyle={changeStyle}
+        name="Bottom Axis"
+        column="x"
+      />
 
       <p>Color:</p>
       <select name="color" onChange={e => changeStyle(e, 'color')}>

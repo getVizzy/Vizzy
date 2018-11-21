@@ -59,9 +59,7 @@ class EditView extends React.Component {
     this.props.gotData()
   }
 
-  triggerRefresh() {
-
-  }
+  triggerRefresh() {}
 
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
@@ -79,7 +77,7 @@ class EditView extends React.Component {
         regressionLine: [],
         columnOption: '',
         regressionModel: {},
-        message: "Choose a column"
+        message: 'Choose a column'
       })
     } else if (!e.target) {
       this.setState({
@@ -178,107 +176,9 @@ class EditView extends React.Component {
             changeStyle={this.changeStyle}
             graphData={data}
           />
-          {/* <div id="controls">
-            <p>Choose a Dataset:</p>
-            <select name="dataId" onChange={e => this.changeStyle(e, 'dataId')}>
-              <option />
-              {this.props.data.map((elem, i) => (
-                <option key={i} value={elem.id}>
-                  {elem.id}
-                </option>
-              ))}
-            </select>
-            {/* <p>Left Axis:</p> */}
-            {/* <select name="y" onChange={e => this.changeStyle(e, 'y')}>
-              <option>{this.state.columnOption}</option>
-              {Object.keys(data[0]).map((key, i) => (
-                <option key={i} value={key}>
-                  {key}
-                </option>
-              ))}
-            </select> */}
-            <SimpleSelect items={Object.keys(data[0])} name="Left Axis" changeStyle={this.changeStyle} column="y" message="Choose a column" />
-
-            <SimpleSelect items={Object.keys(data[0])} changeStyle={this.changeStyle} name="Bottom Axis" column="x" />
-
-            {/* <p>Bottom Axis:</p>
-            <select name="x" onChange={e => this.changeStyle(e, 'x')}>
-            <option />
-              {Object.keys(data[0]).map((key, i) => (
-                <option key={i} value={key}>
-                  {key}
-                </option>
-              ))}
-            </select> */}
-
-            <p>Color:</p>
-            <select name="color" onChange={e => this.changeStyle(e, 'color')}>
-              <option value="tomato">Tomato</option>
-              <option value="gold">Gold</option>
-              <option value="orange">Orange</option>
-              <option value="#f77">Salmon</option>
-              <option value="#55e">Purple</option>
-              <option value="#8af">Periwinkle</option>
-            </select>
-            {graphSelected === 'line' ? (
-              ''
-            ) : (
-              <div>
-                <p>Highlight:</p>
-                <select
-                  name="highlight"
-                  onChange={e => this.changeStyle(e, 'highlight')}
-                >
-                  <option value="orange">Orange</option>
-                  <option value="tomato">Tomato</option>
-                  <option value="gold">Gold</option>
-                  <option value="#f77">Salmon</option>
-                  <option value="#55e">Purple</option>
-                  <option value="#8af">Periwinkle</option>
-                </select>
-              </div>
-            )}
-
-            <p>Pointer:</p>
-            <select
-              name="tooltip"
-              onChange={e => this.changeStyle(e, 'tooltip')}
-            >
-              <option value={5}>Round edge</option>
-              <option value={0}>Square</option>
-              <option value={25}>Circle</option>
-            </select>
-
-            <p>Graph Title:</p>
-            <input
-              value={this.state.title}
-              onChange={e => this.changeStyle(e, 'title')}
-            />
-            {graphSelected === 'scatter' ? (
-              <p>
-                Regression Line:{' '}
-                <input
-                  type="checkbox"
-                  onChange={async e => {
-                    await this.changeStyle(!this.state.regression, 'regression')
-                    console.log('x and y on state', this.state.x, this.state.y)
-                    if (this.state.regression) {
-                      buildRegressionModel(
-                        data,
-                        this.state.x,
-                        this.state.y,
-                        this.changeStyle
-                      )
-                    } else {
-                      this.changeStyle([], 'regressionLine')
-                    }
-                  }}
-                />
-              </p>
-            ) : (
-              ''
-            )}
-          </div> */}
+          <div id="controls">
+            <CustomizeMenu />
+          </div>
         </div>
       )
     }
