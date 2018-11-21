@@ -1,100 +1,82 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MenuList from '@material-ui/core/MenuList';
-import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import PieChartIcon from '@material-ui/icons/PieChart';
-import LineChartIcon from '@material-ui/icons/ShowChart';
-import ScatterPlotIcon from '@material-ui/icons/ScatterPlot';
-import MapChartIcon from '@material-ui/icons/Public';
-import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
 const styles = theme => ({
-  menuItem: {
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& $primary, & $icon': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
-  primary: {
-    // color: '#71A9F7'
-  },
-  icon: {
-    // color: '#71A9F7'
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
   },
 });
 
+class SimpleListMenu extends React.Component {
+  state = {
+    anchorEl: null,
+    selected: 'Choose a column',
+  };
 
-export default function CustomizationMenu(props) {
-  console.log("DATA IN CUSTOM", props.data)
-  return (
-    <div id="controls">
-      <p>Choose a Dataset:</p>
-      <select onChange={e => props.changeStyle(e, 'dataId')}>
-        <option />
-        {props.data.map((elem, i) => (
-          <option key={i} value={elem.id}>
-            {elem.id}
-          </option>
-        ))}
-      </select>
-      <p>Left Axis:</p>
-      <select onChange={e => props.changeStyle(e, 'y')}>
-        <option />
-        {Object.keys(props.data[0]).map((key, i) => (
-          <option key={i} value={key}>
-            {key}
-          </option>
-        ))}
-      </select>
+  handleClickListItem = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
 
-      <p>Bottom Axis:</p>
-      <select onChange={e => props.changeStyle(e, 'x')}>
-        <option />
-        {Object.keys(props.data[0]).map((key, i) => (
-          <option key={i} value={key}>
-            {key}
-          </option>
-        ))}
-      </select>
+  handleMenuItemClick = (event, option) => {
+    this.props.changeStyle(option, this.props.column)
+    this.setState({ selected: option, anchorEl: null });
+  };
 
-      <p>Bar Color:</p>
-      <select onChange={e => props.changeStyle(e, 'color')}>
-        <option value="tomato">Tomato</option>
-        <option value="gold">Gold</option>
-        <option value="orange">Orange</option>
-        <option value="#f77">Salmon</option>
-        <option value="#55e">Purple</option>
-        <option value="#8af">Periwinkle</option>
-      </select>
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
-      <p>Bar Highlight:</p>
-      <select onChange={e => props.changeStyle(e, 'highlight')}>
-        <option value="orange">Orange</option>
-        <option value="tomato">Tomato</option>
-        <option value="gold">Gold</option>
-        <option value="#f77">Salmon</option>
-        <option value="#55e">Purple</option>
-        <option value="#8af">Periwinkle</option>
-      </select>
+  render() {
+    const { classes } = this.props;
+    const { anchorEl } = this.state;
 
-      <p>Pointer:</p>
-      <select onChange={e => props.changeStyle(e, 'tooltip')}>
-        <option value={5}>Round edge</option>
-        <option value={0}>Square</option>
-        <option value={25}>Circle</option>
-      </select>
-
-      <p>Graph Title:</p>
-      <input
-        value={props.title}
-        onChange={e => props.changeStyle(e, 'title')}
-      />
-    </div>
-    )
+    return (
+      <div className={classes.root}>
+        <List component="nav">
+          <ListItem
+            button
+            aria-haspopup="true"
+            aria-controls="lock-menu"
+            aria-label={this.props.name}
+            onClick={this.handleClickListItem}
+          >
+            <ListItemText
+              primary={this.props.name}
+              secondary={this.state.selected}
+            />
+          </ListItem>
+        </List>
+        <Menu
+          id="lock-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleClose}
+        >
+          <MenuItem selected />
+          {this.props.items.map((option, index) => (
+            <MenuItem
+              key={option}
+              onClick={event => this.handleMenuItemClick(event, option)}
+            >
+              {option}
+            </MenuItem>
+          ))}
+        </Menu>
+      </div>
+    );
   }
+}
+
+SimpleListMenu.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(SimpleListMenu);
