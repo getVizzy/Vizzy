@@ -8,6 +8,7 @@ import {gotData} from '../../store/data'
 import {postGraph} from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
+import SimpleSelect from './SimpleSelect'
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
 import {connect} from 'react-redux'
@@ -62,11 +63,16 @@ class EditView extends React.Component {
     this.props.gotData()
   }
 
+  triggerRefresh() {
+
+  }
+
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
+      this.triggerRefresh()
       this.setState({
         [attribute]: +e.target.value,
-        graphSelected: 'scatter',
+        graphSelected: 'bar',
         color: 'tomato',
         title: '',
         highlight: 'orange',
@@ -75,7 +81,9 @@ class EditView extends React.Component {
         y: '',
         regression: false,
         regressionLine: [],
-        regressionModel: {}
+        columnOption: '',
+        regressionModel: {},
+        message: "Choose a column"
       })
     } else if (!e.target) {
       this.setState({
@@ -220,25 +228,28 @@ class EditView extends React.Component {
                 </option>
               ))}
             </select>
-            <p>Left Axis:</p>
-            <select name="y" onChange={e => this.changeStyle(e, 'y')}>
-              <option />
+            {/* <p>Left Axis:</p> */}
+            {/* <select name="y" onChange={e => this.changeStyle(e, 'y')}>
+              <option>{this.state.columnOption}</option>
               {Object.keys(data[0]).map((key, i) => (
                 <option key={i} value={key}>
                   {key}
                 </option>
               ))}
-            </select>
+            </select> */}
+            <SimpleSelect items={Object.keys(data[0])} name="Left Axis" changeStyle={this.changeStyle} column="y" message="Choose a column" />
 
-            <p>Bottom Axis:</p>
+            <SimpleSelect items={Object.keys(data[0])} changeStyle={this.changeStyle} name="Bottom Axis" column="x" />
+
+            {/* <p>Bottom Axis:</p>
             <select name="x" onChange={e => this.changeStyle(e, 'x')}>
-              <option />
+            <option />
               {Object.keys(data[0]).map((key, i) => (
                 <option key={i} value={key}>
                   {key}
                 </option>
               ))}
-            </select>
+            </select> */}
 
             <p>Color:</p>
             <select name="color" onChange={e => this.changeStyle(e, 'color')}>
