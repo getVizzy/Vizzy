@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import ChartContainer from '../Chart/ChartContainer'
 import BarChart from '../Chart/VictoryBarChart'
 import ScatterChart from '../Chart/VictoryScatterChart'
-import {CustomizeMenu} from './CustomizeMenu'
+import { CustomizeMenu } from './CustomizeMenu'
 import LineChart from '../Chart/VictoryLineGraph'
-import {gotData} from '../../store/data'
-import {postGraph} from '../../store/graph'
+import { gotData } from '../../store/data'
+import { postGraph } from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
 import SimpleSelect from './SimpleSelect'
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
-import {connect} from 'react-redux'
-import {reinstateNumbers, download, addComma} from '../../utils'
-import {withStyles} from '@material-ui/core/styles'
+import { connect } from 'react-redux'
+import { reinstateNumbers, download, addComma } from '../../utils'
+import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import SaveIcon from '@material-ui/icons/Save'
@@ -59,7 +59,7 @@ class EditView extends React.Component {
     this.props.gotData()
   }
 
-  triggerRefresh() {}
+  triggerRefresh() { }
 
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
@@ -103,7 +103,7 @@ class EditView extends React.Component {
   }
 
   handleGraphSelected(graph) {
-    this.setState({graphSelected: graph})
+    this.setState({ graphSelected: graph })
     socket.emit('new changes', this.props.singleRoom, {
       graphSelected: graph
     })
@@ -111,7 +111,7 @@ class EditView extends React.Component {
 
   render() {
     console.log('theeeee state', this.state)
-    const {classes} = this.props
+    const { classes } = this.props
     const graphSelected = this.state.graphSelected
     let data
 
@@ -120,12 +120,12 @@ class EditView extends React.Component {
     } else {
       if (this.state.dataId === 0) {
         data = [
-          {quarter: '1', earnings: 13, items: 40, state: 'NY'},
-          {quarter: '2', earnings: 16, items: 60, state: 'NY'},
-          {quarter: '3', earnings: 17, items: 70, state: 'NY'},
-          {quarter: '4', earnings: 18, items: 80, state: 'NY'},
-          {quarter: '4', earnings: 18, items: 81, state: 'NY'},
-          {quarter: '4', earnings: 19, items: 90, state: 'NY'}
+          { quarter: '1', earnings: 13, items: 40, state: 'NY' },
+          { quarter: '2', earnings: 16, items: 60, state: 'NY' },
+          { quarter: '3', earnings: 17, items: 70, state: 'NY' },
+          { quarter: '4', earnings: 18, items: 80, state: 'NY' },
+          { quarter: '4', earnings: 18, items: 81, state: 'NY' },
+          { quarter: '4', earnings: 19, items: 90, state: 'NY' }
         ]
       } else {
         let dataElem = this.props.data.filter(
@@ -155,8 +155,8 @@ class EditView extends React.Component {
             {this.state.x === '' || this.state.y === '' ? (
               <div>Select columns</div>
             ) : (
-              <ChartContainer {...propPackage} />
-            )}
+                <ChartContainer {...propPackage} />
+              )}
             <GraphMenu handleGraphSelected={this.handleGraphSelected} />
             <Button
               variant="contained"
@@ -170,14 +170,14 @@ class EditView extends React.Component {
               Save
             </Button>
           </Paper>
-          <CustomizeMenu
-            {...this.state}
-            {...this.props}
-            changeStyle={this.changeStyle}
-            graphData={data}
-          />
+
           <div id="controls">
-            <CustomizeMenu />
+            <CustomizeMenu
+              {...this.state}
+              {...this.props}
+              changeStyle={this.changeStyle}
+              graphData={data}
+            />
           </div>
         </div>
       )
@@ -190,10 +190,10 @@ EditView.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  gotData: function() {
+  gotData: function () {
     dispatch(gotData())
   },
-  addGraph: function(graphData) {
+  addGraph: function (graphData) {
     dispatch(postGraph(graphData))
   }
 })
