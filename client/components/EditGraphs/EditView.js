@@ -6,6 +6,7 @@ import ScatterChart from '../VictoryScatterChart'
 import LineChart from '../VictoryLineGraph'
 import {gotData} from '../../store/data'
 import {postGraph} from '../../store/graph'
+import {fetchAllUsers} from '../../store/user'
 const io = require('socket.io-client')
 const socket = io()
 import classNames from 'classnames'
@@ -58,12 +59,17 @@ class EditView extends React.Component {
     // this.downloadPNG = download.bind(this)
   }
 
-  componentDidMount() {
-    this.props.gotData()
+  async componentDidMount() {
+    await this.props.onFetchAllUsers()
+    await this.props.gotData()
   }
 
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
+      // await this.setState({
+      //   x: '',
+      //   y: ''
+      // })
       this.setState({
         [attribute]: +e.target.value,
         graphSelected: 'scatter',
@@ -108,15 +114,27 @@ class EditView extends React.Component {
   }
 
   render() {
-    console.log('theeeee state', this.state)
+    const matchingUser = this.props.allUsers.filter(user => {
+      return user.roomKey === this.props.singleRoom
+    })
+    const dataMatch = matchingUser[0].data
+
+    console.log('dataMatch from new model', dataMatch)
+
+    console.log('this.props.data', this.props.data)
+
     const {classes} = this.props
     const graphSelected = this.state.graphSelected
     let data
 
-    if (!this.props.data) {
+    if (!dataMatch) {
       return 'Loading...'
     } else {
+      console.log('after first else')
+
       if (this.state.dataId === 0) {
+        console.log('after first if')
+
         data = [
           {quarter: '1', earnings: 13, items: 40, state: 'NY'},
           {quarter: '2', earnings: 16, items: 60, state: 'NY'},
@@ -126,11 +144,28 @@ class EditView extends React.Component {
           {quarter: '4', earnings: 19, items: 90, state: 'NY'}
         ]
       } else {
-        let dataElem = this.props.data.filter(
-          elem => elem.id === this.state.dataId
-        )
+        console.log('data matchh 2nd line', dataMatch)
+        console.log('elseeee')
+        let dataElem = dataMatch.filter(elem => {
+          console.log('FILTER- datamatch in the datafilter', dataMatch)
+          console.log('FILTER_elem', elem)
+          console.log('FiLTER-elemID', elem.id)
+          console.log('FILTER-this.state.id', this.state.dataId)
+          return elem.id === +this.state.dataId
+        })
 
-        data = reinstateNumbers(dataElem[0].dataJSON.data)
+        console.log('thisstate.data', this.state.dataId)
+
+        console.log('dataElem', dataElem)
+        if (dataElem.length === 0) {
+          console.log('no dataElem here')
+        } else {
+          data = reinstateNumbers(dataElem[0].dataJSON.data)
+        }
+
+        console.log('data', data)
+        console.log('this.state.y', this.state.y)
+        console.log('this.state.x', this.state.x)
       }
 
       let propPackage = {
@@ -140,7 +175,9 @@ class EditView extends React.Component {
         changeSyle: this.changeStyle,
         data: data
       }
-
+      if (!data) {
+        return 'no data here either!'
+      }
       return (
         <div>
           <div>Room ID: {this.props.singleRoom}</div>
@@ -214,7 +251,7 @@ class EditView extends React.Component {
             <p>Choose a Dataset:</p>
             <select name="dataId" onChange={e => this.changeStyle(e, 'dataId')}>
               <option />
-              {this.props.data.map((elem, i) => (
+              {dataMatch.map((elem, i) => (
                 <option key={i} value={elem.id}>
                   {elem.id}
                 </option>
@@ -324,13 +361,15 @@ const mapDispatchToProps = dispatch => ({
   },
   addGraph: function(graphData) {
     dispatch(postGraph(graphData))
-  }
+  },
+  onFetchAllUsers: () => dispatch(fetchAllUsers())
 })
 
 const mapStateToProps = state => ({
   data: state.data,
   rooms: state.room.rooms,
-  singleRoom: state.room.singleRoom
+  singleRoom: state.room.singleRoom,
+  allUsers: state.user.allUsers
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(
