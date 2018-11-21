@@ -1,6 +1,6 @@
 ## Vizzy 📊
 
- ## 📉 About Vizzy 📈
+ ## About Vizzy
  An intuitive, interactive, and collaborative data visualization application for users to quickly graph data to make informed and meaningful decisions in real-time. Make data visualization fun with Vizzy!
 
 ## 😎 Getting Started
