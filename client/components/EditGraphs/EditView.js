@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ChartContainer from '../ChartContainer'
-import BarChart from '../VictoryBarChart'
-import ScatterChart from '../VictoryScatterChart'
-import LineChart from '../VictoryLineGraph'
+import ChartContainer from '../Chart/ChartContainer'
+import BarChart from '../Chart/VictoryBarChart'
+import ScatterChart from '../Chart/VictoryScatterChart'
+import {CustomizeMenu} from './CustomizeMenu'
+import LineChart from '../Chart/VictoryLineGraph'
 import {gotData} from '../../store/data'
 import {postGraph} from '../../store/graph'
 const io = require('socket.io-client')
@@ -11,12 +12,7 @@ const socket = io()
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
 import {connect} from 'react-redux'
-import {
-  reinstateNumbers,
-  download,
-  addComma,
-  buildRegressionModel
-} from '../../utils'
+import {reinstateNumbers, download, addComma} from '../../utils'
 import {withStyles} from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -155,47 +151,6 @@ class EditView extends React.Component {
             ) : (
               <ChartContainer {...propPackage} />
             )}
-
-            {/* /* Commented out the code below after adding refactoring above, but check with Grace on linear regression functionality before deleting
-            // graphSelected === 'bar' ? (
-            //   <BarChart
-            //     color={this.state.color}
-            //     title={this.state.title}
-            //     highlight={this.state.highlight}
-            //     tooltip={this.state.tooltip}
-            //     x={this.state.x}
-            //     y={this.state.y}
-            //     changeStyle={this.changeStyle}
-            //     data={data}
-            //     downloadPNG={this.downloadPNG}
-            //     addComma={addComma}
-            //   />
-            // ) : graphSelected === 'scatter' ? (
-            //   <ScatterChart
-            //     color={this.state.color}
-            //     title={this.state.title}
-            //     highlight={this.state.highlight}
-            //     tooltip={this.state.tooltip}
-            //     x={this.state.x}
-            //     y={this.state.y}
-            //     changeStyle={this.changeStyle}
-            //     data={data}
-            //     downloadPNG={this.downloadPNG}
-            //     regressionLine={this.state.regressionLine}
-            //   />
-            // ) : graphSelected === 'line' ? (
-            //   <LineChart
-            //     color={this.state.color}
-            //     title={this.state.title}
-            //     highlight={this.state.highlight}
-            //     tooltip={this.state.tooltip}
-            //     x={this.state.x}
-            //     y={this.state.y}
-            //     changeStyle={this.changeStyle}
-            //     data={data}
-            //     downloadPNG={this.downloadPNG}
-            //   />
-            // ) : null} */}
             <GraphMenu handleGraphSelected={this.handleGraphSelected} />
             <Button
               variant="contained"
@@ -209,8 +164,13 @@ class EditView extends React.Component {
               Save
             </Button>
           </Paper>
-
-          <div id="controls">
+          <CustomizeMenu
+            {...this.state}
+            {...this.props}
+            changeStyle={this.changeStyle}
+            graphData={data}
+          />
+          {/* <div id="controls">
             <p>Choose a Dataset:</p>
             <select name="dataId" onChange={e => this.changeStyle(e, 'dataId')}>
               <option />
@@ -307,7 +267,7 @@ class EditView extends React.Component {
             ) : (
               ''
             )}
-          </div>
+          </div> */}
         </div>
       )
     }
