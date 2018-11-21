@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import socket from '../../socket'
-import { postRoom, fetchRooms, gotSingleRoom } from '../../store/room'
+import {postRoom, fetchRooms, gotSingleRoom} from '../../store/room'
 import Dashboard from '../Dashboard'
 
 class RoomSelection extends Component {
@@ -30,10 +30,10 @@ class RoomSelection extends Component {
         .toString(36)
         .substr(2, 9)
     console.log('roomKey', roomKey)
-    const userName = this.props.user.user.name
+    const userName = this.props.user.user.email
 
-    this.props.onPostRoom({ roomKey: roomKey })
-    this.setState({ roomKey: roomKey })
+    this.props.onPostRoom({roomKey: roomKey})
+    this.setState({roomKey: roomKey})
 
     socket.emit('createRoom', roomKey, userName)
     this.props.onGotSingleRoom(roomKey)
@@ -42,7 +42,7 @@ class RoomSelection extends Component {
   }
 
   joinRoomInput(event) {
-    this.setState({ [event.target.name]: event.target.value })
+    this.setState({[event.target.name]: event.target.value})
   }
 
   joinRoomSubmit(event) {
@@ -58,7 +58,6 @@ class RoomSelection extends Component {
       this.props.onGotSingleRoom(this.state.roomKey)
 
       this.props.history.push('room/live')
-
     } else {
       console.log('No Room FOUND!')
     }
@@ -101,7 +100,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onPostRoom: room => dispatch(postRoom(room)),
   onFetchRooms: () => dispatch(fetchRooms()),
-  onGotSingleRoom: (roomKey) => dispatch(gotSingleRoom(roomKey))
+  onGotSingleRoom: roomKey => dispatch(gotSingleRoom(roomKey))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoomSelection)

@@ -6,6 +6,8 @@ import ScatterChart from '../VictoryScatterChart'
 import LineChart from '../VictoryLineGraph'
 import {gotData} from '../../store/data'
 import {postGraph} from '../../store/graph'
+const io = require('socket.io-client')
+const socket = io()
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
 import {connect} from 'react-redux'
@@ -48,6 +50,9 @@ class EditView extends React.Component {
         x: [new Date(2018, 1, 1), new Date(2018, 12, 1)]
       }
     }
+    socket.on('receive code', payload => {
+      this.updateCodeFromSockets(payload)
+    })
     this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
     // this.downloadPNG = download.bind(this)
@@ -60,24 +65,35 @@ class EditView extends React.Component {
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
       this.setState({
-        [attribute]: +e.target.value
+        [e.target.name]: +e.target.value
       })
     } else if (!e.target) {
       this.setState({
-        [attribute]: e
+        [e.target.name]: e
       })
     } else {
       this.setState({
-        [attribute]: e.target.value
+        [e.target.name]: e.target.value
       })
     }
+    socket.emit('new changes', this.props.singleRoom, {
+      [e.target.name]: e.target.value
+    })
+  }
+
+  updateCodeFromSockets(payload) {
+    this.setState(payload)
   }
 
   handleGraphSelected(graph) {
     this.setState({graphSelected: graph})
+    socket.emit('new changes', this.props.singleRoom, {
+      graphSelected: graph
+    })
   }
 
   render() {
+    console.log('theeeee state', this.state)
     const {classes} = this.props
     const graphSelected = this.state.graphSelected
     let data
@@ -96,6 +112,8 @@ class EditView extends React.Component {
         let dataElem = this.props.data.filter(
           elem => elem.id === this.state.dataId
         )
+
+
         data = reinstateNumbers(dataElem[0].dataJSON.data)
       }
 
@@ -109,6 +127,8 @@ class EditView extends React.Component {
 
       return (
         <div>
+          <div>Room ID: {this.props.singleRoom}</div>
+
           <Paper className={classes.root} elevation={22}>
             <Typography variant="h5" component="h3">
               Edit Graph
@@ -177,7 +197,7 @@ class EditView extends React.Component {
 
           <div id="controls">
             <p>Choose a Dataset:</p>
-            <select onChange={e => this.changeStyle(e, 'dataId')}>
+            <select name="dataId" onChange={e => this.changeStyle(e, 'dataId')}>
               <option />
               {this.props.data.map((elem, i) => (
                 <option key={i} value={elem.id}>
@@ -186,7 +206,7 @@ class EditView extends React.Component {
               ))}
             </select>
             <p>Left Axis:</p>
-            <select onChange={e => this.changeStyle(e, 'y')}>
+            <select name="x" onChange={e => this.changeStyle(e, 'y')}>
               <option />
               {Object.keys(data[0]).map((key, i) => (
                 <option key={i} value={key}>
@@ -196,7 +216,7 @@ class EditView extends React.Component {
             </select>
 
             <p>Bottom Axis:</p>
-            <select onChange={e => this.changeStyle(e, 'x')}>
+            <select name="y" onChange={e => this.changeStyle(e, 'x')}>
               <option />
               {Object.keys(data[0]).map((key, i) => (
                 <option key={i} value={key}>
@@ -206,7 +226,7 @@ class EditView extends React.Component {
             </select>
 
             <p>Color:</p>
-            <select onChange={e => this.changeStyle(e, 'color')}>
+            <select name="color" onChange={e => this.changeStyle(e, 'color')}>
               <option value="tomato">Tomato</option>
               <option value="gold">Gold</option>
               <option value="orange">Orange</option>
@@ -219,7 +239,10 @@ class EditView extends React.Component {
             ) : (
               <div>
                 <p>Highlight:</p>
-                <select onChange={e => this.changeStyle(e, 'highlight')}>
+                <select
+                  name="highlight"
+                  onChange={e => this.changeStyle(e, 'highlight')}
+                >
                   <option value="orange">Orange</option>
                   <option value="tomato">Tomato</option>
                   <option value="gold">Gold</option>
@@ -231,7 +254,10 @@ class EditView extends React.Component {
             )}
 
             <p>Pointer:</p>
-            <select onChange={e => this.changeStyle(e, 'tooltip')}>
+            <select
+              name="tooltip"
+              onChange={e => this.changeStyle(e, 'tooltip')}
+            >
               <option value={5}>Round edge</option>
               <option value={0}>Square</option>
               <option value={25}>Circle</option>
@@ -246,7 +272,7 @@ class EditView extends React.Component {
               <p>
                 Regression Line:{' '}
                 <input
-                  type={'checkbox'}
+                  type="checkbox"
                   onChange={async e => {
                     await this.changeStyle(!this.state.regression, 'regression')
                     console.log('x and y on state', this.state.x, this.state.y)
@@ -288,7 +314,9 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  data: state.data
+  data: state.data,
+  rooms: state.room.rooms,
+  singleRoom: state.room.singleRoom
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(
