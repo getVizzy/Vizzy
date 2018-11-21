@@ -65,7 +65,17 @@ class EditView extends React.Component {
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
       this.setState({
-        [attribute]: +e.target.value
+        [attribute]: +e.target.value,
+        graphSelected: 'scatter',
+        color: 'tomato',
+        title: '',
+        highlight: 'orange',
+        tooltip: '5',
+        x: '',
+        y: '',
+        regression: false,
+        regressionLine: [],
+        regressionModel: {}
       })
     } else if (!e.target) {
       this.setState({
