@@ -9,22 +9,20 @@ module.exports = io => {
     })
 
     socket.on('createRoom', (roomKey, userName) => {
-      const newRoom = `room:${roomKey}`
-      socket.join(newRoom)
-      socket.emit(`success, ${userName} has created and joined ${newRoom}`)
-      console.log(`success, ${userName} has created and joined ${newRoom}`)
+      socket.join(roomKey)
+      socket.emit(`success, ${userName} has created and joined ${roomKey}`)
+      console.log(`success, ${userName} has created and joined ${roomKey}`)
     })
 
     socket.on('joinRoom', (roomKey, userName) => {
-      const newRoom = `room:${roomKey}`
       socket.join(roomKey)
-      socket.emit(`success, ${userName} has joined ${newRoom}`)
-      console.log(`success, ${userName} has joined ${newRoom}`)
+      socket.emit(`success, ${userName} has joined ${roomKey}`)
+      console.log(`success, ${userName} has joined ${roomKey}`)
     })
-    socket.on('new changes', function (room, data) {
+    socket.on('new changes', function(room, data) {
       // socket.broadcast.to(room).emit('receive code', data)
-      console.log(room)
-      console.log(data)
+      console.log('socketroom', room)
+      console.log('my emitted data', data)
       socket.join(room) //MUST HAVE JOIN!
 
       socket.broadcast.to(room).emit('receive code', data)
