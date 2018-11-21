@@ -15,7 +15,7 @@ const styles = theme => ({
   },
 });
 
-class SimpleListMenu extends React.Component {
+class SimpleSelect extends React.Component {
   state = {
     anchorEl: null,
     selected: 'Choose a column',
@@ -88,4 +88,4 @@ SimpleListMenu.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SimpleListMenu);
+export default withStyles(styles)(SimpleSelect);

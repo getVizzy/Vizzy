@@ -8,7 +8,7 @@ import {gotData} from '../../store/data'
 import {postGraph} from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
-import SimpleMenu from './CustomizationMenu'
+import SimpleSelect from './SimpleSelect'
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
 import {connect} from 'react-redux'
@@ -237,9 +237,9 @@ class EditView extends React.Component {
                 </option>
               ))}
             </select> */}
-            <SimpleMenu items={Object.keys(data[0])} name="Left Axis" changeStyle={this.changeStyle} column="y" message="Choose a column" />
+            <SimpleSelect items={Object.keys(data[0])} name="Left Axis" changeStyle={this.changeStyle} column="y" message="Choose a column" />
 
-            <SimpleMenu items={Object.keys(data[0])} changeStyle={this.changeStyle} name="Bottom Axis" column="x" />
+            <SimpleSelect items={Object.keys(data[0])} changeStyle={this.changeStyle} name="Bottom Axis" column="x" />
 
             {/* <p>Bottom Axis:</p>
             <select name="x" onChange={e => this.changeStyle(e, 'x')}>
