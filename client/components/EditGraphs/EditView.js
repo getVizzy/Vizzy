@@ -115,7 +115,6 @@ class EditView extends React.Component {
           elem => elem.id === this.state.dataId
         )
 
-
         data = reinstateNumbers(dataElem[0].dataJSON.data)
       }
 
@@ -138,12 +137,11 @@ class EditView extends React.Component {
             <Typography component="p">Some text</Typography>
             {this.state.x === '' || this.state.y === '' ? (
               <div>Select columns</div>
-            ) :
-              <ChartContainer { ...propPackage } />
-            }
+            ) : (
+              <ChartContainer {...propPackage} />
+            )}
 
-
-{/* /* Commented out the code below after adding refactoring above, but check with Grace on linear regression functionality before deleting
+            {/* /* Commented out the code below after adding refactoring above, but check with Grace on linear regression functionality before deleting
             // graphSelected === 'bar' ? (
             //   <BarChart
             //     color={this.state.color}
@@ -208,7 +206,7 @@ class EditView extends React.Component {
               ))}
             </select>
             <p>Left Axis:</p>
-            <select name="x" onChange={e => this.changeStyle(e, 'y')}>
+            <select name="y" onChange={e => this.changeStyle(e, 'y')}>
               <option />
               {Object.keys(data[0]).map((key, i) => (
                 <option key={i} value={key}>
@@ -218,7 +216,7 @@ class EditView extends React.Component {
             </select>
 
             <p>Bottom Axis:</p>
-            <select name="y" onChange={e => this.changeStyle(e, 'x')}>
+            <select name="x" onChange={e => this.changeStyle(e, 'x')}>
               <option />
               {Object.keys(data[0]).map((key, i) => (
                 <option key={i} value={key}>
