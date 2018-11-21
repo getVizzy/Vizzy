@@ -8,14 +8,12 @@ import Dashboard from './components/Dashboard'
 import VictoryBarChart from './components/VictoryBarChart'
 import VictoryLineGraph from './components/VictoryLineGraph'
 import VictoryScatterChart from './components/VictoryScatterChart'
+import VictoryPieChart from './components/VictoryPieChart'
 import HomeView from './components/Home/HomeView'
-
 import TempDashboard from './components/TempDashboard'
-
 import EditView from './components/EditGraphs/EditView'
 import RoomSelection from './components/Room/RoomSelection'
 import EditRoom from './components/Room/EditRoom'
-
 import CreateRoom from './components/Room/CreateRoom'
 import TestSave from './components/TestSave'
 
@@ -47,6 +45,7 @@ class Routes extends Component {
             <Route path="/bar" component={VictoryBarChart} />
             <Route path="/line" component={VictoryLineGraph} />
             <Route path="/scatter" component={VictoryScatterChart} />
+            <Route path="/pie" component={VictoryPieChart} />
             <Route path="/editgraph" component={EditView} />
             <Route exact path="/room" component={RoomSelection} />
             <Route path="/room/live" component={EditView} />
