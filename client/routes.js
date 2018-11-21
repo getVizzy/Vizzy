@@ -1,14 +1,16 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter, Route, Switch } from 'react-router-dom'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserHome, FileDrop } from './components'
-import { me } from './store'
+import {Login, Signup, UserHome, FileDrop} from './components'
+import {me} from './store'
 import Dashboard from './components/Dashboard'
-import VictoryBarChart from './components/VictoryBarChart'
-import VictoryLineGraph from './components/VictoryLineGraph'
-import VictoryScatterChart from './components/VictoryScatterChart'
-import VictoryPieChart from './components/VictoryPieChart'
+
+import VictoryBarChart from './components/Chart/VictoryBarChart'
+import VictoryLineGraph from './components/Chart/VictoryLineGraph'
+import VictoryScatterChart from './components/Chart/VictoryScatterChart'
+import VictoryPieChart from './components/Chart/VictoryPieChart'
+
 import HomeView from './components/Home/HomeView'
 import TempDashboard from './components/TempDashboard'
 import EditView from './components/EditGraphs/EditView'
@@ -26,7 +28,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props
+    const {isLoggedIn} = this.props
 
     return (
       <Switch>
