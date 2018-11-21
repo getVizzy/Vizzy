@@ -1,56 +1,57 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import socket from '../../socket'
-import {postRoom, fetchRooms, gotSingleRoom} from '../../store/room'
+import {gotSingleRoom} from '../../store/room'
+import {fetchAllUsers} from '../../store/user'
+
 import Dashboard from '../Dashboard'
 
 class RoomSelection extends Component {
   constructor() {
     super()
     this.state = {
-      roomKey: '',
-      rooms: []
+      roomKey: ''
     }
 
-    this.handleCreateRoom = this.handleCreateRoom.bind(this)
+    // this.handleCreateRoom = this.handleCreateRoom.bind(this)
     this.joinRoomInput = this.joinRoomInput.bind(this)
     this.joinRoomSubmit = this.joinRoomSubmit.bind(this)
   }
 
   async componentDidMount() {
-    await this.props.onFetchRooms()
+    await this.props.onFetchAllUsers()
   }
 
-  handleCreateRoom() {
-    const roomKey =
-      Math.random()
-        .toString(36)
-        .substr(2, 9) +
-      Math.random()
-        .toString(36)
-        .substr(2, 9)
-    console.log('roomKey', roomKey)
-    const userName = this.props.user.user.email
+  // handleCreateRoom() {
+  //   const roomKey =
+  //     Math.random()
+  //       .toString(36)
+  //       .substr(2, 9) +
+  //     Math.random()
+  //       .toString(36)
+  //       .substr(2, 9)
+  //   console.log('roomKey', roomKey)
+  //   const userName = this.props.user.user.email
 
-    this.props.onPostRoom({roomKey: roomKey})
-    this.setState({roomKey: roomKey})
+  //   this.props.onPostRoom({roomKey: roomKey})
+  //   this.setState({roomKey: roomKey})
 
-    socket.emit('createRoom', roomKey, userName)
-    this.props.onGotSingleRoom(roomKey)
+  //   socket.emit('createRoom', roomKey, userName)
+  //   this.props.onGotSingleRoom(roomKey)
 
-    this.props.history.push('room/live')
-  }
+  //   this.props.history.push('room/live')
+  // }
 
   joinRoomInput(event) {
     this.setState({[event.target.name]: event.target.value})
   }
 
-  joinRoomSubmit(event) {
+  joinRoomSubmit() {
     event.preventDefault()
     let roomKey = this.state.roomKey
-    const rooms = this.props.rooms
-    const match = rooms.filter(currentRoom => {
-      return currentRoom.roomKey === roomKey
+    const users = this.props.user.allUsers
+    const match = users.filter(currentUser => {
+      return currentUser.roomKey === roomKey
     })
     if (match.length) {
       socket.emit('joinRoom', this.state.roomKey, this.props.user.user.email)
@@ -64,15 +65,16 @@ class RoomSelection extends Component {
   }
 
   render() {
-    console.log('ROOM SELECTION PROPS', this.props)
-    console.log('ROOM SELECTION STATE', this.state)
-    console.log('email', this.props.user.user.email)
-
+    const roomKey = this.props.user.user.roomKey
     return (
       <div>
-        <button type="button" onClick={this.handleCreateRoom}>
-          Create Room
-        </button>
+        {/* <button type="button" onClick={this.handleCreateRoom}> */}
+        Your Room ID: {roomKey}
+        {/* </button> */}
+        <p>
+          Start a work session entering your Room ID or join another session by
+          entering another user's Room ID{' '}
+        </p>
         <form id="roomId" onSubmit={this.joinRoomSubmit}>
           <input
             type="text"
@@ -83,7 +85,6 @@ class RoomSelection extends Component {
           />
           <button type="submit">Join Room</button>
         </form>
-        <Dashboard roomKey={this.state.roomKey} />
         {!this.state.roomKey ? null : <div>{this.state.roomKey}</div>}
       </div>
     )
@@ -93,13 +94,15 @@ class RoomSelection extends Component {
 const mapStateToProps = state => ({
   data: state.user.data,
   user: state.user,
+  allUsers: state.user.allUsers,
   rooms: state.room.rooms,
   singleRoom: state.room.singleRoom
 })
 
 const mapDispatchToProps = dispatch => ({
-  onPostRoom: room => dispatch(postRoom(room)),
-  onFetchRooms: () => dispatch(fetchRooms()),
+  onFetchAllUsers: () => dispatch(fetchAllUsers()),
+  // onPostRoom: room => dispatch(postRoom(room)),
+  // onFetchRooms: () => dispatch(fetchRooms())
   onGotSingleRoom: roomKey => dispatch(gotSingleRoom(roomKey))
 })
 
