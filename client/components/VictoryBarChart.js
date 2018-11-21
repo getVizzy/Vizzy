@@ -10,24 +10,7 @@ import {
   VictoryLabel
 } from 'victory'
 
-
-//TWO SETS OF DUMMY DATA FOR EXPERIMENTING
-//ENSURE JSON DATA VALUES ARE NUMBERS NOT STRINGS
-
-// let allData = [
-//   {Month: 'January', Apples: '50', Revenue: '1230'},
-//   {Month: 'February', Apples: '75', Revenue: '1500'},
-//   {Month: 'March', Apples: '90', Revenue: '1900'},
-//   {Month: 'April', Apples: '67', Revenue: '1300'},
-//   {Month: 'May', Apples: '123', Revenue: '1200'},
-//   {Month: 'June', Apples: '56', Revenue: '1345'},
-//   {Month: 'July', Apples: '87', Revenue: '1875'},
-//   {Month: 'August', Apples: '143', Revenue: '1300'},
-//   {Month: 'September', Apples: '59', Revenue: '1330'},
-//   {Month: 'October', Apples: '68', Revenue: '1450'},
-//   {Month: 'November', Apples: '89', Revenue: '1890'},
-//   {Month: 'December', Apples: '100', Revenue: '1100'}
-// ]
+import { download } from '../utils'
 
 export default class VictoryBarChart extends Component {
   constructor() {
@@ -36,6 +19,7 @@ export default class VictoryBarChart extends Component {
 
   render() {
       let data = this.props.data;
+      let downloadPNG = download.bind(this)
       return (
         <div id="container">
           <div id="chart">
@@ -145,7 +129,7 @@ export default class VictoryBarChart extends Component {
             </VictoryChart>
           </div>
           <p>
-            <button onClick={() => this.props.downloadPNG(this.props.title)}>
+            <button onClick={() => downloadPNG(this.props.title)}>
               Download
             </button>
           </p>

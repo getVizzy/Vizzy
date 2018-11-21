@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import ReactDOM from 'react-dom'
+import { download } from '../utils'
+
 import * as d3 from 'd3'
 import {
   VictoryChart,
@@ -33,6 +33,7 @@ export default class VictoryScatterChart extends Component {
     const changeStyle = this.props.changeStyle
     let y = this.props.y
     let x = this.props.x
+    let downloadPNG = download.bind(this)
 
     return (
       <div id="container">
@@ -169,7 +170,7 @@ export default class VictoryScatterChart extends Component {
               >{`${keys[0][0].toUpperCase()}${keys[0].slice(1)}`}</option>
             </select> */}
 
-          <button onClick={() => this.props.downloadPNG(this.props.title)}>
+          <button onClick={() => downloadPNG(this.props.title)}>
             Download
           </button>
         </div>

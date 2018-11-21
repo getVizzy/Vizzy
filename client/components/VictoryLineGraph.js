@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import * as d3 from 'd3'
+import { download } from '../utils'
+
 import {
   VictoryChart,
   VictoryLine,
@@ -25,6 +25,7 @@ export default class VictoryLineGraph extends Component {
     let keys = Object.keys(data[0])
     let y = this.props.y
     let x = this.props.x
+    let downloadPNG = download.bind(this)
 
     return (
       <div id="container">
@@ -128,7 +129,7 @@ export default class VictoryLineGraph extends Component {
           </VictoryChart>
         </div>
         <div>
-          <button onClick={() => this.props.downloadPNG(this.props.title)}>
+          <button onClick={() => downloadPNG(this.props.title)}>
             Download
           </button>
           <canvas
