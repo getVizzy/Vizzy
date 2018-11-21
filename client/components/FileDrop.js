@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import Modal from 'react-modal'
-import {postData} from '../store/data'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import { postData } from '../store/data'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 class FileDrop extends Component {
   constructor() {
@@ -52,16 +52,17 @@ class FileDrop extends Component {
   }
 
   openModal() {
-    this.setState({modalIsOpen: true})
+    this.setState({ modalIsOpen: true })
   }
 
   closeModal() {
-    this.setState({modalIsOpen: false})
+    this.setState({ modalIsOpen: false })
   }
 
   render() {
     return (
       <div>
+        <h5>Have data? Import it here!</h5>
         <button onClick={this.openModal}>Import Data</button>
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -86,7 +87,7 @@ class FileDrop extends Component {
             <button onClick={() => {
               this.props.addData(this.state.data);
               this.closeModal()
-              }}>Done</button>
+            }}>Done</button>
           </div>
         </Modal>
       </div>

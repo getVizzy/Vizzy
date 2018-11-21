@@ -35,51 +35,51 @@ function ListItemComposition(props) {
   const { classes } = props;
 
   return (
-      <MenuList>
+    <MenuList>
 
-        <MenuItem className={classes.menuItem} onClick={ () => props.handleGraphSelected('bar')}>
-          <ListItemIcon className={classes.icon}>
-            <BarChartIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Bar" />
-        </MenuItem>
+      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('bar')}>
+        <ListItemIcon className={classes.icon}>
+          <BarChartIcon />
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Bar" />
+      </MenuItem>
 
-        <MenuItem className={classes.menuItem} onClick={ () => props.handleGraphSelected('pie')}>
-          <ListItemIcon className={classes.icon}>
-            <PieChartIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Pie" />
-        </MenuItem>
+      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('pie')}>
+        <ListItemIcon className={classes.icon}>
+          <PieChartIcon />
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Pie" />
+      </MenuItem>
 
-        <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('line')}>
-          <ListItemIcon className={classes.icon}>
-            <LineChartIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Line" />
-        </MenuItem>
+      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('line')}>
+        <ListItemIcon className={classes.icon}>
+          <LineChartIcon />
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Line" />
+      </MenuItem>
 
-        <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('scatter')}>
-          <ListItemIcon className={classes.icon}>
-            <ScatterPlotIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Scatter" />
-        </MenuItem>
+      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('scatter')}>
+        <ListItemIcon className={classes.icon}>
+          <ScatterPlotIcon />
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Scatter" />
+      </MenuItem>
 
-        <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('map')}>
-          <ListItemIcon className={classes.icon}>
-            <MapChartIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Map" />
-        </MenuItem>
+      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('map')}>
+        <ListItemIcon className={classes.icon}>
+          <MapChartIcon />
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Map" />
+      </MenuItem>
 
-        <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('bubble')}>
-          <ListItemIcon className={classes.icon}>
-            <BubbleChartIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Bubble" />
-        </MenuItem>
+      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('bubble')}>
+        <ListItemIcon className={classes.icon}>
+          <BubbleChartIcon />
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Bubble" />
+      </MenuItem>
 
-      </MenuList>
+    </MenuList>
   );
 }
 
