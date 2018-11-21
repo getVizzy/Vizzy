@@ -48,7 +48,7 @@ async function seed() {
     Graph.create({
       userId: 1,
       properties: {
-        graphSelected: 'bar',
+        graphSelected: 'scatter',
         color: 'salmon',
         title: 'Another Test Graph',
         highlight: 'periwinkle',
