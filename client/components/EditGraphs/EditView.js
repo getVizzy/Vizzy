@@ -65,20 +65,25 @@ class EditView extends React.Component {
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
       this.setState({
-        [e.target.name]: +e.target.value
+        [attribute]: +e.target.value
       })
     } else if (!e.target) {
       this.setState({
-        [e.target.name]: e
+        [attribute]: e
+      })
+      socket.emit('new changes', this.props.singleRoom, {
+        [attribute]: e
       })
     } else {
       this.setState({
-        [e.target.name]: e.target.value
+        [attribute]: e.target.value
       })
     }
-    socket.emit('new changes', this.props.singleRoom, {
-      [e.target.name]: e.target.value
-    })
+    if (e.target) {
+      socket.emit('new changes', this.props.singleRoom, {
+        [attribute]: e.target.value
+      })
+    }
   }
 
   updateCodeFromSockets(payload) {

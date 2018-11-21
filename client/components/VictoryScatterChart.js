@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { download } from '../utils'
+import {download} from '../utils'
 
 import * as d3 from 'd3'
 import {
@@ -16,17 +16,6 @@ import {
   VictoryVoronoiContainer
 } from 'victory'
 
-// const data = [
-//   {'Degrees Celsius Below Zero': 1, 'Hundreds of Pounds of Cocoa Sold': 2},
-//   {'Degrees Celsius Below Zero': 2, 'Hundreds of Pounds of Cocoa Sold': 2},
-//   {'Degrees Celsius Below Zero': 3, 'Hundreds of Pounds of Cocoa Sold': 4},
-//   {'Degrees Celsius Below Zero': 4, 'Hundreds of Pounds of Cocoa Sold': 3},
-//   {'Degrees Celsius Below Zero': 5, 'Hundreds of Pounds of Cocoa Sold': 4.5},
-//   {'Degrees Celsius Below Zero': 6, 'Hundreds of Pounds of Cocoa Sold': 4.5},
-//   {'Degrees Celsius Below Zero': 7, 'Hundreds of Pounds of Cocoa Sold': 7},
-//   {'Degrees Celsius Below Zero': 8, 'Hundreds of Pounds of Cocoa Sold': 10}
-// ]
-
 export default class VictoryScatterChart extends Component {
   render() {
     let data = this.props.data
@@ -41,7 +30,6 @@ export default class VictoryScatterChart extends Component {
           <VictoryChart
             theme={VictoryTheme.material}
             style={{parent: {maxWidth: '100%'}}}
-            // domainPadding={60}
             width={600}
             height={470}
             padding={{left: 100, right: 25, top: 35, bottom: 75}}
