@@ -86,10 +86,12 @@ class EditView extends React.Component {
     } else {
       if (this.state.dataId === 0) {
         data = [
-          {quarter: '1', earnings: 13000, items: 4000, state: 'NY'},
-          {quarter: '2', earnings: 16000, items: 6000, state: 'NY'},
-          {quarter: '3', earnings: 17000, items: 7000, state: 'NY'},
-          {quarter: '4', earnings: 18000, items: 8000, state: 'NY'}
+          {quarter: '1', earnings: 13, items: 40, state: 'NY'},
+          {quarter: '2', earnings: 16, items: 60, state: 'NY'},
+          {quarter: '3', earnings: 17, items: 70, state: 'NY'},
+          {quarter: '4', earnings: 18, items: 80, state: 'NY'},
+          {quarter: '4', earnings: 18, items: 81, state: 'NY'},
+          {quarter: '4', earnings: 19, items: 90, state: 'NY'}
         ]
       } else {
         let dataElem = this.props.data.filter(
@@ -248,7 +250,6 @@ class EditView extends React.Component {
                     } else {
                       this.changeStyle([], 'regressionLine')
                     }
-                    console.log('regression line', this.state.regressionLine)
                   }}
                 />
               </p>
