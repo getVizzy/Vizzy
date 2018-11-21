@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import ChartContainer from '../ChartContainer'
 import BarChart from '../VictoryBarChart'
 import ScatterChart from '../VictoryScatterChart'
 import LineChart from '../VictoryLineGraph'
@@ -54,7 +55,7 @@ class EditView extends React.Component {
     })
     this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
-    this.downloadPNG = download.bind(this)
+    // this.downloadPNG = download.bind(this)
   }
 
   componentDidMount() {
@@ -111,12 +112,19 @@ class EditView extends React.Component {
         let dataElem = this.props.data.filter(
           elem => elem.id === this.state.dataId
         )
-        // console.log('DATA ELEM', dataElem, 'DATA PROPS', this.props.data)
-        //The data elements used to end with ".data" --- find out what circusmtances this worked.
-        // console.log('DATA BEFORE REINSTATE', dataElem[0].dataJSON)
+
+
         data = reinstateNumbers(dataElem[0].dataJSON.data)
-        // console.log('data after reinstate', data.data)
       }
+
+      let propPackage = {
+        ...this.state,
+        downloadPNG: download,
+        addComma: addComma,
+        changeSyle: this.changeStyle,
+        data: data
+      }
+
       return (
         <div>
           <div>Room ID: {this.props.singleRoom}</div>
@@ -128,45 +136,51 @@ class EditView extends React.Component {
             <Typography component="p">Some text</Typography>
             {this.state.x === '' || this.state.y === '' ? (
               <div>Select columns</div>
-            ) : graphSelected === 'bar' ? (
-              <BarChart
-                color={this.state.color}
-                title={this.state.title}
-                highlight={this.state.highlight}
-                tooltip={this.state.tooltip}
-                x={this.state.x}
-                y={this.state.y}
-                changeStyle={this.changeStyle}
-                data={data}
-                downloadPNG={this.downloadPNG}
-                addComma={addComma}
-              />
-            ) : graphSelected === 'scatter' ? (
-              <ScatterChart
-                color={this.state.color}
-                title={this.state.title}
-                highlight={this.state.highlight}
-                tooltip={this.state.tooltip}
-                x={this.state.x}
-                y={this.state.y}
-                changeStyle={this.changeStyle}
-                data={data}
-                downloadPNG={this.downloadPNG}
-                regressionLine={this.state.regressionLine}
-              />
-            ) : graphSelected === 'line' ? (
-              <LineChart
-                color={this.state.color}
-                title={this.state.title}
-                highlight={this.state.highlight}
-                tooltip={this.state.tooltip}
-                x={this.state.x}
-                y={this.state.y}
-                changeStyle={this.changeStyle}
-                data={data}
-                downloadPNG={this.downloadPNG}
-              />
-            ) : null}
+            ) :
+              <ChartContainer { ...propPackage } />
+            }
+
+
+{/* /* Commented out the code below after adding refactoring above, but check with Grace on linear regression functionality before deleting
+            // graphSelected === 'bar' ? (
+            //   <BarChart
+            //     color={this.state.color}
+            //     title={this.state.title}
+            //     highlight={this.state.highlight}
+            //     tooltip={this.state.tooltip}
+            //     x={this.state.x}
+            //     y={this.state.y}
+            //     changeStyle={this.changeStyle}
+            //     data={data}
+            //     downloadPNG={this.downloadPNG}
+            //     addComma={addComma}
+            //   />
+            // ) : graphSelected === 'scatter' ? (
+            //   <ScatterChart
+            //     color={this.state.color}
+            //     title={this.state.title}
+            //     highlight={this.state.highlight}
+            //     tooltip={this.state.tooltip}
+            //     x={this.state.x}
+            //     y={this.state.y}
+            //     changeStyle={this.changeStyle}
+            //     data={data}
+            //     downloadPNG={this.downloadPNG}
+            //     regressionLine={this.state.regressionLine}
+            //   />
+            // ) : graphSelected === 'line' ? (
+            //   <LineChart
+            //     color={this.state.color}
+            //     title={this.state.title}
+            //     highlight={this.state.highlight}
+            //     tooltip={this.state.tooltip}
+            //     x={this.state.x}
+            //     y={this.state.y}
+            //     changeStyle={this.changeStyle}
+            //     data={data}
+            //     downloadPNG={this.downloadPNG}
+            //   />
+            // ) : null} */}
             <GraphMenu handleGraphSelected={this.handleGraphSelected} />
             <Button
               variant="contained"

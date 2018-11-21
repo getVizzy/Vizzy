@@ -1,3 +1,4 @@
+//Component just for testing Proof of Concept for saving interactive graphs
 import React from 'react'
 import VictoryBarChart from './VictoryBarChart'
 import { download, addComma } from '../utils'

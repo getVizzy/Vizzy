@@ -8,6 +8,7 @@ import Dashboard from './components/Dashboard'
 import VictoryBarChart from './components/VictoryBarChart'
 import VictoryLineGraph from './components/VictoryLineGraph'
 import VictoryScatterChart from './components/VictoryScatterChart'
+import HomeView from './components/Home/HomeView'
 
 import TempDashboard from './components/TempDashboard'
 
@@ -40,7 +41,7 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
+            <Route path="/home" component={HomeView} />
             <Route path="/upload" component={FileDrop} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/bar" component={VictoryBarChart} />
