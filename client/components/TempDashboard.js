@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
-import { gotGraphs } from '../store/graph'
-import { connect } from 'react-redux'
-import Bar from './VictoryBarChart'
-import { download, addComma, reinstateNumbers } from '../utils'
-import ChartContainer from './ChartContainer'
+import React, {Component} from 'react'
+import {gotGraphs} from '../store/graph'
+import {connect} from 'react-redux'
+import Bar from './Chart/VictoryBarChart'
+import {download, addComma, reinstateNumbers} from '../utils'
+import ChartContainer from './Chart/ChartContainer'
 
 class TempDashboard extends Component {
-  constructor () {
+  constructor() {
     super()
-
   }
 
   componentDidMount() {
@@ -16,24 +15,20 @@ class TempDashboard extends Component {
   }
 
   render() {
-    if(!this.props.graphs) {
-      return (
-        "Getting your graphs!"
-      )
+    if (!this.props.graphs) {
+      return 'Getting your graphs!'
     } else {
-      return (
-        this.props.graphs.map((graph, i) => {
-          let data = reinstateNumbers(graph.datum.dataJSON.data);
-          let propPackage = {
-            data: data,
-            addComma: addComma,
-            downloadPNG: download,
-            ...graph.properties,
-          }
+      return this.props.graphs.map((graph, i) => {
+        let data = reinstateNumbers(graph.datum.dataJSON.data)
+        let propPackage = {
+          data: data,
+          addComma: addComma,
+          downloadPNG: download,
+          ...graph.properties
+        }
 
-          return <ChartContainer {...propPackage} key={i}  />
-        })
-      )
+        return <ChartContainer {...propPackage} key={i} />
+      })
     }
   }
 }
@@ -47,4 +42,3 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TempDashboard)
-

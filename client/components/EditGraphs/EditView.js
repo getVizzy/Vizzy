@@ -1,24 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ChartContainer from '../ChartContainer'
-import BarChart from '../VictoryBarChart'
-import ScatterChart from '../VictoryScatterChart'
-import LineChart from '../VictoryLineGraph'
-import {gotData} from '../../store/data'
-import {postGraph} from '../../store/graph'
 import {fetchAllUsers} from '../../store/user'
+import ChartContainer from '../Chart/ChartContainer'
+import BarChart from '../Chart/VictoryBarChart'
+import ScatterChart from '../Chart/VictoryScatterChart'
+import { CustomizeMenu } from './CustomizeMenu'
+import LineChart from '../Chart/VictoryLineGraph'
+import { gotData } from '../../store/data'
+import { postGraph } from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
+import SimpleSelect from './SimpleSelect'
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
-import {connect} from 'react-redux'
-import {
-  reinstateNumbers,
-  download,
-  addComma,
-  buildRegressionModel
-} from '../../utils'
-import {withStyles} from '@material-ui/core/styles'
+import { connect } from 'react-redux'
+import { reinstateNumbers, download, addComma } from '../../utils'
+import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import SaveIcon from '@material-ui/icons/Save'
@@ -64,15 +61,13 @@ class EditView extends React.Component {
     await this.props.gotData()
   }
 
+  triggerRefresh() { }
+
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
-      // await this.setState({
-      //   x: '',
-      //   y: ''
-      // })
       this.setState({
         [attribute]: +e.target.value,
-        graphSelected: 'scatter',
+        graphSelected: 'bar',
         color: 'tomato',
         title: '',
         highlight: 'orange',
@@ -81,7 +76,9 @@ class EditView extends React.Component {
         y: '',
         regression: false,
         regressionLine: [],
-        regressionModel: {}
+        columnOption: '',
+        regressionModel: {},
+        message: 'Choose a column'
       })
     } else if (!e.target) {
       this.setState({
@@ -107,13 +104,14 @@ class EditView extends React.Component {
   }
 
   handleGraphSelected(graph) {
-    this.setState({graphSelected: graph})
+    this.setState({ graphSelected: graph })
     socket.emit('new changes', this.props.singleRoom, {
       graphSelected: graph
     })
   }
 
   render() {
+
     const matchingUser = this.props.allUsers.filter(user => {
       return user.roomKey === this.props.singleRoom
     })
@@ -124,6 +122,10 @@ class EditView extends React.Component {
     console.log('this.props.data', this.props.data)
 
     const {classes} = this.props
+
+    console.log('theeeee state', this.state)
+    const { classes } = this.props
+
     const graphSelected = this.state.graphSelected
     let data
 
@@ -136,12 +138,12 @@ class EditView extends React.Component {
         console.log('after first if')
 
         data = [
-          {quarter: '1', earnings: 13, items: 40, state: 'NY'},
-          {quarter: '2', earnings: 16, items: 60, state: 'NY'},
-          {quarter: '3', earnings: 17, items: 70, state: 'NY'},
-          {quarter: '4', earnings: 18, items: 80, state: 'NY'},
-          {quarter: '4', earnings: 18, items: 81, state: 'NY'},
-          {quarter: '4', earnings: 19, items: 90, state: 'NY'}
+          { quarter: '1', earnings: 13, items: 40, state: 'NY' },
+          { quarter: '2', earnings: 16, items: 60, state: 'NY' },
+          { quarter: '3', earnings: 17, items: 70, state: 'NY' },
+          { quarter: '4', earnings: 18, items: 80, state: 'NY' },
+          { quarter: '4', earnings: 18, items: 81, state: 'NY' },
+          { quarter: '4', earnings: 19, items: 90, state: 'NY' }
         ]
       } else {
         console.log('data matchh 2nd line', dataMatch)
@@ -190,49 +192,8 @@ class EditView extends React.Component {
             {this.state.x === '' || this.state.y === '' ? (
               <div>Select columns</div>
             ) : (
-              <ChartContainer {...propPackage} />
-            )}
-
-            {/* /* Commented out the code below after adding refactoring above, but check with Grace on linear regression functionality before deleting
-            // graphSelected === 'bar' ? (
-            //   <BarChart
-            //     color={this.state.color}
-            //     title={this.state.title}
-            //     highlight={this.state.highlight}
-            //     tooltip={this.state.tooltip}
-            //     x={this.state.x}
-            //     y={this.state.y}
-            //     changeStyle={this.changeStyle}
-            //     data={data}
-            //     downloadPNG={this.downloadPNG}
-            //     addComma={addComma}
-            //   />
-            // ) : graphSelected === 'scatter' ? (
-            //   <ScatterChart
-            //     color={this.state.color}
-            //     title={this.state.title}
-            //     highlight={this.state.highlight}
-            //     tooltip={this.state.tooltip}
-            //     x={this.state.x}
-            //     y={this.state.y}
-            //     changeStyle={this.changeStyle}
-            //     data={data}
-            //     downloadPNG={this.downloadPNG}
-            //     regressionLine={this.state.regressionLine}
-            //   />
-            // ) : graphSelected === 'line' ? (
-            //   <LineChart
-            //     color={this.state.color}
-            //     title={this.state.title}
-            //     highlight={this.state.highlight}
-            //     tooltip={this.state.tooltip}
-            //     x={this.state.x}
-            //     y={this.state.y}
-            //     changeStyle={this.changeStyle}
-            //     data={data}
-            //     downloadPNG={this.downloadPNG}
-            //   />
-            // ) : null} */}
+                <ChartContainer {...propPackage} />
+              )}
             <GraphMenu handleGraphSelected={this.handleGraphSelected} />
             <Button
               variant="contained"
@@ -248,102 +209,12 @@ class EditView extends React.Component {
           </Paper>
 
           <div id="controls">
-            <p>Choose a Dataset:</p>
-            <select name="dataId" onChange={e => this.changeStyle(e, 'dataId')}>
-              <option />
-              {dataMatch.map((elem, i) => (
-                <option key={i} value={elem.id}>
-                  {elem.id}
-                </option>
-              ))}
-            </select>
-            <p>Left Axis:</p>
-            <select name="y" onChange={e => this.changeStyle(e, 'y')}>
-              <option />
-              {Object.keys(data[0]).map((key, i) => (
-                <option key={i} value={key}>
-                  {key}
-                </option>
-              ))}
-            </select>
-
-            <p>Bottom Axis:</p>
-            <select name="x" onChange={e => this.changeStyle(e, 'x')}>
-              <option />
-              {Object.keys(data[0]).map((key, i) => (
-                <option key={i} value={key}>
-                  {key}
-                </option>
-              ))}
-            </select>
-
-            <p>Color:</p>
-            <select name="color" onChange={e => this.changeStyle(e, 'color')}>
-              <option value="tomato">Tomato</option>
-              <option value="gold">Gold</option>
-              <option value="orange">Orange</option>
-              <option value="#f77">Salmon</option>
-              <option value="#55e">Purple</option>
-              <option value="#8af">Periwinkle</option>
-            </select>
-            {graphSelected === 'line' ? (
-              ''
-            ) : (
-              <div>
-                <p>Highlight:</p>
-                <select
-                  name="highlight"
-                  onChange={e => this.changeStyle(e, 'highlight')}
-                >
-                  <option value="orange">Orange</option>
-                  <option value="tomato">Tomato</option>
-                  <option value="gold">Gold</option>
-                  <option value="#f77">Salmon</option>
-                  <option value="#55e">Purple</option>
-                  <option value="#8af">Periwinkle</option>
-                </select>
-              </div>
-            )}
-
-            <p>Pointer:</p>
-            <select
-              name="tooltip"
-              onChange={e => this.changeStyle(e, 'tooltip')}
-            >
-              <option value={5}>Round edge</option>
-              <option value={0}>Square</option>
-              <option value={25}>Circle</option>
-            </select>
-
-            <p>Graph Title:</p>
-            <input
-              value={this.state.title}
-              onChange={e => this.changeStyle(e, 'title')}
+            <CustomizeMenu
+              {...this.state}
+              {...this.props}
+              changeStyle={this.changeStyle}
+              graphData={data}
             />
-            {graphSelected === 'scatter' ? (
-              <p>
-                Regression Line:{' '}
-                <input
-                  type="checkbox"
-                  onChange={async e => {
-                    await this.changeStyle(!this.state.regression, 'regression')
-                    console.log('x and y on state', this.state.x, this.state.y)
-                    if (this.state.regression) {
-                      buildRegressionModel(
-                        data,
-                        this.state.x,
-                        this.state.y,
-                        this.changeStyle
-                      )
-                    } else {
-                      this.changeStyle([], 'regressionLine')
-                    }
-                  }}
-                />
-              </p>
-            ) : (
-              ''
-            )}
           </div>
         </div>
       )
@@ -356,10 +227,10 @@ EditView.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  gotData: function() {
+  gotData: function () {
     dispatch(gotData())
   },
-  addGraph: function(graphData) {
+  addGraph: function (graphData) {
     dispatch(postGraph(graphData))
   },
   onFetchAllUsers: () => dispatch(fetchAllUsers())
