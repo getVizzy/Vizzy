@@ -29,7 +29,7 @@ class TempDashboard extends Component {
           data: data,
           addComma: addComma,
           downloadPNG: download,
-          changeStyle: this.changeStyle
+          changeStyle: this.changeStyle,
           graphId: graph.id,
           ...graph.properties
         }
