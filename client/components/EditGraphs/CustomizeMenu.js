@@ -16,7 +16,7 @@ export const CustomizeMenu = function (props) {
       <p>Choose a Dataset:</p>
       <select name="dataId" onChange={e => changeStyle(e, 'dataId')}>
         <option />
-        {props.data.map((elem, i) => (
+        {props.dataMatch.map((elem, i) => (
           <option key={i} value={elem.id}>
             {elem.id}
           </option>
@@ -47,7 +47,6 @@ export const CustomizeMenu = function (props) {
           }
         })}
       </select> */}
-
       <SimpleSelect
         items={filterColumn(graphData, 'number')}
         name={graphSelected === 'pie' ? "Values" : "Left Axis"}

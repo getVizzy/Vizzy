@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Graph, Data } = require('../db/models')
+const {Graph, Data} = require('../db/models')
 
 router.post('/', async (req, res, next) => {
   try {
@@ -20,9 +20,12 @@ router.get('/', async (req, res, next) => {
       const graphs = await Graph.findAll({
         where: {
           userId: req.user.id
-        }, include: [{
-          model: Data
-        }]
+        },
+        include: [
+          {
+            model: Data
+          }
+        ]
       })
       res.send(graphs)
     } else {
