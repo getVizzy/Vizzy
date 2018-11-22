@@ -15,6 +15,7 @@ class TempDashboard extends Component {
   }
 
   render() {
+    console.log('graphs', this.props.graphs)
     if (!this.props.graphs) {
       return 'Getting your graphs!'
     } else {
@@ -24,6 +25,7 @@ class TempDashboard extends Component {
           data: data,
           addComma: addComma,
           downloadPNG: download,
+          graphId: graph.id,
           ...graph.properties
         }
 

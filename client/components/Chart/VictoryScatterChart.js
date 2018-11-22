@@ -168,12 +168,14 @@ export default class VictoryScatterChart extends Component {
               >{`${keys[0][0].toUpperCase()}${keys[0].slice(1)}`}</option>
             </select> */}
 
-          <button onClick={() => downloadPNG(this.props.title)}>
+          <button
+            onClick={() => downloadPNG(this.props.title, this.props.graphId)}
+          >
             Download
           </button>
         </div>
         <canvas
-          id="canvas"
+          id={this.props.graphId}
           width="600"
           height="470"
           display="none"
