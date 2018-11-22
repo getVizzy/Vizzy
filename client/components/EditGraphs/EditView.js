@@ -2,15 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {fetchAllUsers} from '../../store/user'
 import ChartContainer from '../Chart/ChartContainer'
-import BarChart from '../Chart/VictoryBarChart'
-import ScatterChart from '../Chart/VictoryScatterChart'
 import {CustomizeMenu} from './CustomizeMenu'
-import LineChart from '../Chart/VictoryLineGraph'
 import {gotData} from '../../store/data'
 import {postGraph} from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
-import SimpleSelect from './SimpleSelect'
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
 import {connect} from 'react-redux'
@@ -29,11 +25,24 @@ const styles = theme => ({
   }
 })
 
+const sampleData = {
+  dataJSON: {
+    data: [
+    {quarter: '1', earnings: 13, items: 40, state: 'NY'},
+    {quarter: '2', earnings: 16, items: 60, state: 'NY'},
+    {quarter: '3', earnings: 17, items: 70, state: 'NY'},
+    {quarter: '4', earnings: 18, items: 80, state: 'NY'},
+    {quarter: '4', earnings: 18, items: 81, state: 'NY'},
+    {quarter: '4', earnings: 19, items: 90, state: 'NY'}
+  ]
+}
+}
+
 class EditView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      graphSelected: 'scatter',
+      graphSelected: 'line',
       color: 'tomato',
       title: '',
       highlight: 'orange',
@@ -43,7 +52,7 @@ class EditView extends React.Component {
       regression: false,
       regressionLine: [],
       regressionModel: {},
-      dataId: 0,
+      dataId: '0',
       zoomDomain: {
         x: [new Date(2018, 1, 1), new Date(2018, 12, 1)]
       },
@@ -72,9 +81,13 @@ class EditView extends React.Component {
 
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
+      let newId = e.target.value;
+      if(newId !== '0') {
+        newId = +e.target.value
+      }
       this.setState({
-        [attribute]: +e.target.value,
-        graphSelected: 'bar',
+        [attribute]: newId,
+        graphSelected: 'line',
         color: 'tomato',
         title: '',
         highlight: 'orange',
@@ -128,62 +141,33 @@ class EditView extends React.Component {
   }
 
   render() {
+    const {classes} = this.props
     console.log('user', this.props.user)
 
     const matchingUser = this.props.allUsers.filter(user => {
       return user.roomKey === this.props.singleRoom
     })
     const dataMatch = matchingUser[0].data
-
-    console.log('dataMatch from new model', dataMatch)
-
-    console.log('this.props.data', this.props.data)
-
     console.log('theeeee state', this.state)
-    const {classes} = this.props
-
     const graphSelected = this.state.graphSelected
-    let data
+    let data;
 
     if (!dataMatch) {
       return 'Loading...'
     } else {
-      console.log('after first else')
-
-      if (this.state.dataId === 0) {
-        console.log('after first if')
-
-        data = [
-          {quarter: '1', earnings: 13, items: 40, state: 'NY'},
-          {quarter: '2', earnings: 16, items: 60, state: 'NY'},
-          {quarter: '3', earnings: 17, items: 70, state: 'NY'},
-          {quarter: '4', earnings: 18, items: 80, state: 'NY'},
-          {quarter: '4', earnings: 18, items: 81, state: 'NY'},
-          {quarter: '4', earnings: 19, items: 90, state: 'NY'}
-        ]
+      if (this.state.dataId === '0') {
+        data = sampleData.dataJSON.data;
       } else {
-        console.log('data matchh 2nd line', dataMatch)
-        console.log('elseeee')
         let dataElem = dataMatch.filter(elem => {
-          console.log('FILTER- datamatch in the datafilter', dataMatch)
-          console.log('FILTER_elem', elem)
-          console.log('FiLTER-elemID', elem.id)
-          console.log('FILTER-this.state.id', this.state.dataId)
           return elem.id === +this.state.dataId
         })
-
-        console.log('thisstate.data', this.state.dataId)
-
         console.log('dataElem', dataElem)
+
         if (dataElem.length === 0) {
-          console.log('no dataElem here')
+          data = sampleData.dataJSON.data;
         } else {
           data = reinstateNumbers(dataElem[0].dataJSON.data)
         }
-
-        console.log('data', data)
-        console.log('this.state.y', this.state.y)
-        console.log('this.state.x', this.state.x)
       }
 
       let propPackage = {
@@ -193,9 +177,7 @@ class EditView extends React.Component {
         changeStyle: this.changeStyle,
         data: data
       }
-      if (!data) {
-        return 'no data here either!'
-      }
+
       return (
         <div>
           <div>Room ID: {this.props.singleRoom}</div>

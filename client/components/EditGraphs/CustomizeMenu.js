@@ -4,6 +4,7 @@ import SimpleSelect from './SimpleSelect'
 import PieColorOptions from '../Chart/PieColorOptions'
 
 export const CustomizeMenu = function (props) {
+  console.log("PROPS IN CUSTOMIZE", props)
   const changeStyle = props.changeStyle
   const graphData = props.graphData
   const graphSelected = props.graphSelected
@@ -15,7 +16,7 @@ export const CustomizeMenu = function (props) {
     <div id="controls">
       <p>Choose a Dataset:</p>
       <select name="dataId" onChange={e => changeStyle(e, 'dataId')}>
-        <option />
+        <option value='0'>Sample Data</option>
         {props.dataMatch.map((elem, i) => (
           <option key={i} value={elem.id}>
             {elem.id}

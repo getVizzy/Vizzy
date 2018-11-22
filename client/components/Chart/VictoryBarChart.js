@@ -13,65 +13,50 @@ import {
 import {download} from '../../utils'
 
 export default class VictoryBarChart extends Component {
-  constructor() {
-    super()
-    // this.canvas = React.createRef()
-    this.downloadPNG = download.bind(this)
-  }
-
-  componentDidMount() {
-    this.props.changeStyle(this.props.x, 'x')
-    this.props.changeStyle(this.props.y, 'y')
-    this.props.changeStyle(this.props.color, 'color')
-    this.props.changeStyle(this.props.graphSelected, 'graphSelected')
-  }
-
+ 
   render() {
     let data = this.props.data
 
-    if (!Object.keys(this.props.data[0]).includes(this.props.x)) {
-      return 'Gathering data...'
-    } else
-      return (
-        <div id="container">
-          <div id="chart">
-            <VictoryChart
-              theme={VictoryTheme.material}
-              style={{parent: {maxWidth: '100%'}}}
-              domainPadding={60}
-              width={600}
-              height={400}
-              padding={{left: 100, right: 25, top: 35, bottom: 75}}
-            >
-              <VictoryLabel
-                text={this.props.title}
-                style={{
-                  fontSize: 16,
-                  textAnchor: 'start',
-                  verticalAnchor: 'end',
-                  fill: '#000000',
-                  fontFamily: 'inherit',
-                  fontWeight: 'bold'
-                }}
-                x={100}
-                y={24}
-              />
+    return (
+      <div id="container">
+        <div id="chart">
+          <VictoryChart
+            theme={VictoryTheme.material}
+            style={{parent: {maxWidth: '100%'}}}
+            domainPadding={60}
+            width={600}
+            height={400}
+            padding={{left: 100, right: 25, top: 35, bottom: 75}}
+          >
+            <VictoryLabel
+              text={this.props.title}
+              style={{
+                fontSize: 16,
+                textAnchor: 'start',
+                verticalAnchor: 'end',
+                fill: '#000000',
+                fontFamily: 'inherit',
+                fontWeight: 'bold'
+              }}
+              x={100}
+              y={24}
+            />
 
-              <VictoryAxis
-                label={this.props.x}
-                style={{
-                  axis: {stroke: '#756f6a'},
-                  axisLabel: {fontSize: 12, padding: 30}
-                }}
-                tickValues={data.map(datum => datum[this.props.x])}
-                tickFormat={data.map(datum => {
-                  if (typeof datum[this.props.x] === 'string') {
-                    return datum[this.props.x].slice(0, 3)
-                  } else {
-                    return datum[this.props.x]
-                  }
-                })}
-              />
+            <VictoryAxis
+              label={this.props.x}
+              style={{
+                axis: {stroke: '#756f6a'},
+                axisLabel: {fontSize: 12, padding: 30}
+              }}
+              tickValues={data.map(datum => datum[this.props.x])}
+              tickFormat={data.map(datum => {
+                if (typeof datum[this.props.x] === 'string') {
+                  return datum[this.props.x].slice(0, 3)
+                } else {
+                  return datum[this.props.x]
+                }
+              })}
+            />
 
               <VictoryAxis
                 dependentAxis
