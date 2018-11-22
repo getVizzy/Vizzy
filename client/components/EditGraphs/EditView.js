@@ -170,14 +170,14 @@ class EditView extends React.Component {
               Save
             </Button>
           </Paper>
-          <CustomizeMenu
-            {...this.state}
-            {...this.props}
-            changeStyle={this.changeStyle}
-            graphData={data}
-          />
+
           <div id="controls">
-            <CustomizeMenu />
+            <CustomizeMenu
+              {...this.state}
+              {...this.props}
+              changeStyle={this.changeStyle}
+              graphData={data}
+            />
           </div>
         </div>
       )
