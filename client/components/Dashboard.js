@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import BarChart from './BarChart'
 import LineChart from './LineChart'
 
@@ -37,11 +37,11 @@ class Dashboard extends Component {
     })
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
   render() {
-    console.log('state', this.state)
-    console.log('this.props', this.props)
-    console.log('DASHBOARD', this.props)
+    // console.log('state', this.state)
+    // console.log('this.props', this.props)
+    // console.log('DASHBOARD', this.props)
     return (
       <div id="container-row">
         <div>

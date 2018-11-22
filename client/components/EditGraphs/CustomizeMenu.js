@@ -110,7 +110,7 @@ export const CustomizeMenu = function (props) {
             type="checkbox"
             onChange={e => {
               changeStyle(!props.regression, 'regression')
-              console.log('x and y on state', props.x, props.y)
+              // console.log('x and y on state', props.x, props.y)
               if (!props.regression) {
                 buildRegressionModel(
                   graphData,
