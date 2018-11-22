@@ -56,13 +56,21 @@ class EditView extends React.Component {
       zoomDomain: {
         x: [new Date(2018, 1, 1), new Date(2018, 12, 1)]
       },
-      pieColor: ["#d73027", "#fc8d59", "#fee090", "#e0f3f8", "#91bfdb", "#4575b4"]
+      pieColor: [
+        '#d73027',
+        '#fc8d59',
+        '#fee090',
+        '#e0f3f8',
+        '#91bfdb',
+        '#4575b4'
+      ]
     }
-    socket.on('receive code', payload => {
+    socket.on('receiveCode', payload => {
       this.updateCodeFromSockets(payload)
     })
     this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
+    this.leaveRoom = this.leaveRoom.bind(this)
     // this.downloadPNG = download.bind(this)
   }
 
@@ -90,18 +98,18 @@ class EditView extends React.Component {
         regressionLine: [],
         columnOption: '',
         regressionModel: {},
-        message: 'Choose a column',
+        message: 'Choose a column'
       })
     } else if (attribute === 'pieColor') {
-      let pieColorSelected = e.target.value.split(",")
+      let pieColorSelected = e.target.value.split(',')
       this.setState({
         pieColor: pieColorSelected
-      });
+      })
     } else if (!e.target) {
       this.setState({
         [attribute]: e
       })
-      socket.emit('new changes', this.props.singleRoom, {
+      socket.emit('newChanges', this.props.singleRoom, {
         [attribute]: e
       })
     } else {
@@ -110,7 +118,7 @@ class EditView extends React.Component {
       })
     }
     if (e.target) {
-      socket.emit('new changes', this.props.singleRoom, {
+      socket.emit('newChanges', this.props.singleRoom, {
         [attribute]: e.target.value
       })
     }
@@ -122,9 +130,14 @@ class EditView extends React.Component {
 
   handleGraphSelected(graph) {
     this.setState({graphSelected: graph})
-    socket.emit('new changes', this.props.singleRoom, {
+    socket.emit('newChanges', this.props.singleRoom, {
       graphSelected: graph
     })
+  }
+
+  leaveRoom() {
+    socket.emit('leaveRoom', this.props.singleRoom, this.props.user.email)
+    this.props.history.push('/dashboard')
   }
 
   render() {
@@ -168,6 +181,9 @@ class EditView extends React.Component {
       return (
         <div>
           <div>Room ID: {this.props.singleRoom}</div>
+          <div>
+            <button onClick={this.leaveRoom}>Exit Room</button>
+          </div>
 
           <Paper className={classes.root} elevation={22}>
             <Typography variant="h5" component="h3">

@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import BarChart from './BarChart'
 import LineChart from './LineChart'
 
@@ -15,7 +15,7 @@ class Dashboard extends Component {
       select: '',
       text: ''
     }
-    socket.on('receive code', payload => {
+    socket.on('receiveCode', payload => {
       this.updateCodeFromSockets(payload)
     })
     this.onChange = this.onChange.bind(this)
@@ -32,12 +32,12 @@ class Dashboard extends Component {
     // socket.emit('new changes','4kvi2mukbi9rkzz0p7', {
     //   [event.target.name]: event.target.value
     // })
-    socket.emit('new changes', this.props.singleRoom, {
+    socket.emit('newChanges', this.props.singleRoom, {
       [event.target.name]: event.target.value
     })
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
   render() {
     console.log('state', this.state)
     console.log('this.props', this.props)
@@ -45,7 +45,10 @@ class Dashboard extends Component {
     return (
       <div id="container-row">
         <div>
-          <div>Your Room Id is: {this.props.singleRoom}, please share with participants</div>
+          <div>
+            Your Room Id is: {this.props.singleRoom}, please share with
+            participants
+          </div>
           <form>
             <input
               type="text"
