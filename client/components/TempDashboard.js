@@ -1,17 +1,21 @@
 import React, {Component} from 'react'
 import {gotGraphs} from '../store/graph'
 import {connect} from 'react-redux'
-import Bar from './Chart/VictoryBarChart'
 import {download, addComma, reinstateNumbers} from '../utils'
 import ChartContainer from './Chart/ChartContainer'
 
 class TempDashboard extends Component {
   constructor() {
     super()
+    this.changeStyle = this.changeStyle.bind(this)
   }
 
   componentDidMount() {
     this.props.getGraphs()
+  }
+
+  changeStyle(e, attribute) {
+    //The dashboard breaks if it doesn't receive this method as props, even though the  method is only needed when rendering the chart in the Edit View. Feels very hacky. Definitely open to other solutions...
   }
 
   render() {
@@ -24,10 +28,11 @@ class TempDashboard extends Component {
           data: data,
           addComma: addComma,
           downloadPNG: download,
-          ...graph.properties
+          ...graph.properties,
+          changeStyle: this.changeStyle
         }
 
-        return <ChartContainer {...propPackage} key={i} />
+        return <ChartContainer {...propPackage} key={graph.id} />
       })
     }
   }
