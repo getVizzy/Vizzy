@@ -3,6 +3,7 @@ import {buildRegressionModel} from '../../utils'
 import SimpleSelect from './SimpleSelect'
 
 export const CustomizeMenu = function(props) {
+  console.log('props', props)
   const changeStyle = props.changeStyle
   const graphData = props.graphData
   const graphSelected = props.graphSelected
@@ -15,7 +16,7 @@ export const CustomizeMenu = function(props) {
       <p>Choose a Dataset:</p>
       <select name="dataId" onChange={e => changeStyle(e, 'dataId')}>
         <option />
-        {props.data.map((elem, i) => (
+        {props.dataMatch.map((elem, i) => (
           <option key={i} value={elem.id}>
             {elem.id}
           </option>

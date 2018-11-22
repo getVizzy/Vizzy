@@ -4,18 +4,18 @@ import {fetchAllUsers} from '../../store/user'
 import ChartContainer from '../Chart/ChartContainer'
 import BarChart from '../Chart/VictoryBarChart'
 import ScatterChart from '../Chart/VictoryScatterChart'
-import { CustomizeMenu } from './CustomizeMenu'
+import {CustomizeMenu} from './CustomizeMenu'
 import LineChart from '../Chart/VictoryLineGraph'
-import { gotData } from '../../store/data'
-import { postGraph } from '../../store/graph'
+import {gotData} from '../../store/data'
+import {postGraph} from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
 import SimpleSelect from './SimpleSelect'
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
-import { connect } from 'react-redux'
-import { reinstateNumbers, download, addComma } from '../../utils'
-import { withStyles } from '@material-ui/core/styles'
+import {connect} from 'react-redux'
+import {reinstateNumbers, download, addComma} from '../../utils'
+import {withStyles} from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import SaveIcon from '@material-ui/icons/Save'
@@ -102,13 +102,14 @@ class EditView extends React.Component {
   }
 
   handleGraphSelected(graph) {
-    this.setState({ graphSelected: graph })
+    this.setState({graphSelected: graph})
     socket.emit('new changes', this.props.singleRoom, {
       graphSelected: graph
     })
   }
 
   render() {
+    console.log('user', this.props.user)
 
     const matchingUser = this.props.allUsers.filter(user => {
       return user.roomKey === this.props.singleRoom
@@ -120,7 +121,7 @@ class EditView extends React.Component {
     console.log('this.props.data', this.props.data)
 
     console.log('theeeee state', this.state)
-    const { classes } = this.props
+    const {classes} = this.props
 
     const graphSelected = this.state.graphSelected
     let data
@@ -134,12 +135,12 @@ class EditView extends React.Component {
         console.log('after first if')
 
         data = [
-          { quarter: '1', earnings: 13, items: 40, state: 'NY' },
-          { quarter: '2', earnings: 16, items: 60, state: 'NY' },
-          { quarter: '3', earnings: 17, items: 70, state: 'NY' },
-          { quarter: '4', earnings: 18, items: 80, state: 'NY' },
-          { quarter: '4', earnings: 18, items: 81, state: 'NY' },
-          { quarter: '4', earnings: 19, items: 90, state: 'NY' }
+          {quarter: '1', earnings: 13, items: 40, state: 'NY'},
+          {quarter: '2', earnings: 16, items: 60, state: 'NY'},
+          {quarter: '3', earnings: 17, items: 70, state: 'NY'},
+          {quarter: '4', earnings: 18, items: 80, state: 'NY'},
+          {quarter: '4', earnings: 18, items: 81, state: 'NY'},
+          {quarter: '4', earnings: 19, items: 90, state: 'NY'}
         ]
       } else {
         console.log('data matchh 2nd line', dataMatch)
@@ -188,8 +189,8 @@ class EditView extends React.Component {
             {this.state.x === '' || this.state.y === '' ? (
               <div>Select columns</div>
             ) : (
-                <ChartContainer {...propPackage} />
-              )}
+              <ChartContainer {...propPackage} />
+            )}
             <GraphMenu handleGraphSelected={this.handleGraphSelected} />
             <Button
               variant="contained"
@@ -212,6 +213,7 @@ class EditView extends React.Component {
               graphData={data}
               owner={matchingUser}
               user={this.props.user}
+              dataMatch={dataMatch}
             />
           </div>
         </div>
@@ -225,10 +227,10 @@ EditView.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  gotData: function () {
+  gotData: function() {
     dispatch(gotData())
   },
-  addGraph: function (graphData) {
+  addGraph: function(graphData) {
     dispatch(postGraph(graphData))
   },
   onFetchAllUsers: () => dispatch(fetchAllUsers())
@@ -236,7 +238,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   data: state.data,
-  user: state.user,
+  user: state.user.user,
   rooms: state.room.rooms,
   singleRoom: state.room.singleRoom,
   allUsers: state.user.allUsers
