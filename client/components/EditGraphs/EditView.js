@@ -46,7 +46,8 @@ class EditView extends React.Component {
       dataId: 0,
       zoomDomain: {
         x: [new Date(2018, 1, 1), new Date(2018, 12, 1)]
-      }
+      },
+      pieColor: ["#d73027", "#fc8d59", "#fee090", "#e0f3f8", "#91bfdb", "#4575b4"]
     }
     socket.on('receive code', payload => {
       this.updateCodeFromSockets(payload)
@@ -76,8 +77,13 @@ class EditView extends React.Component {
         regressionLine: [],
         columnOption: '',
         regressionModel: {},
-        message: 'Choose a column'
+        message: 'Choose a column',
       })
+    } else if (attribute === 'pieColor') {
+      let pieColorSelected = e.target.value.split(",")
+      this.setState({
+        pieColor: pieColorSelected
+      });
     } else if (!e.target) {
       this.setState({
         [attribute]: e
