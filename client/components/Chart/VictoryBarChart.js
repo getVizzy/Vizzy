@@ -15,12 +15,24 @@ import {download} from '../../utils'
 export default class VictoryBarChart extends Component {
   constructor() {
     super()
+
+  }
+
+  componentDidMount() {
+    this.props.changeStyle(this.props.x, 'x');
+    this.props.changeStyle(this.props.y, 'y');
+    this.props.changeStyle(this.props.color, 'color')
+    this.props.changeStyle(this.props.graphSelected, 'graphSelected')
   }
 
   render() {
     let data = this.props.data
     let downloadPNG = download.bind(this)
-    return (
+
+    if(!Object.keys(this.props.data[0]).includes(this.props.x)) {
+      return "Gathering data..."
+    } else
+      return (
       <div id="container">
         <div id="chart">
           <VictoryChart
