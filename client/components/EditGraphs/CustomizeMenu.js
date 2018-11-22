@@ -1,13 +1,14 @@
 import React from 'react'
-import {buildRegressionModel} from '../../utils'
+import { buildRegressionModel } from '../../utils'
 import SimpleSelect from './SimpleSelect'
+import PieColorOptions from '../Chart/PieColorOptions'
 
-export const CustomizeMenu = function(props) {
+export const CustomizeMenu = function (props) {
   const changeStyle = props.changeStyle
   const graphData = props.graphData
   const graphSelected = props.graphSelected
 
-  const filterColumn = function(data, dataType) {
+  const filterColumn = function (data, dataType) {
     return Object.keys(data[0]).filter(key => typeof data[0][key] === dataType)
   }
   return (
@@ -49,7 +50,7 @@ export const CustomizeMenu = function(props) {
 
       <SimpleSelect
         items={filterColumn(graphData, 'number')}
-        name="Left Axis"
+        name={graphSelected === 'pie' ? "Values" : "Left Axis"}
         changeStyle={changeStyle}
         column="y"
         message="Choose a column"
@@ -64,34 +65,34 @@ export const CustomizeMenu = function(props) {
               : Object.keys(graphData[0])
         }
         changeStyle={changeStyle}
-        name="Bottom Axis"
+        name={graphSelected === 'pie' ? "Labels" : "Bottom Axis"}
         column="x"
       />
-
       <p>Color:</p>
-      <select name="color" onChange={e => changeStyle(e, 'color')}>
-        <option value="tomato">Tomato</option>
-        <option value="gold">Gold</option>
-        <option value="orange">Orange</option>
-        <option value="#f77">Salmon</option>
-        <option value="#55e">Purple</option>
-        <option value="#8af">Periwinkle</option>
-      </select>
+      {graphSelected === 'pie' ? <PieColorOptions {...props} /> :
+        <select name="color" onChange={e => changeStyle(e, 'color')}>
+          <option value="tomato">Tomato</option>
+          <option value="gold">Gold</option>
+          <option value="orange">Orange</option>
+          <option value="#f77">Salmon</option>
+          <option value="#55e">Purple</option>
+          <option value="#8af">Periwinkle</option>
+        </select>}
       {graphSelected === 'line' ? (
         ''
       ) : (
-        <div>
-          <p>Highlight:</p>
-          <select name="highlight" onChange={e => changeStyle(e, 'highlight')}>
-            <option value="orange">Orange</option>
-            <option value="tomato">Tomato</option>
-            <option value="gold">Gold</option>
-            <option value="#f77">Salmon</option>
-            <option value="#55e">Purple</option>
-            <option value="#8af">Periwinkle</option>
-          </select>
-        </div>
-      )}
+          <div>
+            <p>Highlight:</p>
+            <select name="highlight" onChange={e => changeStyle(e, 'highlight')}>
+              <option value="orange">Orange</option>
+              <option value="tomato">Tomato</option>
+              <option value="gold">Gold</option>
+              <option value="#f77">Salmon</option>
+              <option value="#55e">Purple</option>
+              <option value="#8af">Periwinkle</option>
+            </select>
+          </div>
+        )}
 
       <p>Pointer:</p>
       <select name="tooltip" onChange={e => changeStyle(e, 'tooltip')}>
@@ -124,8 +125,8 @@ export const CustomizeMenu = function(props) {
           />
         </p>
       ) : (
-        ''
-      )}
+          ''
+        )}
     </div>
   )
 }
