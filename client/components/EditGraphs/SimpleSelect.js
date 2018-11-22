@@ -67,7 +67,7 @@ class SimpleSelect extends React.Component {
           onClose={this.handleClose}
         >
           <MenuItem selected />
-          {this.props.items.map((option, index) => {
+          {this.props.items.map((option) => {
             if (
               this.state.selected !== 'Choose a column' &&
               !this.props.items.includes(this.state.selected)
