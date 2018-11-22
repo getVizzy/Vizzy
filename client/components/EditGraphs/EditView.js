@@ -61,8 +61,6 @@ class EditView extends React.Component {
     await this.props.gotData()
   }
 
-  triggerRefresh() { }
-
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
       this.setState({
@@ -121,8 +119,6 @@ class EditView extends React.Component {
 
     console.log('this.props.data', this.props.data)
 
-    const {classes} = this.props
-
     console.log('theeeee state', this.state)
     const { classes } = this.props
 
@@ -174,7 +170,7 @@ class EditView extends React.Component {
         ...this.state,
         downloadPNG: download,
         addComma: addComma,
-        changeSyle: this.changeStyle,
+        changeStyle: this.changeStyle,
         data: data
       }
       if (!data) {
@@ -214,6 +210,8 @@ class EditView extends React.Component {
               {...this.props}
               changeStyle={this.changeStyle}
               graphData={data}
+              owner={matchingUser}
+              user={this.props.user}
             />
           </div>
         </div>
@@ -238,6 +236,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   data: state.data,
+  user: state.user,
   rooms: state.room.rooms,
   singleRoom: state.room.singleRoom,
   allUsers: state.user.allUsers

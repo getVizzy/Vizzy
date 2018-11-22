@@ -46,7 +46,6 @@ export const CustomizeMenu = function(props) {
           }
         })}
       </select> */}
-
       <SimpleSelect
         items={filterColumn(graphData, 'number')}
         name="Left Axis"
