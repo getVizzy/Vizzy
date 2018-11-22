@@ -19,6 +19,13 @@ export default class VictoryLineGraph extends Component {
     this.setState({zoomDomain: domain})
   }
 
+  componentDidMount() {
+    this.props.changeStyle(this.props.x, 'x');
+    this.props.changeStyle(this.props.y, 'y')
+    this.props.changeStyle(this.props.color, 'color')
+    this.props.changeStyle(this.props.graphSelected, 'graphSelected')
+  }
+
   render() {
     const changeStyle = this.props.changeStyle
     let data = this.props.data
@@ -26,7 +33,9 @@ export default class VictoryLineGraph extends Component {
     let y = this.props.y
     let x = this.props.x
     let downloadPNG = download.bind(this)
-
+    if(!Object.keys(this.props.data[0]).includes(this.props.x)) {
+      return "Gathering data..."
+    } else {
     return (
       <div id="container">
         <div id="chart">
@@ -145,4 +154,5 @@ export default class VictoryLineGraph extends Component {
       </div>
     )
   }
+}
 }

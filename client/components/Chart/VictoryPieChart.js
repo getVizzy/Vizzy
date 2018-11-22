@@ -11,6 +11,7 @@ import {
 } from 'victory'
 
 import {download} from '../../utils'
+import {conv1dWithBias} from '@tensorflow/tfjs-layers/dist/layers/convolutional'
 
 // const data = [
 //   { quarter: '1', earnings: 13, items: 40, state: 'NY' },
@@ -109,7 +110,7 @@ export default class VictoryPieChart extends Component {
                 }
               }
             ]}
-            colorScale={colorOptions.sky}
+            colorScale={this.props.pieColor}
           />
           <p>
             <button

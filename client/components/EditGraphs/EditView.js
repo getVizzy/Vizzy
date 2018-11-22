@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {fetchAllUsers} from '../../store/user'
 import ChartContainer from '../Chart/ChartContainer'
 import BarChart from '../Chart/VictoryBarChart'
 import ScatterChart from '../Chart/VictoryScatterChart'
@@ -45,25 +46,32 @@ class EditView extends React.Component {
       dataId: 0,
       zoomDomain: {
         x: [new Date(2018, 1, 1), new Date(2018, 12, 1)]
-      }
+      },
+      pieColor: [
+        '#d73027',
+        '#fc8d59',
+        '#fee090',
+        '#e0f3f8',
+        '#91bfdb',
+        '#4575b4'
+      ]
     }
-    socket.on('receive code', payload => {
+    socket.on('receiveCode', payload => {
       this.updateCodeFromSockets(payload)
     })
     this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
+    this.leaveRoom = this.leaveRoom.bind(this)
     // this.downloadPNG = download.bind(this)
   }
 
-  componentDidMount() {
-    this.props.gotData()
+  async componentDidMount() {
+    await this.props.onFetchAllUsers()
+    await this.props.gotData()
   }
-
-  triggerRefresh() {}
 
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
-      this.triggerRefresh()
       this.setState({
         [attribute]: +e.target.value,
         graphSelected: 'bar',
@@ -79,11 +87,16 @@ class EditView extends React.Component {
         regressionModel: {},
         message: 'Choose a column'
       })
+    } else if (attribute === 'pieColor') {
+      let pieColorSelected = e.target.value.split(',')
+      this.setState({
+        pieColor: pieColorSelected
+      })
     } else if (!e.target) {
       this.setState({
         [attribute]: e
       })
-      socket.emit('new changes', this.props.singleRoom, {
+      socket.emit('newChanges', this.props.singleRoom, {
         [attribute]: e
       })
     } else {
@@ -92,7 +105,7 @@ class EditView extends React.Component {
       })
     }
     if (e.target) {
-      socket.emit('new changes', this.props.singleRoom, {
+      socket.emit('newChanges', this.props.singleRoom, {
         [attribute]: e.target.value
       })
     }
@@ -104,21 +117,42 @@ class EditView extends React.Component {
 
   handleGraphSelected(graph) {
     this.setState({graphSelected: graph})
-    socket.emit('new changes', this.props.singleRoom, {
+    socket.emit('newChanges', this.props.singleRoom, {
       graphSelected: graph
     })
   }
 
+  leaveRoom() {
+    socket.emit('leaveRoom', this.props.singleRoom, this.props.user.email)
+    this.props.history.push('/dashboard')
+  }
+
   render() {
+    console.log('user', this.props.user)
+
+    const matchingUser = this.props.allUsers.filter(user => {
+      return user.roomKey === this.props.singleRoom
+    })
+    const dataMatch = matchingUser[0].data
+
+    console.log('dataMatch from new model', dataMatch)
+
+    console.log('this.props.data', this.props.data)
+
     console.log('theeeee state', this.state)
     const {classes} = this.props
+
     const graphSelected = this.state.graphSelected
     let data
 
-    if (!this.props.data) {
+    if (!dataMatch) {
       return 'Loading...'
     } else {
+      console.log('after first else')
+
       if (this.state.dataId === 0) {
+        console.log('after first if')
+
         data = [
           {quarter: '1', earnings: 13, items: 40, state: 'NY'},
           {quarter: '2', earnings: 16, items: 60, state: 'NY'},
@@ -128,24 +162,46 @@ class EditView extends React.Component {
           {quarter: '4', earnings: 19, items: 90, state: 'NY'}
         ]
       } else {
-        let dataElem = this.props.data.filter(
-          elem => elem.id === this.state.dataId
-        )
+        console.log('data matchh 2nd line', dataMatch)
+        console.log('elseeee')
+        let dataElem = dataMatch.filter(elem => {
+          console.log('FILTER- datamatch in the datafilter', dataMatch)
+          console.log('FILTER_elem', elem)
+          console.log('FiLTER-elemID', elem.id)
+          console.log('FILTER-this.state.id', this.state.dataId)
+          return elem.id === +this.state.dataId
+        })
 
-        data = reinstateNumbers(dataElem[0].dataJSON.data)
+        console.log('thisstate.data', this.state.dataId)
+
+        console.log('dataElem', dataElem)
+        if (dataElem.length === 0) {
+          console.log('no dataElem here')
+        } else {
+          data = reinstateNumbers(dataElem[0].dataJSON.data)
+        }
+
+        console.log('data', data)
+        console.log('this.state.y', this.state.y)
+        console.log('this.state.x', this.state.x)
       }
 
       let propPackage = {
         ...this.state,
         downloadPNG: download,
         addComma: addComma,
-        changeSyle: this.changeStyle,
+        changeStyle: this.changeStyle,
         data: data
       }
-
+      if (!data) {
+        return 'no data here either!'
+      }
       return (
         <div>
           <div>Room ID: {this.props.singleRoom}</div>
+          <div>
+            <button onClick={this.leaveRoom}>Exit Room</button>
+          </div>
 
           <Paper className={classes.root} elevation={22}>
             <Typography variant="h5" component="h3">
@@ -177,6 +233,9 @@ class EditView extends React.Component {
               {...this.props}
               changeStyle={this.changeStyle}
               graphData={data}
+              owner={matchingUser}
+              user={this.props.user}
+              dataMatch={dataMatch}
             />
           </div>
         </div>
@@ -195,13 +254,16 @@ const mapDispatchToProps = dispatch => ({
   },
   addGraph: function(graphData) {
     dispatch(postGraph(graphData))
-  }
+  },
+  onFetchAllUsers: () => dispatch(fetchAllUsers())
 })
 
 const mapStateToProps = state => ({
   data: state.data,
+  user: state.user.user,
   rooms: state.room.rooms,
-  singleRoom: state.room.singleRoom
+  singleRoom: state.room.singleRoom,
+  allUsers: state.user.allUsers
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(

@@ -14,18 +14,24 @@ module.exports = io => {
       console.log(`success, ${userName} has created and joined ${roomKey}`)
     })
 
+    socket.on('leaveRoom', (roomKey, userName) => {
+      socket.leave(roomKey)
+      socket.emit(`${userName} has left ${roomKey}`)
+      console.log(`${userName} has left ${roomKey}`)
+    })
+
     socket.on('joinRoom', (roomKey, userName) => {
       socket.join(roomKey)
       socket.emit(`success, ${userName} has joined ${roomKey}`)
       console.log(`success, ${userName} has joined ${roomKey}`)
     })
-    socket.on('new changes', function(room, data) {
+    socket.on('newChanges', function(room, data) {
       // socket.broadcast.to(room).emit('receive code', data)
       console.log('socketroom', room)
       console.log('my emitted data', data)
       socket.join(room) //MUST HAVE JOIN!
 
-      socket.broadcast.to(room).emit('receive code', data)
+      socket.broadcast.to(room).emit('receiveCode', data)
     })
 
     // socket.on('new changes', function(data) {
