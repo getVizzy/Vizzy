@@ -24,11 +24,13 @@ export function reinstateNumbers(array) {
   return restoredData
 }
 
-export function download(title) {
+export function download(title, id) {
   //draw canvas
+  console.log('this inside download function', this)
   let svgHtml = ReactDOM.findDOMNode(this).querySelector('svg')
   var svgString = new XMLSerializer().serializeToString(svgHtml)
   const canvas = ReactDOM.findDOMNode(this).querySelector('canvas')
+  // const canvas = this.canvas.current
   var ctx = canvas.getContext('2d')
   var DOMURL = window.self.URL || window.self.webkitURL || window.self
   var img = new Image()
@@ -44,7 +46,7 @@ export function download(title) {
     DOMURL.revokeObjectURL(png)
 
     //download png
-    const canvas2 = document.getElementsByTagName('canvas')[0]
+    const canvas2 = document.getElementById(id)
     let URL = canvas2.toDataURL('image/png')
     let link = document.createElement('a')
     link.href = URL

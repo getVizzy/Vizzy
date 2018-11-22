@@ -15,11 +15,14 @@ import {download} from '../../utils'
 export default class VictoryBarChart extends Component {
   constructor() {
     super()
+    // this.canvas = React.createRef()
+    this.downloadPNG = download.bind(this)
   }
 
   render() {
     let data = this.props.data
-    let downloadPNG = download.bind(this)
+    console.log('props in bar chart', this.props)
+
     return (
       <div id="container">
         <div id="chart">
@@ -129,16 +132,21 @@ export default class VictoryBarChart extends Component {
           </VictoryChart>
         </div>
         <p>
-          <button onClick={() => downloadPNG(this.props.title)}>
+          <button
+            onClick={() =>
+              this.downloadPNG(this.props.title, this.props.graphId)
+            }
+          >
             Download
           </button>
         </p>
         <canvas
-          id="canvas"
+          id={this.props.graphId}
           width="600"
           height="400"
           display="none"
           style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
+          // ref={this.canvas}
         />
       </div>
     )
