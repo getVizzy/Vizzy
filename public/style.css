@@ -2,7 +2,7 @@ body {
   font-family: sans-serif;
 }
 
-.main-page-container {
+body .main-page-container {
   /* background-image: url('data.jpg') no-repeat center center fixed; */
 
   /* background-color: #01579b; */
@@ -10,13 +10,10 @@ body {
   background-image: url('data.jpg');
   background-size: cover;
   background-position: center;
-  /* background-attachment: fixed; */
-  /* padding-top: 45pt; */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-
   color: white;
   font-family: 'Nunito', sans-serif;
   font-size: 17pt;
@@ -222,6 +219,7 @@ li {
 
 .description {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-content: center;
 }
