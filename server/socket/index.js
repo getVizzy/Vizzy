@@ -16,7 +16,7 @@ module.exports = io => {
 
     socket.on('leaveRoom', (roomKey, data) => {
       socket.join(roomKey)
-      socket.to(roomKey).emit('receiveLeaveNotification', data)
+      socket.to(roomKey).emit('receiveLeaveRoom', data)
       socket.leave(roomKey)
       // socket.emit(`${userName} has left ${roomKey}`)
       console.log(`${data} has left ${roomKey}`)
@@ -24,7 +24,8 @@ module.exports = io => {
 
     socket.on('joinRoom', (roomKey, userName) => {
       socket.join(roomKey)
-      socket.emit(`success, ${userName} has joined ${roomKey}`)
+      socket.to(roomKey).emit('receiveJoinRoom', userName)
+      // socket.emit(`success, ${userName} has joined ${roomKey}`)
       console.log(`success, ${userName} has joined ${roomKey}`)
     })
 

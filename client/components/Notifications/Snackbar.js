@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 
 class PositionedSnackbar extends React.Component {
@@ -12,7 +11,6 @@ class PositionedSnackbar extends React.Component {
     }
     this.handleClose = this.handleClose.bind(this)
   };
-
 
   handleClose = () => {
     this.setState({ open: false });
