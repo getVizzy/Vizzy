@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {Redirect, Link} from 'react-router-dom'
 
 class MainPage extends Component {
   constructor() {
@@ -18,12 +19,9 @@ class MainPage extends Component {
             charts
           </div>
           <div className="container">
-            <button
-              onClick={() => this.props.history.push('/login')}
-              className="myButton"
-            >
-              Get Started
-            </button>
+            <Link to="/login">
+              <button className="myButton">Get Started</button>
+            </Link>
           </div>
         </div>
       </div>

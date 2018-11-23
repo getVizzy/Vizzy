@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, FileDrop} from './components'
 import {me} from './store'
@@ -37,12 +37,16 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {/* Below route only for testing PC */}
-        <Route path="/test" component={TempDashboard} />
-        <Route exact path="/" component={MainPage} />
-
+        <Route
+          exact
+          path="/"
+          render={() => (isLoggedIn ? <Redirect to="/home" /> : <MainPage />)}
+        />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
+            <Route path="/test" component={TempDashboard} />
+            <Route exact path="/" component={HomeView} />
             <Route path="/home" component={HomeView} />
             <Route path="/upload" component={FileDrop} />
             <Route path="/dashboard" component={Dashboard} />
@@ -56,7 +60,6 @@ class Routes extends Component {
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
-
         <Route component={Login} />
       </Switch>
     )
