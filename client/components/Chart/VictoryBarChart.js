@@ -13,9 +13,9 @@ import {
 import {download} from '../../utils'
 
 export default class VictoryBarChart extends Component {
- 
   render() {
     let data = this.props.data
+    let downloadPNG = download.bind(this)
 
     return (
       <div id="container">
@@ -58,91 +58,89 @@ export default class VictoryBarChart extends Component {
               })}
             />
 
-              <VictoryAxis
-                dependentAxis
-                label={this.props.y}
-                style={{
-                  axis: {stroke: '#756f6a'},
-                  axisLabel: {fontSize: 12, padding: 60}
+            <VictoryAxis
+              dependentAxis
+              label={this.props.y}
+              style={{
+                axis: {stroke: '#756f6a'},
+                axisLabel: {fontSize: 12, padding: 60}
+              }}
+            />
+            <VictoryStack>
+              <VictoryBar
+                labelComponent={
+                  <VictoryTooltip
+                    flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
+                    cornerRadius={+this.props.tooltip}
+                  />
+                }
+                style={{data: {fill: this.props.color}}}
+                animate={{
+                  duration: 2000,
+                  onLoad: {duration: 1000}
                 }}
-              />
-              <VictoryStack>
-                <VictoryBar
-                  labelComponent={
-                    <VictoryTooltip
-                      flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
-                      cornerRadius={+this.props.tooltip}
-                    />
-                  }
-                  style={{data: {fill: this.props.color}}}
-                  animate={{
-                    duration: 2000,
-                    onLoad: {duration: 1000}
-                  }}
-                  events={[
-                    {
-                      target: 'data',
-                      eventHandlers: {
-                        onMouseOver: () => {
-                          return [
-                            {
-                              target: 'data',
-                              mutation: () => ({
-                                style: {fill: this.props.highlight}
-                              })
-                            },
-                            {
-                              target: 'labels',
-                              mutation: () => ({active: true})
-                            }
-                          ]
-                        },
-                        onMouseOut: () => {
-                          return [
-                            {
-                              target: 'data',
-                              mutation: () => {}
-                            },
-                            {
-                              target: 'labels',
-                              mutation: () => ({active: false})
-                            }
-                          ]
-                        }
+                events={[
+                  {
+                    target: 'data',
+                    eventHandlers: {
+                      onMouseOver: () => {
+                        return [
+                          {
+                            target: 'data',
+                            mutation: () => ({
+                              style: {fill: this.props.highlight}
+                            })
+                          },
+                          {
+                            target: 'labels',
+                            mutation: () => ({active: true})
+                          }
+                        ]
+                      },
+                      onMouseOut: () => {
+                        return [
+                          {
+                            target: 'data',
+                            mutation: () => {}
+                          },
+                          {
+                            target: 'labels',
+                            mutation: () => ({active: false})
+                          }
+                        ]
                       }
                     }
-                  ]}
-                  data={data.map(datum => {
-                    let label = datum[this.props.y].toString()
-                    label = this.props.addComma(label) || label
-                    datum.label = label
-                    return datum
-                  })}
-                  x={this.props.x}
-                  y={this.props.y}
-                  barRatio={0.9}
-                />
-              </VictoryStack>
-            </VictoryChart>
-          </div>
-          <p>
-            <button
-              onClick={() =>
-                this.downloadPNG(this.props.title, this.props.graphId)
-              }
-            >
-              Download
-            </button>
-          </p>
-          <canvas
-            id={this.props.graphId}
-            width="600"
-            height="400"
-            display="none"
-            style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
-            // ref={this.canvas}
-          />
+                  }
+                ]}
+                data={data.map(datum => {
+                  let label = datum[this.props.y].toString()
+                  label = this.props.addComma(label) || label
+                  datum.label = label
+                  return datum
+                })}
+                x={this.props.x}
+                y={this.props.y}
+                barRatio={0.9}
+              />
+            </VictoryStack>
+          </VictoryChart>
         </div>
-      )
+        <p>
+          <button
+            onClick={() => downloadPNG(this.props.title, this.props.graphId)}
+          >
+            Download
+          </button>
+        </p>
+        <canvas
+          id={this.props.graphId}
+          width="600"
+          height="400"
+          display="none"
+          style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
+          // ref={this.canvas}
+        />
+      </div>
+    )
   }
 }
