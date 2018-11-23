@@ -15,7 +15,7 @@ module.exports = io => {
     })
 
     socket.on('leaveRoom', (roomKey, user) => {
-      socket.join(roomKey)
+      // socket.join(roomKey)
       console.log('socketLeaveRoom', user)
       socket.to(roomKey).emit('receiveLeaveRoom', user)
       socket.leave(roomKey)

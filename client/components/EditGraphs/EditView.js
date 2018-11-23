@@ -180,7 +180,7 @@ class EditView extends React.Component {
 
   joinNotification() {
     console.log("USER JOINED!")
-    this.setState({ notification: !this.state.notification });
+    // this.setState({ notification: !this.state.notification });
   }
 
   render() {
