@@ -1,17 +1,17 @@
-import React, { useImperativeMethods } from 'react'
+import React, {useImperativeMethods} from 'react'
 import PropTypes from 'prop-types'
-import { fetchAllUsers } from '../../store/user'
+import {fetchAllUsers} from '../../store/user'
 import ChartContainer from '../Chart/ChartContainer'
-import { CustomizeMenu } from './CustomizeMenu'
-import { gotData } from '../../store/data'
-import { postGraph } from '../../store/graph'
+import {CustomizeMenu} from './CustomizeMenu'
+import {gotData} from '../../store/data'
+import {postGraph} from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
-import { connect } from 'react-redux'
-import { reinstateNumbers, download, addComma } from '../../utils'
-import { withStyles } from '@material-ui/core/styles'
+import {connect} from 'react-redux'
+import {reinstateNumbers, download, addComma} from '../../utils'
+import {withStyles} from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import SaveIcon from '@material-ui/icons/Save'
@@ -29,12 +29,12 @@ const styles = theme => ({
 const sampleData = {
   dataJSON: {
     data: [
-      { quarter: '1', earnings: 13, items: 40, state: 'NY' },
-      { quarter: '2', earnings: 16, items: 60, state: 'NY' },
-      { quarter: '3', earnings: 17, items: 70, state: 'NY' },
-      { quarter: '4', earnings: 18, items: 80, state: 'NY' },
-      { quarter: '4', earnings: 18, items: 81, state: 'NY' },
-      { quarter: '4', earnings: 19, items: 90, state: 'NY' }
+      {quarter: '1', earnings: 13, items: 40, state: 'NY'},
+      {quarter: '2', earnings: 16, items: 60, state: 'NY'},
+      {quarter: '3', earnings: 17, items: 70, state: 'NY'},
+      {quarter: '4', earnings: 18, items: 80, state: 'NY'},
+      {quarter: '4', earnings: 18, items: 81, state: 'NY'},
+      {quarter: '4', earnings: 19, items: 90, state: 'NY'}
     ]
   }
 }
@@ -65,13 +65,12 @@ class EditView extends React.Component {
         '#91bfdb',
         '#4575b4'
       ],
-      notification: false,//For snackbar notifications. Open to discuss a more dry approach
-      userThatLeft: "",
-      userThatJoined: "",
+      notification: false, //For snackbar notifications. Open to discuss a more dry approach
+      userThatLeft: '',
+      userThatJoined: '',
       message: '',
-      styleNotification: false,
+      styleNotification: false
     }
-
 
     // socket.on('receiveCode', payload => {
     //   this.updateCodeFromSockets(payload)
@@ -107,14 +106,13 @@ class EditView extends React.Component {
     socket.on('receiveCode', payload => {
       this.updateCodeFromSockets(payload)
     })
-
   }
 
   changeStyle(e, attribute) {
-    let updated;
-    e.target ? updated = e.target.value : updated = e
+    let updated
+    e.target ? (updated = e.target.value) : (updated = e)
 
-    switch(attribute) {
+    switch (attribute) {
       case 'dataId':
         if (updated !== '0') {
           updated = +e.target.value
@@ -127,48 +125,50 @@ class EditView extends React.Component {
           y: '',
           regression: false,
           regressionLine: [],
-          regressionModel: {},
+          regressionModel: {}
         })
-        break;
+        break
       case 'pieColor':
         updated = e.target.value.split(',')
         this.setState({
           pieColor: updated
         })
-        break;
+        break
       default:
         this.setState({
           [attribute]: updated
         })
-      }
+    }
 
-      socket.emit('newChanges', this.props.singleRoom, {
-        [attribute]: updated
-      })
-      // this.styleNotification(attribute, updated)
+    socket.emit('newChanges', this.props.singleRoom, {
+      [attribute]: updated
+    })
+    // this.styleNotification(attribute, updated)
   }
 
   styleNotification(attribute, updated) {
-    let message;
-    switch(attribute) {
+    let message
+    switch (attribute) {
       case 'x':
         message = `X axis changed to ${updated}`
-        break;
+        break
       case 'y':
-        message = `Y axis changed to ${updated}`;
-        break;
+        message = `Y axis changed to ${updated}`
+        break
       case 'dataId':
-        message = "New dataset selected";
-        break;
+        message = 'New dataset selected'
+        break
       case 'graphSelected':
         message = `Graph changed to ${updated}`
-        break;
+        break
       default:
-        message = `${attribute[0].toUpperCase()}${attribute.slice(1)} updated to ${updated}`;
+        message = `${attribute[0].toUpperCase()}${attribute.slice(
+          1
+        )} updated to ${updated}`
     }
     this.setState({
       message: message,
-      styleNotification: !this.state.styleNotification,
+      styleNotification: !this.state.styleNotification
     })
   }
 
@@ -179,14 +179,14 @@ class EditView extends React.Component {
   }
 
   titleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     this.changeStyle(this.state.title, 'title')
   }
 
   updateCodeFromSockets(payload) {
-    this.setState(payload);
-    let attribute = Object.keys(payload)[0];
-    let updated = Object.values(payload)[0];
+    this.setState(payload)
+    let attribute = Object.keys(payload)[0]
+    let updated = Object.values(payload)[0]
     this.styleNotification(attribute, updated)
   }
 
@@ -209,29 +209,27 @@ class EditView extends React.Component {
       this.setState({
         notification: true,
         userThatLeft: user.email
-      });
-    }
-    else {
+      })
+    } else {
       this.setState({
         notification: false,
         userThatLeft: ''
-      });
+      })
     }
   }
 
   joinNotification(user) {
-    console.log("USER JOINED!")
+    console.log('USER JOINED!')
     if (!this.state.notification) {
       this.setState({
         notification: true,
         userThatJoined: user.email
-      });
-    }
-    else {
+      })
+    } else {
       this.setState({
         notification: false,
         userThatJoined: ''
-      });
+      })
     }
   }
 
@@ -242,7 +240,7 @@ class EditView extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const {classes} = this.props
     console.log('user', this.props.user)
 
     const matchingUser = this.props.allUsers.filter(user => {
@@ -250,13 +248,13 @@ class EditView extends React.Component {
     })
     const dataMatch = matchingUser[0].data
     const graphSelected = this.state.graphSelected
-    let data;
+    let data
 
     if (!dataMatch) {
       return 'Loading...'
     } else {
       if (this.state.dataId === '0') {
-        data = sampleData.dataJSON.data;
+        data = sampleData.dataJSON.data
       } else {
         let dataElem = dataMatch.filter(elem => {
           return elem.id === +this.state.dataId
@@ -264,7 +262,7 @@ class EditView extends React.Component {
         console.log('dataElem', dataElem)
 
         if (dataElem.length === 0) {
-          data = sampleData.dataJSON.data;
+          data = sampleData.dataJSON.data
         } else {
           data = reinstateNumbers(dataElem[0].dataJSON.data)
         }
@@ -291,9 +289,10 @@ class EditView extends React.Component {
         <div>
           <div>Room ID: {this.props.singleRoom}</div>
           <div>
-            <button type='button' onClick={this.leaveRoom}>Exit Room</button>
-            {this.state.notification ? <Snackbar {...notificationProps} /> : ""}
-
+            <button type="button" onClick={this.leaveRoom}>
+              Exit Room
+            </button>
+            {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
           </div>
 
           <Paper className={classes.root} elevation={22}>
@@ -304,8 +303,8 @@ class EditView extends React.Component {
             {this.state.x === '' || this.state.y === '' ? (
               <div>Select columns</div>
             ) : (
-                <ChartContainer {...propPackage} />
-              )}
+              <ChartContainer {...propPackage} />
+            )}
             <GraphMenu handleGraphSelected={this.changeStyle} />
             <Button
               variant="contained"
@@ -331,12 +330,15 @@ class EditView extends React.Component {
               user={this.props.user}
               dataMatch={dataMatch}
             />
-            {this.state.styleNotification ?
-            <Snackbar
-              {...notificationProps}
-              message={this.state.message}
-              styleNotification={this.state.styleNotification}/>
-              : <div />}
+            {this.state.styleNotification ? (
+              <Snackbar
+                {...notificationProps}
+                message={this.state.message}
+                styleNotification={this.state.styleNotification}
+              />
+            ) : (
+              <div />
+            )}
           </div>
         </div>
       )
@@ -349,10 +351,10 @@ EditView.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  gotData: function () {
+  gotData: function() {
     dispatch(gotData())
   },
-  addGraph: function (graphData) {
+  addGraph: function(graphData) {
     dispatch(postGraph(graphData))
   },
   onFetchAllUsers: () => dispatch(fetchAllUsers())

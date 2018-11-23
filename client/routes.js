@@ -18,6 +18,7 @@ import RoomSelection from './components/Room/RoomSelection'
 import EditRoom from './components/Room/EditRoom'
 import CreateRoom from './components/Room/CreateRoom'
 import TestSave from './components/TestSave'
+import MainPage from './components/MainPage'
 
 /**
  * COMPONENT
@@ -37,6 +38,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         {/* Below route only for testing PC */}
         <Route path="/test" component={TempDashboard} />
+        <Route path="/" component={MainPage} />
 
         {isLoggedIn && (
           <Switch>
@@ -54,6 +56,7 @@ class Routes extends Component {
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
+
         <Route component={Login} />
       </Switch>
     )
