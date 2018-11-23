@@ -14,13 +14,15 @@ class PositionedSnackbar extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
-    this.props.leaveNotification()
+    this.props.userThatJoined ? this.props.joinNotification()
+      : this.props.leaveNotification()
   };
 
   render() {
     console.log('SNACKBAR PROPS', this.props)
     console.log('SNACKBAR STATE', this.state)
     const { vertical, horizontal, open } = this.state;
+    const { userThatJoined, userThatLeft } = this.props
     return (
       <div>
         <Snackbar
@@ -32,7 +34,7 @@ class PositionedSnackbar extends React.Component {
             'aria-describedby': 'message-id',
           }}
           message={<span id="message-id">{
-            this.props.message
+            userThatJoined ? `${userThatJoined} has joined this room` : `${userThatLeft} has left this room`
           }</span>}
         />
       </div>

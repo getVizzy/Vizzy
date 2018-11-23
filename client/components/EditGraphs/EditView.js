@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useImperativeMethods } from 'react'
 import PropTypes from 'prop-types'
 import { fetchAllUsers } from '../../store/user'
 import ChartContainer from '../Chart/ChartContainer'
@@ -66,7 +66,9 @@ class EditView extends React.Component {
         '#4575b4'
       ],
       notification: false,//For snackbar notifications. Open to discuss a more dry approach
-      userThatLeft: ""
+      userThatLeft: "",
+      userThatJoined: ""
+
     }
 
 
@@ -78,6 +80,7 @@ class EditView extends React.Component {
     this.changeStyle = this.changeStyle.bind(this)
     this.leaveRoom = this.leaveRoom.bind(this)
     this.leaveNotification = this.leaveNotification.bind(this)
+    this.joinNotification = this.joinNotification.bind(this)
 
     // this.downloadPNG = download.bind(this)
   }
@@ -86,10 +89,10 @@ class EditView extends React.Component {
     await this.props.onFetchAllUsers()
     await this.props.gotData()
 
-    socket.emit('joinRoom', this.props.singleRoom, this.props.user.email)
+    socket.emit('joinRoom', this.props.singleRoom, this.props.user)
 
-    socket.on('receiveJoinRoom', payload => {
-      this.joinNotification(payload)
+    socket.on('receiveJoinRoom', user => {
+      this.joinNotification(user)
     })
 
     //moved receiveCode socket from constructor to componentDidMount per Dan's rec, observed no difference
@@ -97,8 +100,8 @@ class EditView extends React.Component {
       this.updateCodeFromSockets(payload)
     })
 
-    socket.on('receiveLeaveRoom', userName => {
-      this.leaveNotification(userName)
+    socket.on('receiveLeaveRoom', user => {
+      this.leaveNotification(user)
     })
 
   }
@@ -171,16 +174,34 @@ class EditView extends React.Component {
   }
 
   leaveNotification(user) {
-    this.setState({
-      notification: !this.state.notification,
-      userThatLeft: user.email
-
-    });
+    if (!this.state.notification) {
+      this.setState({
+        notification: true,
+        userThatLeft: user.email
+      });
+    }
+    else {
+      this.setState({
+        notification: false,
+        userThatLeft: ''
+      });
+    }
   }
 
-  joinNotification() {
+  joinNotification(user) {
     console.log("USER JOINED!")
-    // this.setState({ notification: !this.state.notification });
+    if (!this.state.notification) {
+      this.setState({
+        notification: true,
+        userThatJoined: user.email
+      });
+    }
+    else {
+      this.setState({
+        notification: false,
+        userThatJoined: ''
+      });
+    }
   }
 
   render() {
@@ -220,12 +241,20 @@ class EditView extends React.Component {
         data: data
       }
 
+      let notificationProps = {
+        notification: this.state.notification,
+        userThatJoined: this.state.userThatJoined,
+        userThatLeft: this.state.userThatLeft,
+        joinNotification: this.joinNotification,
+        leaveNotification: this.leaveNotification
+      }
+
       return (
         <div>
           <div>Room ID: {this.props.singleRoom}</div>
           <div>
-            <button onClick={this.leaveRoom}>Exit Room</button>
-            {this.state.notification ? <Snackbar notification={this.state.notification} leaveNotification={this.leaveNotification} joinNotification={this.joinNotification} message={`${this.state.userThatLeft} has left the room`} /> : ""}
+            <button type='button' onClick={this.leaveRoom}>Exit Room</button>
+            {this.state.notification ? <Snackbar {...notificationProps} /> : ""}
 
           </div>
 
