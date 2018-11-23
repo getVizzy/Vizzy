@@ -16,6 +16,7 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import SaveIcon from '@material-ui/icons/Save'
 import Button from '@material-ui/core/Button'
+import Snackbar from '../Notifications/Snackbar'
 
 const styles = theme => ({
   root: {
@@ -63,21 +64,37 @@ class EditView extends React.Component {
         '#e0f3f8',
         '#91bfdb',
         '#4575b4'
-      ]
+      ],
+      notification: false
     }
-    socket.on('receiveCode', payload => {
-      this.updateCodeFromSockets(payload)
-    })
+
+
+    // socket.on('receiveCode', payload => {
+    //   this.updateCodeFromSockets(payload)
+    // })
+
     this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
     this.leaveRoom = this.leaveRoom.bind(this)
+    this.leaveNotification = this.leaveNotification.bind(this)
+
     // this.downloadPNG = download.bind(this)
   }
 
   async componentDidMount() {
     await this.props.onFetchAllUsers()
     await this.props.gotData()
+    //moved socket from constructor to componentDidMount per Dan's rec, observed no difference
+    socket.on('receiveCode', payload => {
+      this.updateCodeFromSockets(payload)
+    })
+
+    socket.on('receiveLeaveNotification', payload => {
+      this.leaveNotification(payload)
+    })
+
   }
+
 
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
@@ -98,7 +115,7 @@ class EditView extends React.Component {
         regressionLine: [],
         columnOption: '',
         regressionModel: {},
-        message: 'Choose a column'
+        message: 'Choose a column',
       })
     } else if (attribute === 'pieColor') {
       let pieColorSelected = e.target.value.split(',')
@@ -133,15 +150,22 @@ class EditView extends React.Component {
   }
 
   handleGraphSelected(graph) {
-    this.setState({ graphSelected: graph })
+    //Switch socket to emit first before setting state per Dan's rec, observed no difference
     socket.emit('newChanges', this.props.singleRoom, {
       graphSelected: graph
     })
+
+    this.setState({ graphSelected: graph })
   }
 
   leaveRoom() {
-    socket.emit('leaveRoom', this.props.singleRoom, this.props.user.email)
+    socket.emit('leaveRoom', this.props.singleRoom, { notification: true })
     this.props.history.push('/dashboard')
+  }
+
+  leaveNotification(payload) {
+    console.log("USER LEFT!")
+    this.setState({ notification: !this.state.notification });
   }
 
   render() {
@@ -187,6 +211,8 @@ class EditView extends React.Component {
           <div>Room ID: {this.props.singleRoom}</div>
           <div>
             <button onClick={this.leaveRoom}>Exit Room</button>
+            {this.state.notification ? <Snackbar notification={this.state.notification} leaveNotification={this.leaveNotification} message={`${this.props.user.email} has left the room`} /> : ""}
+
           </div>
 
           <Paper className={classes.root} elevation={22}>

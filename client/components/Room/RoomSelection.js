@@ -1,8 +1,9 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import socket from '../../socket'
-import {gotSingleRoom} from '../../store/room'
-import {fetchAllUsers} from '../../store/user'
+import { gotSingleRoom } from '../../store/room'
+import { fetchAllUsers } from '../../store/user'
+import Snackbar from '../Notifications/Snackbar'
 
 import Dashboard from '../Dashboard'
 
@@ -43,7 +44,7 @@ class RoomSelection extends Component {
   // }
 
   joinRoomInput(event) {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   joinRoomSubmit() {
@@ -57,8 +58,8 @@ class RoomSelection extends Component {
       socket.emit('joinRoom', this.state.roomKey, this.props.user.user.email)
 
       this.props.onGotSingleRoom(this.state.roomKey)
-
       this.props.history.push('room/live')
+
     } else {
       console.log('No Room FOUND!')
     }
