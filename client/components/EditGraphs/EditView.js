@@ -65,7 +65,7 @@ class EditView extends React.Component {
         '#91bfdb',
         '#4575b4'
       ],
-      notification: false
+      notification: false//For snackbar notifications. Open to discuss a more dry approach
     }
 
 
@@ -84,12 +84,19 @@ class EditView extends React.Component {
   async componentDidMount() {
     await this.props.onFetchAllUsers()
     await this.props.gotData()
-    //moved socket from constructor to componentDidMount per Dan's rec, observed no difference
+
+    socket.emit('joinRoom', this.props.singleRoom, this.props.user.email)
+
+    socket.on('receiveJoinRoom', payload => {
+      this.joinNotification(payload)
+    })
+
+    //moved receiveCode socket from constructor to componentDidMount per Dan's rec, observed no difference
     socket.on('receiveCode', payload => {
       this.updateCodeFromSockets(payload)
     })
 
-    socket.on('receiveLeaveNotification', payload => {
+    socket.on('receiveLeaveRoom', payload => {
       this.leaveNotification(payload)
     })
 
@@ -163,8 +170,13 @@ class EditView extends React.Component {
     this.props.history.push('/dashboard')
   }
 
-  leaveNotification(payload) {
+  leaveNotification() {
     console.log("USER LEFT!")
+    this.setState({ notification: !this.state.notification });
+  }
+
+  joinNotification() {
+    console.log("USER JOINED!")
     this.setState({ notification: !this.state.notification });
   }
 
@@ -211,7 +223,7 @@ class EditView extends React.Component {
           <div>Room ID: {this.props.singleRoom}</div>
           <div>
             <button onClick={this.leaveRoom}>Exit Room</button>
-            {this.state.notification ? <Snackbar notification={this.state.notification} leaveNotification={this.leaveNotification} message={`${this.props.user.email} has left the room`} /> : ""}
+            {this.state.notification ? <Snackbar notification={this.state.notification} leaveNotification={this.leaveNotification} joinNotification={this.joinNotification} message={`${this.props.user.email} has left the room`} /> : ""}
 
           </div>
 

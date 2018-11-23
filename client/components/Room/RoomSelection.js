@@ -55,7 +55,7 @@ class RoomSelection extends Component {
       return currentUser.roomKey === roomKey
     })
     if (match.length) {
-      socket.emit('joinRoom', this.state.roomKey, this.props.user.user.email)
+      // socket.emit('joinRoom', this.state.roomKey, this.props.user.user.email)
 
       this.props.onGotSingleRoom(this.state.roomKey)
       this.props.history.push('room/live')
