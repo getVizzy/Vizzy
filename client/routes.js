@@ -38,7 +38,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         {/* Below route only for testing PC */}
         <Route path="/test" component={TempDashboard} />
-        <Route path="/" component={MainPage} />
+        <Route exact path="/" component={MainPage} />
 
         {isLoggedIn && (
           <Switch>
