@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 
 import {
   VictoryPie,
@@ -10,8 +10,8 @@ import {
   VictoryLabel
 } from 'victory'
 
-import { download } from '../../utils'
-import { conv1dWithBias } from '@tensorflow/tfjs-layers/dist/layers/convolutional'
+import {download} from '../../utils'
+import {conv1dWithBias} from '@tensorflow/tfjs-layers/dist/layers/convolutional'
 
 // const data = [
 //   { quarter: '1', earnings: 13, items: 40, state: 'NY' },
@@ -23,11 +23,11 @@ import { conv1dWithBias } from '@tensorflow/tfjs-layers/dist/layers/convolutiona
 // ]
 
 const data = [
-  { x: 'puppy', y: 4 },
-  { x: 'cat', y: 2 },
-  { x: 'birds', y: 3 },
-  { x: 'fish', y: 2 },
-  { x: 'frogs', y: 1 }
+  {x: 'puppy', y: 4},
+  {x: 'cat', y: 2},
+  {x: 'birds', y: 3},
+  {x: 'fish', y: 2},
+  {x: 'frogs', y: 1}
 ]
 
 let colorOptions = {
@@ -39,8 +39,7 @@ let colorOptions = {
 export default class VictoryPieChart extends Component {
   constructor() {
     super()
-    this.state = {
-    }
+    this.state = {}
   }
 
   render() {
@@ -53,7 +52,7 @@ export default class VictoryPieChart extends Component {
           <VictoryPie
             labelComponent={
               <VictoryTooltip
-                flyoutStyle={{ fill: 'white', stroke: 'lightgrey' }}
+                flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
                 cornerRadius={+this.props.tooltip}
               />
             }
@@ -62,7 +61,7 @@ export default class VictoryPieChart extends Component {
             domainPadding={60}
             width={600}
             height={400}
-            padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
+            padding={{left: 100, right: 60, top: 35, bottom: 75}}
             size={7}
             labelRadius={90}
             style={{
@@ -74,7 +73,7 @@ export default class VictoryPieChart extends Component {
             }}
             animate={{
               duration: 2000,
-              onLoad: { duration: 1000 }
+              onLoad: {duration: 1000}
             }}
             events={[
               {
@@ -85,12 +84,12 @@ export default class VictoryPieChart extends Component {
                       {
                         target: 'data',
                         mutation: () => ({
-                          style: { fill: this.props.highlight }
+                          style: {fill: this.props.highlight}
                         })
                       },
                       {
                         target: 'labels',
-                        mutation: () => ({ active: true })
+                        mutation: () => ({active: true})
                       }
                     ]
                   },
@@ -98,11 +97,11 @@ export default class VictoryPieChart extends Component {
                     return [
                       {
                         target: 'data',
-                        mutation: () => { }
+                        mutation: () => {}
                       },
                       {
                         target: 'labels',
-                        mutation: () => ({ active: false })
+                        mutation: () => ({active: false})
                       }
                     ]
                   }
@@ -123,7 +122,7 @@ export default class VictoryPieChart extends Component {
             width="600"
             height="400"
             display="none"
-            style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
+            style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
           />
         </div>
       </div>

@@ -1,30 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { logout } from '../../store'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import {logout} from '../../store'
 import Sidebar from './Sidebar'
 
-
-const Navbar = ({ handleClick, isLoggedIn }) => (
-  <div style={{ backgroundColor: "white", marginTop: '20px' }}>
+const Navbar = ({handleClick, isLoggedIn}) => (
+  <div style={{backgroundColor: 'white', marginTop: '20px'}}>
     {isLoggedIn ? (
       <div>
         {/* navbar will show these links after you log in */}
         <Sidebar />
       </div>
-    ) : (
-        <nav style={{ backgroundColor: 'white' }}>
-          <div>
-            {/* The navbar will show these links before you log in */}
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-          </div>
-          <hr />
-        </nav>
-
-      )}
-
+    ) : // <nav style={{backgroundColor: 'white'}}>
+    //   <div>
+    //     {/* The navbar will show these links before you log in */}
+    //     <Link to="/login">Login</Link>
+    //     <Link to="/signup">Sign Up</Link>
+    //   </div>
+    //   <hr />
+    // </nav>
+    null}
   </div>
 )
 
