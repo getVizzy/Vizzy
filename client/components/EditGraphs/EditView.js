@@ -67,8 +67,9 @@ class EditView extends React.Component {
       ],
       notification: false,//For snackbar notifications. Open to discuss a more dry approach
       userThatLeft: "",
-      userThatJoined: ""
-
+      userThatJoined: "",
+      message: '',
+      styleNotification: false,
     }
 
 
@@ -81,7 +82,7 @@ class EditView extends React.Component {
     this.leaveRoom = this.leaveRoom.bind(this)
     this.leaveNotification = this.leaveNotification.bind(this)
     this.joinNotification = this.joinNotification.bind(this)
-
+    this.styleNotification = this.styleNotification.bind(this)
     // this.downloadPNG = download.bind(this)
   }
 
@@ -95,68 +96,80 @@ class EditView extends React.Component {
       this.joinNotification(user)
     })
 
+    socket.on('receiveLeaveRoom', user => {
+      this.leaveNotification(user)
+    })
     //moved receiveCode socket from constructor to componentDidMount per Dan's rec, observed no difference
     socket.on('receiveCode', payload => {
       this.updateCodeFromSockets(payload)
-    })
-
-    socket.on('receiveLeaveRoom', user => {
-      this.leaveNotification(user)
     })
 
   }
 
 
   changeStyle(e, attribute) {
-    if (attribute === 'dataId') {
-      let newId = e.target.value;
-      if (newId !== '0') {
-        newId = +e.target.value
+    let updated;
+    e.target ? updated = e.target.value : updated = e
+
+    switch(attribute) {
+      case 'dataId':
+        if (updated !== '0') {
+          updated = +e.target.value
+        }
+        this.setState({
+          [attribute]: updated,
+          graphSelected: 'line',
+          title: '',
+          x: '',
+          y: '',
+          regression: false,
+          regressionLine: [],
+          regressionModel: {},
+        })
+        break;
+      case 'pieColor':
+        updated = e.target.value.split(',')
+        this.setState({
+          pieColor: updated
+        })
+        break;
+      default:
+        this.setState({
+          [attribute]: updated
+        })
       }
-      this.setState({
-        [attribute]: newId,
-        graphSelected: 'line',
-        color: 'tomato',
-        title: '',
-        highlight: 'orange',
-        tooltip: '5',
-        x: '',
-        y: '',
-        regression: false,
-        regressionLine: [],
-        columnOption: '',
-        regressionModel: {},
-        message: 'Choose a column',
-      })
-    } else if (attribute === 'pieColor') {
-      let pieColorSelected = e.target.value.split(',')
-      this.setState({
-        pieColor: pieColorSelected
-      })
+
       socket.emit('newChanges', this.props.singleRoom, {
-        pieColor: pieColorSelected
+        [attribute]: updated
       })
-    } else if (!e.target) {
-      this.setState({
-        [attribute]: e
-      })
-      socket.emit('newChanges', this.props.singleRoom, {
-        [attribute]: e
-      })
-    } else {
-      this.setState({
-        [attribute]: e.target.value
-      })
+      // this.styleNotification(attribute, updated)
+  }
+
+  styleNotification(attribute, updated) {
+    let message;
+    switch(attribute) {
+      case 'x':
+        message = `X axis changed to ${updated}`
+        break;
+      case 'y':
+        message = `Y axis changed to ${updated}`;
+        break;
+      case 'dataId':
+        message = "New dataset selected";
+        break;
+      default:
+        message = `${attribute[0].toUpperCase()}${attribute.slice(1)} updated to ${updated}`;
     }
-    if (e.target && attribute !== 'pieColor') {
-      socket.emit('newChanges', this.props.singleRoom, {
-        [attribute]: e.target.value
-      })
-    }
+
+    this.setState({
+      message: message,
+      styleNotification: !this.state.styleNotification,
+    })
   }
 
   updateCodeFromSockets(payload) {
     this.setState(payload)
+    this.styleNotification("attribute", "something else")
   }
 
   handleGraphSelected(graph) {
@@ -292,6 +305,9 @@ class EditView extends React.Component {
               user={this.props.user}
               dataMatch={dataMatch}
             />
+            {this.state.styleNotification ?
+          <Snackbar message={this.state.message} leaveNotification={this.leaveNotification} joinNotification={this.joinNotification} styleNotification={this.state.styleNotification} />
+          : <div />}
           </div>
         </div>
       )
