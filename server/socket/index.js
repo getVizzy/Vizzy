@@ -23,11 +23,11 @@ module.exports = io => {
       console.log(`${user.email} has left ${roomKey}`)
     })
 
-    socket.on('joinRoom', (roomKey, userName) => {
+    socket.on('joinRoom', (roomKey, user) => {
       socket.join(roomKey)
-      socket.to(roomKey).emit('receiveJoinRoom', userName)
+      socket.to(roomKey).emit('receiveJoinRoom', user)
       // socket.emit(`success, ${userName} has joined ${roomKey}`)
-      console.log(`success, ${userName} has joined ${roomKey}`)
+      console.log(`success, ${user.email} has joined ${roomKey}`)
     })
 
     socket.on('newChanges', function (room, data) {
