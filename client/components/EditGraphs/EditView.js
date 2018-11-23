@@ -67,8 +67,9 @@ class EditView extends React.Component {
       ],
       notification: false,//For snackbar notifications. Open to discuss a more dry approach
       userThatLeft: "",
-      userThatJoined: ""
-
+      userThatJoined: "",
+      message: '',
+      styleNotification: false,
     }
 
 
@@ -76,11 +77,15 @@ class EditView extends React.Component {
     //   this.updateCodeFromSockets(payload)
     // })
 
-    this.handleGraphSelected = this.handleGraphSelected.bind(this)
+    // this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
     this.leaveRoom = this.leaveRoom.bind(this)
     this.leaveNotification = this.leaveNotification.bind(this)
     this.joinNotification = this.joinNotification.bind(this)
+    this.styleNotification = this.styleNotification.bind(this)
+    this.resetStyle = this.resetStyle.bind(this)
+    this.titleChange = this.titleChange.bind(this)
+    this.titleSubmit = this.titleSubmit.bind(this)
 
     // this.downloadPNG = download.bind(this)
   }
@@ -95,78 +100,104 @@ class EditView extends React.Component {
       this.joinNotification(user)
     })
 
+    socket.on('receiveLeaveRoom', user => {
+      this.leaveNotification(user)
+    })
     //moved receiveCode socket from constructor to componentDidMount per Dan's rec, observed no difference
     socket.on('receiveCode', payload => {
       this.updateCodeFromSockets(payload)
     })
 
-    socket.on('receiveLeaveRoom', user => {
-      this.leaveNotification(user)
-    })
-
   }
 
-
   changeStyle(e, attribute) {
-    if (attribute === 'dataId') {
-      let newId = e.target.value;
-      if (newId !== '0') {
-        newId = +e.target.value
+    let updated;
+    e.target ? updated = e.target.value : updated = e
+
+    switch(attribute) {
+      case 'dataId':
+        if (updated !== '0') {
+          updated = +e.target.value
+        }
+        this.setState({
+          [attribute]: updated,
+          graphSelected: 'line',
+          title: '',
+          x: '',
+          y: '',
+          regression: false,
+          regressionLine: [],
+          regressionModel: {},
+        })
+        break;
+      case 'pieColor':
+        updated = e.target.value.split(',')
+        this.setState({
+          pieColor: updated
+        })
+        break;
+      default:
+        this.setState({
+          [attribute]: updated
+        })
       }
-      this.setState({
-        [attribute]: newId,
-        graphSelected: 'line',
-        color: 'tomato',
-        title: '',
-        highlight: 'orange',
-        tooltip: '5',
-        x: '',
-        y: '',
-        regression: false,
-        regressionLine: [],
-        columnOption: '',
-        regressionModel: {},
-        message: 'Choose a column',
-      })
-    } else if (attribute === 'pieColor') {
-      let pieColorSelected = e.target.value.split(',')
-      this.setState({
-        pieColor: pieColorSelected
-      })
+
       socket.emit('newChanges', this.props.singleRoom, {
-        pieColor: pieColorSelected
+        [attribute]: updated
       })
-    } else if (!e.target) {
-      this.setState({
-        [attribute]: e
-      })
-      socket.emit('newChanges', this.props.singleRoom, {
-        [attribute]: e
-      })
-    } else {
-      this.setState({
-        [attribute]: e.target.value
-      })
+      // this.styleNotification(attribute, updated)
+  }
+
+  styleNotification(attribute, updated) {
+    let message;
+    switch(attribute) {
+      case 'x':
+        message = `X axis changed to ${updated}`
+        break;
+      case 'y':
+        message = `Y axis changed to ${updated}`;
+        break;
+      case 'dataId':
+        message = "New dataset selected";
+        break;
+      case 'graphSelected':
+        message = `Graph changed to ${updated}`
+        break;
+      default:
+        message = `${attribute[0].toUpperCase()}${attribute.slice(1)} updated to ${updated}`;
     }
-    if (e.target && attribute !== 'pieColor') {
-      socket.emit('newChanges', this.props.singleRoom, {
-        [attribute]: e.target.value
-      })
-    }
+    this.setState({
+      message: message,
+      styleNotification: !this.state.styleNotification,
+    })
+  }
+
+  titleChange(e) {
+    this.setState({
+      title: e.target.value
+    })
+  }
+
+  titleSubmit(e) {
+    e.preventDefault();
+    this.changeStyle(this.state.title, 'title')
   }
 
   updateCodeFromSockets(payload) {
-    this.setState(payload)
+    this.setState(payload);
+    let attribute = Object.keys(payload)[0];
+    let updated = Object.values(payload)[0];
+    this.styleNotification(attribute, updated)
   }
 
-  handleGraphSelected(graph) {
-    //Switch socket to emit first before setting state per Dan's rec, observed no difference
-    socket.emit('newChanges', this.props.singleRoom, {
-      graphSelected: graph
-    })
+  // handleGraphSelected(graph) {
+  //   //Switch socket to emit first before setting state per Dan's rec, observed no difference
+  //   socket.emit('newChanges', this.props.singleRoom, {
+  //     graphSelected: graph
+  //   })
 
-    this.setState({ graphSelected: graph })
-  }
+  //   this.setState({ graphSelected: graph })
+  // }
 
   leaveRoom() {
     socket.emit('leaveRoom', this.props.singleRoom, this.props.user)
@@ -202,6 +233,12 @@ class EditView extends React.Component {
         userThatJoined: ''
       });
     }
+  }
+
+  resetStyle() {
+    this.setState({
+      styleNotification: false
+    })
   }
 
   render() {
@@ -246,7 +283,8 @@ class EditView extends React.Component {
         userThatJoined: this.state.userThatJoined,
         userThatLeft: this.state.userThatLeft,
         joinNotification: this.joinNotification,
-        leaveNotification: this.leaveNotification
+        leaveNotification: this.leaveNotification,
+        resetStyle: this.resetStyle
       }
 
       return (
@@ -268,7 +306,7 @@ class EditView extends React.Component {
             ) : (
                 <ChartContainer {...propPackage} />
               )}
-            <GraphMenu handleGraphSelected={this.handleGraphSelected} />
+            <GraphMenu handleGraphSelected={this.changeStyle} />
             <Button
               variant="contained"
               size="small"
@@ -287,11 +325,18 @@ class EditView extends React.Component {
               {...this.state}
               {...this.props}
               changeStyle={this.changeStyle}
+              titleChange={this.titleChange}
               graphData={data}
               owner={matchingUser}
               user={this.props.user}
               dataMatch={dataMatch}
             />
+            {this.state.styleNotification ?
+            <Snackbar
+              {...notificationProps}
+              message={this.state.message}
+              styleNotification={this.state.styleNotification}/>
+              : <div />}
           </div>
         </div>
       )

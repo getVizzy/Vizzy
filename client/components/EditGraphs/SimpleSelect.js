@@ -72,7 +72,7 @@ class SimpleSelect extends React.Component {
               this.state.selected !== 'Choose a column' &&
               !this.props.items.includes(this.state.selected)
             ) {
-              this.triggerRefresh()
+              // this.triggerRefresh()
             }
             return (
               <MenuItem
