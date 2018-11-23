@@ -77,12 +77,16 @@ class EditView extends React.Component {
     //   this.updateCodeFromSockets(payload)
     // })
 
-    this.handleGraphSelected = this.handleGraphSelected.bind(this)
+    // this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
     this.leaveRoom = this.leaveRoom.bind(this)
     this.leaveNotification = this.leaveNotification.bind(this)
     this.joinNotification = this.joinNotification.bind(this)
     this.styleNotification = this.styleNotification.bind(this)
+    this.resetStyle = this.resetStyle.bind(this)
+    this.titleChange = this.titleChange.bind(this)
+    this.titleSubmit = this.titleSubmit.bind(this)
+
     // this.downloadPNG = download.bind(this)
   }
 
@@ -105,7 +109,6 @@ class EditView extends React.Component {
     })
 
   }
-
 
   changeStyle(e, attribute) {
     let updated;
@@ -157,29 +160,44 @@ class EditView extends React.Component {
       case 'dataId':
         message = "New dataset selected";
         break;
+      case 'graphSelected':
+        message = `Graph changed to ${updated}`
+        break;
       default:
         message = `${attribute[0].toUpperCase()}${attribute.slice(1)} updated to ${updated}`;
     }
-
     this.setState({
       message: message,
       styleNotification: !this.state.styleNotification,
     })
   }
 
-  updateCodeFromSockets(payload) {
-    this.setState(payload)
-    this.styleNotification("attribute", "something else")
-  }
-
-  handleGraphSelected(graph) {
-    //Switch socket to emit first before setting state per Dan's rec, observed no difference
-    socket.emit('newChanges', this.props.singleRoom, {
-      graphSelected: graph
+  titleChange(e) {
+    this.setState({
+      title: e.target.value
     })
-
-    this.setState({ graphSelected: graph })
   }
+
+  titleSubmit(e) {
+    e.preventDefault();
+    this.changeStyle(this.state.title, 'title')
+  }
+
+  updateCodeFromSockets(payload) {
+    this.setState(payload);
+    let attribute = Object.keys(payload)[0];
+    let updated = Object.values(payload)[0];
+    this.styleNotification(attribute, updated)
+  }
+
+  // handleGraphSelected(graph) {
+  //   //Switch socket to emit first before setting state per Dan's rec, observed no difference
+  //   socket.emit('newChanges', this.props.singleRoom, {
+  //     graphSelected: graph
+  //   })
+
+  //   this.setState({ graphSelected: graph })
+  // }
 
   leaveRoom() {
     socket.emit('leaveRoom', this.props.singleRoom, this.props.user)
@@ -215,6 +233,12 @@ class EditView extends React.Component {
         userThatJoined: ''
       });
     }
+  }
+
+  resetStyle() {
+    this.setState({
+      styleNotification: false
+    })
   }
 
   render() {
@@ -259,7 +283,8 @@ class EditView extends React.Component {
         userThatJoined: this.state.userThatJoined,
         userThatLeft: this.state.userThatLeft,
         joinNotification: this.joinNotification,
-        leaveNotification: this.leaveNotification
+        leaveNotification: this.leaveNotification,
+        resetStyle: this.resetStyle
       }
 
       return (
@@ -281,7 +306,7 @@ class EditView extends React.Component {
             ) : (
                 <ChartContainer {...propPackage} />
               )}
-            <GraphMenu handleGraphSelected={this.handleGraphSelected} />
+            <GraphMenu handleGraphSelected={this.changeStyle} />
             <Button
               variant="contained"
               size="small"
@@ -300,14 +325,18 @@ class EditView extends React.Component {
               {...this.state}
               {...this.props}
               changeStyle={this.changeStyle}
+              titleChange={this.titleChange}
               graphData={data}
               owner={matchingUser}
               user={this.props.user}
               dataMatch={dataMatch}
             />
             {this.state.styleNotification ?
-          <Snackbar message={this.state.message} leaveNotification={this.leaveNotification} joinNotification={this.joinNotification} styleNotification={this.state.styleNotification} />
-          : <div />}
+            <Snackbar
+              {...notificationProps}
+              message={this.state.message}
+              styleNotification={this.state.styleNotification}/>
+              : <div />}
           </div>
         </div>
       )
