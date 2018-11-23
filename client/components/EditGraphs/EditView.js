@@ -65,7 +65,8 @@ class EditView extends React.Component {
         '#91bfdb',
         '#4575b4'
       ],
-      notification: false//For snackbar notifications. Open to discuss a more dry approach
+      notification: false,//For snackbar notifications. Open to discuss a more dry approach
+      userThatLeft: ""
     }
 
 
@@ -96,8 +97,8 @@ class EditView extends React.Component {
       this.updateCodeFromSockets(payload)
     })
 
-    socket.on('receiveLeaveRoom', payload => {
-      this.leaveNotification(payload)
+    socket.on('receiveLeaveRoom', userName => {
+      this.leaveNotification(userName)
     })
 
   }
@@ -126,7 +127,6 @@ class EditView extends React.Component {
       })
     } else if (attribute === 'pieColor') {
       let pieColorSelected = e.target.value.split(',')
-      console.log('pieColorSelected', pieColorSelected)
       this.setState({
         pieColor: pieColorSelected
       })
@@ -166,13 +166,16 @@ class EditView extends React.Component {
   }
 
   leaveRoom() {
-    socket.emit('leaveRoom', this.props.singleRoom, { notification: true })
+    socket.emit('leaveRoom', this.props.singleRoom, this.props.user)
     this.props.history.push('/dashboard')
   }
 
-  leaveNotification() {
-    console.log("USER LEFT!")
-    this.setState({ notification: !this.state.notification });
+  leaveNotification(user) {
+    this.setState({
+      notification: !this.state.notification,
+      userThatLeft: user.email
+
+    });
   }
 
   joinNotification() {
@@ -188,7 +191,6 @@ class EditView extends React.Component {
       return user.roomKey === this.props.singleRoom
     })
     const dataMatch = matchingUser[0].data
-    // console.log('theeeee state', this.state)
     const graphSelected = this.state.graphSelected
     let data;
 
@@ -223,7 +225,7 @@ class EditView extends React.Component {
           <div>Room ID: {this.props.singleRoom}</div>
           <div>
             <button onClick={this.leaveRoom}>Exit Room</button>
-            {this.state.notification ? <Snackbar notification={this.state.notification} leaveNotification={this.leaveNotification} joinNotification={this.joinNotification} message={`${this.props.user.email} has left the room`} /> : ""}
+            {this.state.notification ? <Snackbar notification={this.state.notification} leaveNotification={this.leaveNotification} joinNotification={this.joinNotification} message={`${this.state.userThatLeft} has left the room`} /> : ""}
 
           </div>
 
