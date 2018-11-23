@@ -69,14 +69,10 @@ class EditView extends React.Component {
       userThatLeft: '',
       userThatJoined: '',
       message: '',
-      styleNotification: false
+      styleNotification: false,
+      saveNotification: false
     }
 
-    // socket.on('receiveCode', payload => {
-    //   this.updateCodeFromSockets(payload)
-    // })
-
-    // this.handleGraphSelected = this.handleGraphSelected.bind(this)
     this.changeStyle = this.changeStyle.bind(this)
     this.leaveRoom = this.leaveRoom.bind(this)
     this.leaveNotification = this.leaveNotification.bind(this)
@@ -85,8 +81,7 @@ class EditView extends React.Component {
     this.resetStyle = this.resetStyle.bind(this)
     this.titleChange = this.titleChange.bind(this)
     this.titleSubmit = this.titleSubmit.bind(this)
-
-    // this.downloadPNG = download.bind(this)
+    this.saveNotification = this.saveNotification.bind(this)
   }
 
   async componentDidMount() {
@@ -139,11 +134,14 @@ class EditView extends React.Component {
           [attribute]: updated
         })
     }
-
-    socket.emit('newChanges', this.props.singleRoom, {
+    let change = {
       [attribute]: updated
-    })
-    // this.styleNotification(attribute, updated)
+    }
+
+    if(attribute === 'dataId') {
+      change.graphSelected = 'line'
+    }
+    socket.emit('newChanges', this.props.singleRoom, change)
   }
 
   styleNotification(attribute, updated) {
@@ -161,11 +159,15 @@ class EditView extends React.Component {
       case 'graphSelected':
         message = `Graph changed to ${updated}`
         break
+      case 'color':
+        message = `Color changed`
+        break
       default:
         message = `${attribute[0].toUpperCase()}${attribute.slice(
           1
         )} updated to ${updated}`
     }
+
     this.setState({
       message: message,
       styleNotification: !this.state.styleNotification
@@ -179,7 +181,6 @@ class EditView extends React.Component {
   }
 
   titleSubmit(e) {
-    e.preventDefault()
     this.changeStyle(this.state.title, 'title')
   }
 
@@ -189,15 +190,6 @@ class EditView extends React.Component {
     let updated = Object.values(payload)[0]
     this.styleNotification(attribute, updated)
   }
-
-  // handleGraphSelected(graph) {
-  //   //Switch socket to emit first before setting state per Dan's rec, observed no difference
-  //   socket.emit('newChanges', this.props.singleRoom, {
-  //     graphSelected: graph
-  //   })
-
-  //   this.setState({ graphSelected: graph })
-  // }
 
   leaveRoom() {
     socket.emit('leaveRoom', this.props.singleRoom, this.props.user)
@@ -233,6 +225,12 @@ class EditView extends React.Component {
     }
   }
 
+  saveNotification() {
+    this.setState({
+      saveNotification: true
+    })
+  }
+
   resetStyle() {
     this.setState({
       styleNotification: false
@@ -241,107 +239,117 @@ class EditView extends React.Component {
 
   render() {
     const {classes} = this.props
-    console.log('user', this.props.user)
 
     const matchingUser = this.props.allUsers.filter(user => {
       return user.roomKey === this.props.singleRoom
     })
-    const dataMatch = matchingUser[0].data
-    const graphSelected = this.state.graphSelected
-    let data
 
-    if (!dataMatch) {
-      return 'Loading...'
-    } else {
-      if (this.state.dataId === '0') {
-        data = sampleData.dataJSON.data
+    if(matchingUser[0]) {
+
+      const dataMatch = matchingUser[0].data
+      let data;
+
+      if (!dataMatch) {
+        return 'Loading...'
       } else {
-        let dataElem = dataMatch.filter(elem => {
-          return elem.id === +this.state.dataId
-        })
-        console.log('dataElem', dataElem)
-
-        if (dataElem.length === 0) {
+        if (this.state.dataId === '0') {
           data = sampleData.dataJSON.data
         } else {
-          data = reinstateNumbers(dataElem[0].dataJSON.data)
+          let dataElem = dataMatch.filter(elem => {
+            return elem.id === +this.state.dataId
+          })
+          console.log('dataElem', dataElem)
+
+          if (dataElem.length === 0) {
+            data = sampleData.dataJSON.data
+          } else {
+            data = reinstateNumbers(dataElem[0].dataJSON.data)
+          }
         }
-      }
 
-      let propPackage = {
-        ...this.state,
-        downloadPNG: download,
-        addComma: addComma,
-        changeStyle: this.changeStyle,
-        data: data
-      }
+        let propPackage = {
+          ...this.state,
+          downloadPNG: download,
+          addComma: addComma,
+          changeStyle: this.changeStyle,
+          data: data
+        }
 
-      let notificationProps = {
-        notification: this.state.notification,
-        userThatJoined: this.state.userThatJoined,
-        userThatLeft: this.state.userThatLeft,
-        joinNotification: this.joinNotification,
-        leaveNotification: this.leaveNotification,
-        resetStyle: this.resetStyle
-      }
+        let notificationProps = {
+          notification: this.state.notification,
+          userThatJoined: this.state.userThatJoined,
+          userThatLeft: this.state.userThatLeft,
+          joinNotification: this.joinNotification,
+          leaveNotification: this.leaveNotification,
+          resetStyle: this.resetStyle
+        }
 
-      return (
-        <div>
-          <div>Room ID: {this.props.singleRoom}</div>
+        return (
           <div>
-            <button type="button" onClick={this.leaveRoom}>
-              Exit Room
-            </button>
-            {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
-          </div>
+            <div>Room ID: {this.props.singleRoom}</div>
+            <div>
+              <button type="button" onClick={this.leaveRoom}>
+                Exit Room
+              </button>
+              {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
+            </div>
 
-          <Paper className={classes.root} elevation={22}>
-            <Typography variant="h5" component="h3">
-              Edit Graph
-            </Typography>
-            <Typography component="p">Some text</Typography>
-            {this.state.x === '' || this.state.y === '' ? (
-              <div>Select columns</div>
-            ) : (
-              <ChartContainer {...propPackage} />
-            )}
-            <GraphMenu handleGraphSelected={this.changeStyle} />
-            <Button
-              variant="contained"
-              size="small"
-              className={classes.button}
-              onClick={() => this.props.addGraph(this.state)}
-            >
-              <SaveIcon
-                className={classNames(classes.leftIcon, classes.iconSmall)}
-              />
-              Save
-            </Button>
-          </Paper>
+            <Paper className={classes.root} elevation={22}>
+              <Typography variant="h5" component="h3">
+                Edit Graph
+              </Typography>
+              <Typography component="p">Some text</Typography>
+              {this.state.x === '' || this.state.y === '' ? (
+                <div>Select columns</div>
+              ) : (
+                <ChartContainer {...propPackage} />
+              )}
+              <GraphMenu handleGraphSelected={this.changeStyle} />
+              <Button
+                variant="contained"
+                size="small"
+                className={classes.button}
+                onClick={() => {
+                  this.saveNotification()
+                  this.props.addGraph(this.state);
+                }}
+              >
+                <SaveIcon
+                  className={classNames(classes.leftIcon, classes.iconSmall)}
+                />
+                Save
+              </Button>
+              {this.state.saveNotification ? <Snackbar {...notificationProps} saveNotification={this.state.saveNotification} message="Graph saved to your dashboard!" /> : ''}
+            </Paper>
 
-          <div id="controls">
-            <CustomizeMenu
-              {...this.state}
-              {...this.props}
-              changeStyle={this.changeStyle}
-              titleChange={this.titleChange}
-              graphData={data}
-              owner={matchingUser}
-              user={this.props.user}
-              dataMatch={dataMatch}
-            />
-            {this.state.styleNotification ? (
-              <Snackbar
-                {...notificationProps}
-                message={this.state.message}
-                styleNotification={this.state.styleNotification}
+            <div id="controls">
+              <CustomizeMenu
+                {...this.state}
+                {...this.props}
+                changeStyle={this.changeStyle}
+                titleChange={this.titleChange}
+                titleSubmit={this.titleSubmit}
+                graphData={data}
+                owner={matchingUser}
+                user={this.props.user}
+                dataMatch={dataMatch}
               />
-            ) : (
-              <div />
-            )}
+              {this.state.styleNotification ? (
+                <Snackbar
+                  {...notificationProps}
+                  message={this.state.message}
+                  styleNotification={this.state.styleNotification}
+                />
+              ) : (
+                <div />
+              )}
+            </div>
           </div>
-        </div>
-      )
+        )
+      }
+    } else {
+      this.props.history.push('/room')
+      return null;
     }
   }
 }
@@ -355,7 +363,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(gotData())
   },
   addGraph: function(graphData) {
-    dispatch(postGraph(graphData))
+    dispatch(postGraph(graphData));
   },
   onFetchAllUsers: () => dispatch(fetchAllUsers())
 })

@@ -13,7 +13,7 @@ class PositionedSnackbar extends React.Component {
   };
 
   componentDidMount() {
-    let notification = this.props.notification || this.props.styleNotification
+    let notification = this.props.notification || this.props.styleNotification || this.props.saveNotification
     this.setState({
       open: notification
     })
@@ -21,19 +21,17 @@ class PositionedSnackbar extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
-    !this.props.styleNotification ?
+    !this.props.styleNotification && !this.props.saveNotification ?
     (this.props.userThatJoined ? this.props.joinNotification()
       : this.props.leaveNotification())
     : this.props.resetStyle();
   };
 
   render() {
-    console.log('SNACKBAR PROPS', this.props)
-    console.log('SNACKBAR STATE', this.state)
     const { vertical, horizontal, open } = this.state;
     const { userThatJoined, userThatLeft } = this.props;
     let message;
-    this.props.styleNotification ?
+    this.props.styleNotification || this.props.saveNotification ?
     message = this.props.message
     : message = <span id="message-id">{
       userThatJoined ? `${userThatJoined} has joined this room` : `${userThatLeft} has left this room`
