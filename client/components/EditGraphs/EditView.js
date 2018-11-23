@@ -1,17 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {fetchAllUsers} from '../../store/user'
+import { fetchAllUsers } from '../../store/user'
 import ChartContainer from '../Chart/ChartContainer'
-import {CustomizeMenu} from './CustomizeMenu'
-import {gotData} from '../../store/data'
-import {postGraph} from '../../store/graph'
+import { CustomizeMenu } from './CustomizeMenu'
+import { gotData } from '../../store/data'
+import { postGraph } from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
 import classNames from 'classnames'
 import GraphMenu from './GraphMenu'
-import {connect} from 'react-redux'
-import {reinstateNumbers, download, addComma} from '../../utils'
-import {withStyles} from '@material-ui/core/styles'
+import { connect } from 'react-redux'
+import { reinstateNumbers, download, addComma } from '../../utils'
+import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import SaveIcon from '@material-ui/icons/Save'
@@ -28,14 +28,14 @@ const styles = theme => ({
 const sampleData = {
   dataJSON: {
     data: [
-    {quarter: '1', earnings: 13, items: 40, state: 'NY'},
-    {quarter: '2', earnings: 16, items: 60, state: 'NY'},
-    {quarter: '3', earnings: 17, items: 70, state: 'NY'},
-    {quarter: '4', earnings: 18, items: 80, state: 'NY'},
-    {quarter: '4', earnings: 18, items: 81, state: 'NY'},
-    {quarter: '4', earnings: 19, items: 90, state: 'NY'}
-  ]
-}
+      { quarter: '1', earnings: 13, items: 40, state: 'NY' },
+      { quarter: '2', earnings: 16, items: 60, state: 'NY' },
+      { quarter: '3', earnings: 17, items: 70, state: 'NY' },
+      { quarter: '4', earnings: 18, items: 80, state: 'NY' },
+      { quarter: '4', earnings: 18, items: 81, state: 'NY' },
+      { quarter: '4', earnings: 19, items: 90, state: 'NY' }
+    ]
+  }
 }
 
 class EditView extends React.Component {
@@ -82,7 +82,7 @@ class EditView extends React.Component {
   changeStyle(e, attribute) {
     if (attribute === 'dataId') {
       let newId = e.target.value;
-      if(newId !== '0') {
+      if (newId !== '0') {
         newId = +e.target.value
       }
       this.setState({
@@ -102,7 +102,11 @@ class EditView extends React.Component {
       })
     } else if (attribute === 'pieColor') {
       let pieColorSelected = e.target.value.split(',')
+      console.log('pieColorSelected', pieColorSelected)
       this.setState({
+        pieColor: pieColorSelected
+      })
+      socket.emit('newChanges', this.props.singleRoom, {
         pieColor: pieColorSelected
       })
     } else if (!e.target) {
@@ -117,7 +121,7 @@ class EditView extends React.Component {
         [attribute]: e.target.value
       })
     }
-    if (e.target) {
+    if (e.target && attribute !== 'pieColor') {
       socket.emit('newChanges', this.props.singleRoom, {
         [attribute]: e.target.value
       })
@@ -129,7 +133,7 @@ class EditView extends React.Component {
   }
 
   handleGraphSelected(graph) {
-    this.setState({graphSelected: graph})
+    this.setState({ graphSelected: graph })
     socket.emit('newChanges', this.props.singleRoom, {
       graphSelected: graph
     })
@@ -141,14 +145,14 @@ class EditView extends React.Component {
   }
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props
     console.log('user', this.props.user)
 
     const matchingUser = this.props.allUsers.filter(user => {
       return user.roomKey === this.props.singleRoom
     })
     const dataMatch = matchingUser[0].data
-    console.log('theeeee state', this.state)
+    // console.log('theeeee state', this.state)
     const graphSelected = this.state.graphSelected
     let data;
 
@@ -193,8 +197,8 @@ class EditView extends React.Component {
             {this.state.x === '' || this.state.y === '' ? (
               <div>Select columns</div>
             ) : (
-              <ChartContainer {...propPackage} />
-            )}
+                <ChartContainer {...propPackage} />
+              )}
             <GraphMenu handleGraphSelected={this.handleGraphSelected} />
             <Button
               variant="contained"
@@ -231,10 +235,10 @@ EditView.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  gotData: function() {
+  gotData: function () {
     dispatch(gotData())
   },
-  addGraph: function(graphData) {
+  addGraph: function (graphData) {
     dispatch(postGraph(graphData))
   },
   onFetchAllUsers: () => dispatch(fetchAllUsers())

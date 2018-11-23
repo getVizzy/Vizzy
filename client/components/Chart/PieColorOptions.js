@@ -11,8 +11,6 @@ const PieColorOptions = props => {
     orchid: ["#762a83", "#af8dc3", "#e7d4e8", "#d9f0d3", "#7fbf7b", "#1b7837"],
     sunshine: ["#d73027", "#fc8d59", "#fee090", "#e0f3f8", "#91bfdb", "#4575b4"],
   }
-
-  console.log("COLORTHEMES", colorThemes.forest)
   return (
     <select name="pieColor" onChange={e => changeStyle(e, 'pieColor')}>
       <option value={colorThemes.sunshine}>Sunshine</option>
