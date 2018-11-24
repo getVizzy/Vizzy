@@ -13,32 +13,32 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <Sidebar />
       </div>
     ) : // <nav style={{backgroundColor: 'white'}}>
-    //   <div>
-    //     {/* The navbar will show these links before you log in */}
-    //     <Link to="/login">Login</Link>
-    //     <Link to="/signup">Sign Up</Link>
-    //   </div>
-    //   <hr />
-    // </nav>
-    // null}
+      //   <div>
+      //     {/* The navbar will show these links before you log in */}
+      //     <Link to="/login">Login</Link>
+      //     <Link to="/signup">Sign Up</Link>
+      //   </div>
+      //   <hr />
+      // </nav>
+      null}
   </div>
-  )
-  
-  /**
-   * CONTAINER
-   */
+)
+
+/**
+ * CONTAINER
+ */
 const mapState = state => {
   return {
-      isLoggedIn: !!state.user.user.id
+    isLoggedIn: !!state.user.user.id
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-      handleClick() {
-    dispatch(logout())
+    handleClick() {
+      dispatch(logout())
+    }
   }
-}
 }
 
 export default connect(mapState, mapDispatch)(Navbar)
@@ -47,6 +47,6 @@ export default connect(mapState, mapDispatch)(Navbar)
 * PROP TYPES
 */
 Navbar.propTypes = {
-      handleClick: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired
-  }
+  handleClick: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired
+}

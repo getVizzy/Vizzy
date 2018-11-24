@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {download} from '../../utils'
+import React, { Component } from 'react'
+import { download } from '../../utils'
 
 import * as d3 from 'd3'
 import {
@@ -30,10 +30,10 @@ export default class VictoryScatterChart extends Component {
         <div id="chart">
           <VictoryChart
             theme={VictoryTheme.material}
-            style={{parent: {maxWidth: '100%'}}}
+            style={{ parent: { maxWidth: '100%' } }}
             width={600}
             height={470}
-            padding={{left: 100, right: 25, top: 35, bottom: 75}}
+            padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
             containerComponent={
               <VictoryVoronoiContainer
                 voronoiDimension="x"
@@ -41,7 +41,7 @@ export default class VictoryScatterChart extends Component {
                 labelComponent={
                   <VictoryTooltip
                     cornerRadius={+this.props.tooltip}
-                    flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
+                    flyoutStyle={{ fill: 'white', stroke: 'lightgrey' }}
                   />
                 }
               />
@@ -61,14 +61,14 @@ export default class VictoryScatterChart extends Component {
               y={24}
             />
             <VictoryScatter
-              style={{data: {fill: this.props.color}}}
+              style={{ data: { fill: this.props.color } }}
               size={7}
               data={data}
               x={x}
               y={y}
               animate={{
                 duration: 2000,
-                onLoad: {duration: 1000}
+                onLoad: { duration: 1000 }
               }}
               events={[
                 {
@@ -78,7 +78,7 @@ export default class VictoryScatterChart extends Component {
                       return [
                         {
                           target: 'labels',
-                          mutation: () => ({active: true})
+                          mutation: () => ({ active: true })
                         }
                       ]
                     },
@@ -87,11 +87,11 @@ export default class VictoryScatterChart extends Component {
                       return [
                         {
                           target: 'data',
-                          mutation: () => {}
+                          mutation: () => { }
                         },
                         {
                           target: 'labels',
-                          mutation: () => ({active: false})
+                          mutation: () => ({ active: false })
                         }
                       ]
                     }
@@ -117,16 +117,16 @@ export default class VictoryScatterChart extends Component {
             <VictoryAxis
               label={x}
               style={{
-                axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 12, padding: 30}
+                axis: { stroke: '#756f6a' },
+                axisLabel: { fontSize: 12, padding: 30 }
               }}
             />
             <VictoryAxis
               dependentAxis
               label={y}
               style={{
-                axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 12, padding: 60}
+                axis: { stroke: '#756f6a' },
+                axisLabel: { fontSize: 12, padding: 60 }
               }}
             />
           </VictoryChart>
@@ -165,12 +165,16 @@ export default class VictoryScatterChart extends Component {
             Download
           </button>
         </div>
+        <p />
+        <p />
+        <p />
+
         <canvas
           id={this.props.graphId}
           width="600"
           height="470"
           display="none"
-          style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
+          style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
         />
       </div>
     )
