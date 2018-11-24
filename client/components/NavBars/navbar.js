@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {logout} from '../../store'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { logout } from '../../store'
 import Sidebar from './Sidebar'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div style={{backgroundColor: 'white', marginTop: '20px'}}>
+const Navbar = ({ handleClick, isLoggedIn }) => (
+  <div style={{ backgroundColor: 'white', marginTop: '20px' }}>
     {isLoggedIn ? (
       <div>
         {/* navbar will show these links after you log in */}
@@ -20,33 +20,33 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     //   </div>
     //   <hr />
     // </nav>
-    null}
+    // null}
   </div>
-)
-
-/**
- * CONTAINER
- */
+  )
+  
+  /**
+   * CONTAINER
+   */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.user.id
+      isLoggedIn: !!state.user.user.id
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    handleClick() {
-      dispatch(logout())
-    }
+      handleClick() {
+    dispatch(logout())
   }
+}
 }
 
 export default connect(mapState, mapDispatch)(Navbar)
 
 /**
- * PROP TYPES
- */
+* PROP TYPES
+*/
 Navbar.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
-}
+      handleClick: PropTypes.func.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired
+  }
