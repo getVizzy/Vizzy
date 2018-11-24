@@ -13,6 +13,7 @@ import {
 import {download} from '../../utils'
 
 export default class VictoryBarChart extends Component {
+
   render() {
     let data = this.props.data
     let downloadPNG = download.bind(this)
@@ -110,28 +111,27 @@ export default class VictoryBarChart extends Component {
                         ]
                       }
                     }
-                  }
-                ]}
-                data={data.map(datum => {
-                  let label = datum[this.props.y].toString()
-                  label = this.props.addComma(label) || label
-                  datum.label = label
-                  return datum
-                })}
-                x={this.props.x}
-                y={this.props.y}
-                barRatio={0.9}
-              />
-            </VictoryStack>
-          </VictoryChart>
+                  ]}
+                  data={data.map(datum => {
+                    let label = datum[this.props.y].toString()
+                    label = this.props.addComma(label) || label
+                    datum.label = label
+                    return datum
+                  })}
+                  x={this.props.x}
+                  y={this.props.y}
+                  barRatio={0.9}
+                />
+              </VictoryStack>
+            </VictoryChart>
         </div>
-        <p>
-          <button
-            onClick={() => downloadPNG(this.props.title, this.props.graphId)}
-          >
-            Download
-          </button>
-        </p>
+//         <p>
+//           <button
+//             onClick={() => downloadPNG(this.props.title, this.props.graphId)}
+//           >
+//             Download
+//           </button>
+//         </p>
         <canvas
           id={this.props.graphId}
           width="600"

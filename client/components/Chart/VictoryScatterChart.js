@@ -32,7 +32,7 @@ export default class VictoryScatterChart extends Component {
             theme={VictoryTheme.material}
             style={{ parent: { maxWidth: '100%' } }}
             width={600}
-            height={470}
+            height={400}
             padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
             containerComponent={
               <VictoryVoronoiContainer
@@ -159,11 +159,12 @@ export default class VictoryScatterChart extends Component {
               >{`${keys[0][0].toUpperCase()}${keys[0].slice(1)}`}</option>
             </select> */}
 
-          <button
+          {/* <button
             onClick={() => downloadPNG(this.props.title, this.props.graphId)}
           >
             Download
-          </button>
+          </button> */}
+
         </div>
         <p />
         <p />

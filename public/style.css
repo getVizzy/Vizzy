@@ -223,3 +223,32 @@ li {
   justify-content: center;
   align-content: center;
 }
+
+#edit {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+#editPaper {
+  width: 350px;
+  flex-grow: 1;
+}
+
+#editMenu {
+  flex-grow: 1
+}
+
+#editChart {
+  flex-grow: 2;
+  width: 600px;
+}
+
+#globalEdit {
+  display: flex;
+  flex-direction: column;
+  margin-left: 100px;
+  margin-top: 75px;
+}
+

@@ -32,6 +32,7 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
+      <div id="globalContent">
       <Switch>
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
@@ -62,6 +63,7 @@ class Routes extends Component {
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
       </Switch>
+      </div>
     )
   }
 }
