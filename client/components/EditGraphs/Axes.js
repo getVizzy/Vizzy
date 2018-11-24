@@ -62,14 +62,13 @@ class Axes extends React.Component {
       <Select
         onChange={(e) => this.handleChange(e)}
         displayEmpty
-        name="age"
         value={this.state.column}
         className={classes.selectEmpty}>
         <MenuItem value="">
         </MenuItem>
 
         {items.map(item =>
-          <MenuItem className={classes.menuItem} value={item}>
+          <MenuItem className={classes.menuItem} key={item} value={item}>
             {item}
           </MenuItem>
         )}

@@ -16,20 +16,7 @@ import PieColorOptions from '../Chart/PieColorOptions'
 
 
 const styles = theme => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: 300,
-    position: 'relative',
-    minHeight: 200,
-  },
-  chipWrapper: {
-    marginBottom: theme.spacing.unit * 5,
-  },
-  gridItem: {
-    marginTop: 3,
-    marginBottom: 3,
-    marginLeft: 10
-  }
+
 });
 
 function TabContainer(props) {
@@ -91,8 +78,8 @@ class Menu extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <TabContainer dir={theme.direction}>
-          <Grid container spacing={10} className={classes.root}>
-            <Grid item xs={18} className={classes.gridItem}>
+          <Grid container spacing={16}>
+            <Grid item xs={12}>
 
               <FormControl component="fieldset">
                 <SimpleSelect
@@ -103,19 +90,19 @@ class Menu extends React.Component {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} className={classes.gridItem}>
+            <Grid item xs={12}>
               <FormControl component="fieldset">
                   <GraphMenu {...this.props} />
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} className={classes.gridItem}>
+            <Grid item xs={12}>
               <FormControl component="fieldset">
                 <Axes {...this.props } filterColumn={this.filterColumn} column="y" />
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} className={classes.gridItem}>
+            <Grid item xs={12}>
               <FormControl component="fieldset">
                 <Axes {...this.props } filterColumn={this.filterColumn} column="x" />
               </FormControl>
@@ -123,8 +110,8 @@ class Menu extends React.Component {
           </Grid>
         </TabContainer>
         <TabContainer dir={theme.direction}>
-          <Grid container spacing={10} className={classes.root}>
-            <Grid item xs={18} className={classes.gridItem}>
+          <Grid container spacing={16} className={classes.root}>
+            <Grid item xs={12}>
 
               {/* <FormControl component="fieldset">
                 <SimpleSelect

@@ -15,21 +15,38 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     width: 270,
   },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
 });
 
 class SimpleSelect extends React.Component {
-  state = {
-    selected: 'Sample Data'
+  constructor() {
+    super()
+    this.state = {
+      set: ''
+    };
+    this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange(event) {
-    this.props.changeStyle(event.target.value.id, 'dataId')
+    let name;
+    console.log("STATE HERE", this.state.set)
+    if(event.target.value !== '0') {
+      name = event.target.value.dataJSON.name
+      this.props.changeStyle(event.target.value.id, 'dataId')
+    } else {
+      name = "Sample Data"
+      this.props.changeStyle('0', 'dataId')
+    }
+
     this.setState({
-      selected: event.target.value.dataJSON.name,
+      set: name,
     });
   };
 
   render() {
+    console.log("STATE", this.state.set)
     const {classes} = this.props
     return (
       <FormControl className={classes.formControl}>
@@ -38,8 +55,9 @@ class SimpleSelect extends React.Component {
         <Select
           onChange={(e) => this.handleChange(e)}
           displayEmpty
-          value={this.state.selected}
+          value={this.state.set}
           className={classes.selectEmpty}>
+          <MenuItem value=""></MenuItem>
 
           <MenuItem value='0'>Sample Data</MenuItem>
 
@@ -50,7 +68,7 @@ class SimpleSelect extends React.Component {
             // ) {
             //   this.triggerRefresh()
             // }
-              <MenuItem value={option}>
+              <MenuItem key={option.id} value={option} className={classes.menuItem}>
                 {option.dataJSON.name}
               </MenuItem>
           )}
