@@ -294,17 +294,18 @@ class EditView extends React.Component {
             </button>
             {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
           </div>
-
           <Paper className={classes.root} elevation={22}>
             <Typography variant="h5" component="h3">
               Edit Graph
             </Typography>
-            <Typography component="p">Some text</Typography>
-            {this.state.x === '' || this.state.y === '' ? (
-              <div>Select columns</div>
-            ) : (
-              <ChartContainer {...propPackage} />
-            )}
+            <div className="flex-container">
+              {this.state.x === '' || this.state.y === '' ? (
+                <div>Select columns</div>
+              ) : (
+                <ChartContainer {...propPackage} />
+              )}
+            </div>
+
             <GraphMenu handleGraphSelected={this.changeStyle} />
             <Button
               variant="contained"

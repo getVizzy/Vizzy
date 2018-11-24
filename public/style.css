@@ -110,16 +110,16 @@ li {
   padding: 0px;
 }
 
-#container {
+/* #container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin: auto;
-}
+} */
 
 #chart {
-  flex-grow: 2;
-  padding-left: 60px;
+  /* flex-grow: 2; */
+  /* padding-left: 60px; */
   padding-right: 20px;
 }
 
@@ -218,8 +218,16 @@ li {
 }
 
 .description {
+  padding-top: 0.1em;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }

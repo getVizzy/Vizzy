@@ -15,15 +15,47 @@ import {
   VictoryLabel,
   VictoryVoronoiContainer
 } from 'victory'
+import Button from '@material-ui/core/Button'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import withStyles from '@material-ui/core/styles/withStyles'
+import {connect} from 'react-redux'
+import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom'
 
-export default class VictoryScatterChart extends Component {
+const styles = theme => ({
+  main: {
+    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto'
+    }
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
+      .spacing.unit * 3}px`
+  },
 
+  submit: {
+    marginTop: theme.spacing.unit * 3
+  }
+})
+
+class VictoryScatterChart extends Component {
   render() {
     let data = this.props.data
     const changeStyle = this.props.changeStyle
     let y = this.props.y
     let x = this.props.x
     let downloadPNG = download.bind(this)
+    const {classes} = this.props
 
     return (
       <div id="container">
@@ -130,9 +162,8 @@ export default class VictoryScatterChart extends Component {
               }}
             />
           </VictoryChart>
-        </div>
-        <div id="controls">
-          {/* <p>Left Axis:</p>
+          <div id="controls">
+            {/* <p>Left Axis:</p>
             <select
               onChange={e => {
                 //save old y value
@@ -159,12 +190,24 @@ export default class VictoryScatterChart extends Component {
               >{`${keys[0][0].toUpperCase()}${keys[0].slice(1)}`}</option>
             </select> */}
 
-          <button
-            onClick={() => downloadPNG(this.props.title, this.props.graphId)}
-          >
-            Download
-          </button>
+            <main className={classes.main}>
+              <CssBaseline />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={() =>
+                  downloadPNG(this.props.title, this.props.graphId)
+                }
+              >
+                Download
+              </Button>
+            </main>
+          </div>
         </div>
+
         <canvas
           id={this.props.graphId}
           width="600"
@@ -177,3 +220,11 @@ export default class VictoryScatterChart extends Component {
   }
 }
 
+export default withStyles(styles)(VictoryScatterChart)
+
+/**
+ * PROP TYPES
+ */
+VictoryScatterChart.propTypes = {
+  classes: PropTypes.object.isRequired
+}

@@ -4,17 +4,24 @@ import Line from './VictoryLineGraph'
 import Scatter from './VictoryScatterChart'
 import Pie from './VictoryPieChart'
 
-
 export default function ChartContainer(props) {
-  return props.graphSelected === 'bar' ?
-    <Bar {...props} /> :
-    props.graphSelected === 'line' ?
-      <Line {...props} /> :
-      props.graphSelected === 'scatter' ?
-        <Scatter {...props} /> :
-        props.graphSelected === 'pie' ?
-          <Pie {...props} /> :
-          <div />
+  return props.graphSelected === 'bar' ? (
+    <div className="flex-container">
+      <Bar {...props} />
+    </div>
+  ) : props.graphSelected === 'line' ? (
+    <div className="flex-container">
+      <Line {...props} />
+    </div>
+  ) : props.graphSelected === 'scatter' ? (
+    <div className="flex-container">
+      <Scatter {...props} />
+    </div>
+  ) : props.graphSelected === 'pie' ? (
+    <div className="flex-container">
+      <Pie {...props} />
+    </div>
+  ) : (
+    <div />
+  )
 }
-
-
