@@ -33,16 +33,15 @@ export default class VictoryPieChart extends Component {
     let downloadPNG = download.bind(this)
     let { data, x, y } = this.props
 
+    //code to parsed and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
     let filterData = []
     let dict = {}
-
 
     data.forEach(datum => {
       let label = datum[x].toString()
       let value = datum[y]
       filterData.push({ 'x': label, 'y': value })
     })
-
 
     filterData.forEach(obj => {
       let key = obj.x
@@ -55,7 +54,14 @@ export default class VictoryPieChart extends Component {
     let parsedData = Object.keys(dict).map(function (key) {
       return { x: key, y: dict[key] };
     });
+
+    let totalValues = 0
+    parsedData.forEach(datum => {
+      totalValues += datum.y
+    })
+
     console.log('Victory data', this.props)
+
     return (
       <div id="container">
         <div id="chart">
@@ -67,7 +73,7 @@ export default class VictoryPieChart extends Component {
               />
             }
             data={parsedData}
-
+            labels={(d) => `${this.props.x} ${d.x}: ${Math.round(((d.y) / totalValues) * 100)}%`}
             theme={VictoryTheme.material}
             domainPadding={60}
             width={600}
@@ -121,21 +127,22 @@ export default class VictoryPieChart extends Component {
             ]}
             colorScale={this.props.pieColor}
           />
-          <p>
-            <button
-              onClick={() => downloadPNG(this.props.title, this.props.graphId)}
-            >
-              Download
-            </button>
-          </p>
-          <canvas
-            id={this.props.graphId}
-            width="600"
-            height="400"
-            display="none"
-            style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
-          />
         </div>
+        <div>
+          <button
+            type="button"
+            onClick={() => downloadPNG(this.props.title, this.props.graphId)}
+          >
+            Download
+            </button>
+        </div>
+        <canvas
+          id={this.props.graphId}
+          width="600"
+          height="400"
+          display="none"
+          style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
+        />
       </div>
     )
   }
