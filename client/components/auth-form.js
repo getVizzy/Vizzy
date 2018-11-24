@@ -95,31 +95,29 @@ const AuthForm = props => {
           >
             Log In
           </Button>
-          <a href="/auth/google">
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              {displayName} with Google
-            </Button>
-          </a>
-
-          <Link to="/signup">
-            {' '}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign Up
-            </Button>
-          </Link>
         </form>
+        <a href="/auth/google">
+          <Button
+            type="submit"
+            fullWidth
+            color="secondary"
+            variant="outlined"
+            className={classes.submit}
+          >
+            {displayName} with Google
+          </Button>
+        </a>
+        <Link to="/signup">
+          <Button
+            type="submit"
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            className={classes.submit}
+          >
+            Sign Up
+          </Button>
+        </Link>
       </Paper>
     </main>
   ) : (
@@ -160,6 +158,17 @@ const AuthForm = props => {
             Sign Up
           </Button>
         </form>
+        <a href="/auth/google">
+          <Button
+            type="submit"
+            fullWidth
+            variant="outlined"
+            color="secondary"
+            className={classes.submit}
+          >
+            {displayName} with Google
+          </Button>
+        </a>
       </Paper>
     </main>
   )
