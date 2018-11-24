@@ -1,10 +1,10 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Graph, Data} = require('../server/db/models')
+const { User, Graph, Data } = require('../server/db/models')
 
 async function seed() {
-  await db.sync({force: true})
+  await db.sync({ force: true })
   console.log('db synced!')
 
   const users = await Promise.all([
@@ -17,6 +17,26 @@ async function seed() {
       email: 'murphy@email.com',
       password: '123',
       roomKey: 'g81isr2p42d0jsmw4a'
+    }),
+    User.create({
+      email: 'nancy@email.com',
+      password: '123',
+      roomKey: 'nxvc5d709aaql014nh'
+    }),
+    User.create({
+      email: 'adrienne@email.com',
+      password: '123',
+      roomKey: 'ak94wupewx4ja1ipml'
+    }),
+    User.create({
+      email: 'grace@email.com',
+      password: '123',
+      roomKey: 'gztts6t9sif67j4whp'
+    }),
+    User.create({
+      email: 'erica@email.com',
+      password: '123',
+      roomKey: 'ea7gl0qjd3i1omw1fp'
     })
   ])
 
@@ -25,14 +45,14 @@ async function seed() {
       userId: 1,
       dataJSON: {
         data: [
-          {x: '1', y: '2'},
-          {x: '2', y: '2'},
-          {x: '3', y: '4'},
-          {x: '4', y: '3'},
-          {x: '5', y: '4.5'},
-          {x: '6', y: '4.5'},
-          {x: '7', y: '7'},
-          {x: '8', y: '10'}
+          { x: '1', y: '2' },
+          { x: '2', y: '2' },
+          { x: '3', y: '4' },
+          { x: '4', y: '3' },
+          { x: '5', y: '4.5' },
+          { x: '6', y: '4.5' },
+          { x: '7', y: '7' },
+          { x: '8', y: '10' }
         ]
       }
     })

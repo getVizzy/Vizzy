@@ -8,10 +8,10 @@ import Pie from './VictoryPieChart'
 export default class ChartContainer extends Component {
 
   componentDidMount() {
-    this.props.changeStyle(this.props.x, 'x');
-    this.props.changeStyle(this.props.y, 'y');
-    this.props.changeStyle(this.props.color, 'color')
-    this.props.changeStyle(this.props.graphSelected, 'graphSelected')
+    // this.props.changeStyle(this.props.x, 'x');
+    // this.props.changeStyle(this.props.y, 'y');
+    // this.props.changeStyle(this.props.color, 'color')
+    // this.props.changeStyle(this.props.graphSelected, 'graphSelected')
   }
 
   render() {
