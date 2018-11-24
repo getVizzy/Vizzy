@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 import {
   VictoryPie,
+  VictoryLegend,
+  VictoryContainer,
   VictoryChart,
   VictoryAxis,
   VictoryStack,
@@ -31,7 +33,7 @@ export default class VictoryPieChart extends Component {
 
   render() {
     let downloadPNG = download.bind(this)
-    let { data, x, y } = this.props
+    let { data, x, y, pieTransform, pieColor } = this.props
 
     //code to parsed and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
     let filterData = []
@@ -65,6 +67,7 @@ export default class VictoryPieChart extends Component {
     return (
       <div id="container">
         <div id="chart">
+
           <VictoryPie
             labelComponent={
               <VictoryTooltip
@@ -125,7 +128,10 @@ export default class VictoryPieChart extends Component {
                 }
               }
             ]}
-            colorScale={this.props.pieColor}
+            colorScale={pieColor}
+            innerRadius={pieTransform === 'donut' ? 100 : 0}
+            cornerRadius={pieTransform === 'flower' ? 25 : 0}
+            padAngle={pieTransform === 'separate' ? 10 : 0}
           />
         </div>
         <div>

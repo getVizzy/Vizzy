@@ -99,7 +99,19 @@ export const CustomizeMenu = function (props) {
         <option value={0}>Square</option>
         <option value={25}>Circle</option>
       </select>
-
+      {
+        graphSelected === 'pie' ? (
+          <div>
+            <p>Transformation:</p>
+            <select name="pieTransform" onChange={e => changeStyle(e, 'pieTransform')}>
+              <option value='normal'>Normal</option>
+              <option value='donut'>Donut</option>
+              <option value='flower'>Flower</option>
+              <option value='separate'>Windmill</option>
+            </select>
+          </div>
+        ) : ('')
+      }
       <p>Graph Title:</p>
       <input value={props.title} onChange={e => props.titleChange(e)} />
       <button onClick={props.titleSubmit}>Add</button>

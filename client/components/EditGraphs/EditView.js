@@ -65,6 +65,7 @@ class EditView extends React.Component {
         '#91bfdb',
         '#4575b4'
       ],
+      pieTransform: 'normal',
       notification: false, //For snackbar notifications. Open to discuss a more dry approach
       userThatLeft: '',
       userThatJoined: '',
@@ -128,6 +129,11 @@ class EditView extends React.Component {
         this.setState({
           pieColor: updated
         })
+        break
+      case 'pieTransform':
+        this.setState({
+          pieTransform: updated
+        });
         break
       default:
         this.setState({
