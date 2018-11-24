@@ -107,7 +107,7 @@ export const CustomizeMenu = function (props) {
               <option value='normal'>Normal</option>
               <option value='donut'>Donut</option>
               <option value='flower'>Flower</option>
-              <option value='separate'>Windmill</option>
+              <option value='windmill'>Windmill</option>
             </select>
           </div>
         ) : ('')

@@ -131,7 +131,7 @@ export default class VictoryPieChart extends Component {
             colorScale={pieColor}
             innerRadius={pieTransformation === 'donut' ? 100 : 0}
             cornerRadius={pieTransformation === 'flower' ? 25 : 0}
-            padAngle={pieTransformation === 'separate' ? 10 : 0}
+            padAngle={pieTransformation === 'windmill' ? 10 : 0}
           />
         </div>
         <div>
