@@ -53,7 +53,8 @@ async function seed() {
           { x: '6', y: '4.5' },
           { x: '7', y: '7' },
           { x: '8', y: '10' }
-        ]
+        ],
+        name: "Seed Data"
       }
     })
   ])

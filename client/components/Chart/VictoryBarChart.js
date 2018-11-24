@@ -13,7 +13,7 @@ import {
 import {download} from '../../utils'
 
 export default class VictoryBarChart extends Component {
- 
+
   render() {
     let data = this.props.data
 
@@ -126,13 +126,13 @@ export default class VictoryBarChart extends Component {
             </VictoryChart>
           </div>
           <p>
-            <button
+            {/* <button
               onClick={() =>
                 this.downloadPNG(this.props.title, this.props.graphId)
               }
             >
               Download
-            </button>
+            </button> */}
           </p>
           <canvas
             id={this.props.graphId}

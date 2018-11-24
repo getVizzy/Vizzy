@@ -89,7 +89,8 @@ export default class VictoryPieChart extends Component {
                 fill: 'black',
                 fontSize: 12,
                 maxWidth: '100%'
-              }
+              },
+              parent: { maxWidth: '100%' }
             }}
             animate={{
               duration: 2000,
@@ -134,14 +135,14 @@ export default class VictoryPieChart extends Component {
             padAngle={pieTransformation === 'windmill' ? 10 : 0}
           />
         </div>
-        <div>
+        {/* <div>
           <button
             type="button"
             onClick={() => downloadPNG(this.props.title, this.props.graphId)}
           >
             Download
             </button>
-        </div>
+        </div> */}
         <canvas
           id={this.props.graphId}
           width="600"

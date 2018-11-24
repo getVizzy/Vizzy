@@ -61,7 +61,7 @@ const styles = theme => ({
     flexGrow: 1,
   },
   drawerPaper: {
-    position: 'relative',
+    // position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
     transition: theme.transitions.create('width', {

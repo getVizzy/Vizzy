@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -11,75 +10,91 @@ import LineChartIcon from '@material-ui/icons/ShowChart';
 import ScatterPlotIcon from '@material-ui/icons/ScatterPlot';
 import MapChartIcon from '@material-ui/icons/Public';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
-
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import FormLabel from '@material-ui/core/FormLabel';
 
 
 const styles = theme => ({
-  menuItem: {
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& $primary, & $icon': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
-  primary: {
-    // color: '#71A9F7'
-  },
 
-
+  formControl: {
+    margin: theme.spacing.unit,
+    width: 270,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
 });
 
-function ListItemComposition(props) {
-  const { classes } = props;
+
+class ListItemComposition extends React.Component {
+
+  state = {
+    graph: '',
+  };
+
+  handleChange = event => {
+    this.props.changeStyle(event, 'graphSelected')
+    this.setState({ graph: event.target.value });
+  };
+
+  render() {
+  const { classes } = this.props;
 
   return (
-    <MenuList>
+    <FormControl className={classes.formControl}>
+      <FormLabel className={classes.labels} >Graph Type</FormLabel>
+      <Select
+        onChange={(e) => this.handleChange(e)}
+        displayEmpty
+        value={this.state.graph}>
+      <MenuItem value="">
+      </MenuItem>
 
-      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('bar', 'graphSelected')}>
+      <MenuItem className={classes.menuItem} value="line">
+        <ListItemIcon >
+          <LineChartIcon />
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Line" />
+      </MenuItem>
+
+      <MenuItem className={classes.menuItem} value="bar" >
         <ListItemIcon className={classes.icon}>
           <BarChartIcon />
         </ListItemIcon>
         <ListItemText classes={{ primary: classes.primary }} inset primary="Bar" />
       </MenuItem>
 
-      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('pie', 'graphSelected')}>
-        <ListItemIcon className={classes.icon}>
+      <MenuItem className={classes.menuItem} value="pie">
+        <ListItemIcon>
           <PieChartIcon />
         </ListItemIcon>
         <ListItemText classes={{ primary: classes.primary }} inset primary="Pie" />
       </MenuItem>
 
-      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('line', 'graphSelected')}>
-        <ListItemIcon className={classes.icon}>
-          <LineChartIcon />
-        </ListItemIcon>
-        <ListItemText classes={{ primary: classes.primary }} inset primary="Line" />
-      </MenuItem>
-
-      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('scatter', 'graphSelected')}>
-        <ListItemIcon className={classes.icon}>
+      <MenuItem className={classes.menuItem} value="scatter">
+        <ListItemIcon>
           <ScatterPlotIcon />
         </ListItemIcon>
         <ListItemText classes={{ primary: classes.primary }} inset primary="Scatter" />
       </MenuItem>
 
-      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('map', 'graphSelected')}>
-        <ListItemIcon className={classes.icon}>
+      <MenuItem className={classes.menuItem} value="map">
+        <ListItemIcon>
           <MapChartIcon />
         </ListItemIcon>
         <ListItemText classes={{ primary: classes.primary }} inset primary="Map" />
       </MenuItem>
 
-      <MenuItem className={classes.menuItem} onClick={() => props.handleGraphSelected('bubble', 'graphSelected')}>
-        <ListItemIcon className={classes.icon}>
+      <MenuItem className={classes.menuItem} value="bubble">
+        <ListItemIcon>
           <BubbleChartIcon />
         </ListItemIcon>
         <ListItemText classes={{ primary: classes.primary }} inset primary="Bubble" />
       </MenuItem>
-
-    </MenuList>
-  );
+      </Select>
+    </FormControl>  );
+  }
 }
 
 ListItemComposition.propTypes = {

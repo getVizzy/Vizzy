@@ -127,11 +127,11 @@ export default class VictoryLineGraph extends Component {
           </VictoryChart>
         </div>
         <div>
-          <button
+          {/* <button
             onClick={() => downloadPNG(this.props.title, this.props.graphId)}
           >
             Download
-          </button>
+          </button> */}
           <canvas
             id={this.props.graphId}
             width="600"
