@@ -103,7 +103,7 @@ export const CustomizeMenu = function (props) {
         graphSelected === 'pie' ? (
           <div>
             <p>Transformation:</p>
-            <select name="pieTransform" onChange={e => changeStyle(e, 'pieTransform')}>
+            <select name="pieTransformation" onChange={e => changeStyle(e, 'pieTransformation')}>
               <option value='normal'>Normal</option>
               <option value='donut'>Donut</option>
               <option value='flower'>Flower</option>

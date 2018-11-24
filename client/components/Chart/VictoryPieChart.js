@@ -33,7 +33,7 @@ export default class VictoryPieChart extends Component {
 
   render() {
     let downloadPNG = download.bind(this)
-    let { data, x, y, pieTransform, pieColor } = this.props
+    let { data, x, y, pieColor, pieTransformation } = this.props
 
     //code to parsed and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
     let filterData = []
@@ -129,9 +129,9 @@ export default class VictoryPieChart extends Component {
               }
             ]}
             colorScale={pieColor}
-            innerRadius={pieTransform === 'donut' ? 100 : 0}
-            cornerRadius={pieTransform === 'flower' ? 25 : 0}
-            padAngle={pieTransform === 'separate' ? 10 : 0}
+            innerRadius={pieTransformation === 'donut' ? 100 : 0}
+            cornerRadius={pieTransformation === 'flower' ? 25 : 0}
+            padAngle={pieTransformation === 'separate' ? 10 : 0}
           />
         </div>
         <div>
