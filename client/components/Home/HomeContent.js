@@ -21,14 +21,14 @@ import HappyIcon from '@material-ui/icons/TagFaces'
 import UserDataSets from './UserDataSets'
 import { Link } from 'react-router-dom'
 
-
 //images
 const tiles = 'https://i.ibb.co/pLtgcSk/colorfultiles.jpg'
 const teamworkImg = 'https://i.ibb.co/8Y1QRnT/teamwork-jpg.jpg'
 const dataImg = 'https://i.ibb.co/vxQtwMt/data.jpg'
 const graphsImg = 'https://i.ibb.co/5Bn5r99/allcharts5.jpg'
 const createGraphImg = 'https://i.ibb.co/7kxh190/allcharts4.jpg'
-const libraryImg = 'https://i.ibb.co/zX2CTM1/binders.jpg'
+const libraryImg = 'https://i.ibb.co/9hTyvy1/library.jpg'
+const logoImg = 'https://i.ibb.co/gd3w2qb/VizLogo.png'
 
 const styles = theme => ({
   appBar: {
@@ -82,7 +82,6 @@ const styles = theme => ({
   }
 });
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const HomeContent = (props) => {
   const { classes } = props;
@@ -243,14 +242,10 @@ const HomeContent = (props) => {
                     Your Datasets
                   </Typography>
                   <Typography>
-                    <UserDataSets />
+                    View a listing of the datasets you have imported
                   </Typography>
                 </CardContent>
-                {/* <CardActions>
-                  <Button size="small" color="primary">
-                    <Link to="/room">Dashboard here</Link>
-                  </Button>
-                </CardActions> */}
+                <UserDataSets userData={props.userData} />
               </Card>
             </Grid>
 
@@ -285,10 +280,10 @@ const HomeContent = (props) => {
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          <img src={logoImg} width='150' height='70' />
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
+          Data Visualization made simple, interactive, and collaborative
         </Typography>
       </footer>
       {/* End footer */}

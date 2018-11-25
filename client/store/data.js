@@ -25,13 +25,15 @@ export const postData = data => async dispatch => {
 
 export const gotData = () => async dispatch => {
   try {
-    const {data} = await axios.get('/api/data')
+    console.log('STORE ARE YOU HITTING HERE?')
+    const { data } = await axios.get('/api/data')
+    console.log('store data', data)
     dispatch(getData(data))
   } catch (err) {
     console.error(err)
   }
 }
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case GET_DATA:
       return [...action.data]

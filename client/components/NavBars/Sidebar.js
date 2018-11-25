@@ -146,7 +146,7 @@ class PermanentDrawerLeft extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
     return (
       <div className={classes.root}>
 
@@ -177,7 +177,7 @@ class PermanentDrawerLeft extends React.Component {
               Vizzy
             </Typography>
 
-            <Avatar className={classes.avatar}>{this.props.user.user.email.slice(0, 1).toUpperCase()}</Avatar>
+            <Avatar className={classes.avatar}>{user.user.email.slice(0, 1).toUpperCase()}</Avatar>
 
             <Typography
               onClick={this.props.handleClick}
@@ -187,10 +187,10 @@ class PermanentDrawerLeft extends React.Component {
               noWrap
               className={classes.user}
             >
-              {this.props.user.user.email}
+              {user.user.email[0].toUpperCase() + user.user.email.substring(1, user.user.email.indexOf("@"))}
             </Typography>
 
-            <Tooltip title='Toggle between light/dark theme'>
+            <Tooltip title='Switch between light/dark mode'>
               <IconButton color="inherit">
                 <InvertColorsIcon onClick={this.props.handleSwitch} fontSize='small' />
               </IconButton>
