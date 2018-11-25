@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {VictoryPie, VictoryTheme, VictoryTooltip} from 'victory'
 import history from '../../history'
-
+import DeleteGraph from './DeleteGraph'
 import {download} from '../../utils'
 import Download from './Download'
 import {conv1dWithBias} from '@tensorflow/tfjs-layers/dist/layers/convolutional'
@@ -141,11 +141,14 @@ export default class VictoryPieChart extends Component {
             padAngle={pieTransformation === 'windmill' ? 10 : 0}
           />
           {history.location.pathname === '/dashboard' ? (
-            <Download
-              downloadPNG={downloadPNG}
-              title={this.props.title}
-              graphId={this.props.graphId}
-            />
+            <div>
+              <Download
+                downloadPNG={downloadPNG}
+                title={this.props.title}
+                graphId={this.props.graphId}
+              />
+              <DeleteGraph graphId={this.props.graphId} />
+            </div>
           ) : null}
         </div>
       </div>

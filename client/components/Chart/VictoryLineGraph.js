@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {download} from '../../utils'
 import Download from './Download'
 import history from '../../history'
+import DeleteGraph from './DeleteGraph'
 
 import {
   VictoryChart,
@@ -128,11 +129,14 @@ export default class VictoryLineGraph extends Component {
         </div>
         <div id="controls">
           {history.location.pathname === '/dashboard' ? (
-            <Download
-              downloadPNG={downloadPNG}
-              title={this.props.title}
-              graphId={this.props.graphId}
-            />
+            <div>
+              <Download
+                downloadPNG={downloadPNG}
+                title={this.props.title}
+                graphId={this.props.graphId}
+              />
+              <DeleteGraph graphId={this.props.graphId} />
+            </div>
           ) : null}
         </div>
       </div>

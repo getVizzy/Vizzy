@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {download} from '../../utils'
 import Download from './Download'
 import history from '../../history'
+import DeleteGraph from './DeleteGraph'
 
 import * as d3 from 'd3'
 import {
@@ -157,11 +158,14 @@ export default class VictoryScatterChart extends Component {
               >{`${keys[0][0].toUpperCase()}${keys[0].slice(1)}`}</option>
             </select> */}
             {history.location.pathname === '/dashboard' ? (
-              <Download
-                downloadPNG={downloadPNG}
-                title={this.props.title}
-                graphId={this.props.graphId}
-              />
+              <div>
+                <Download
+                  downloadPNG={downloadPNG}
+                  title={this.props.title}
+                  graphId={this.props.graphId}
+                />
+                <DeleteGraph graphId={this.props.graphId} />
+              </div>
             ) : null}
           </div>
         </div>

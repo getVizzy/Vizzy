@@ -258,3 +258,10 @@ li {
   margin-left: 100px;
   margin-top: 75px;
 }
+
+#dashboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 3em;
+}

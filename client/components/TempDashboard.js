@@ -34,7 +34,7 @@ class TempDashboard extends Component {
         }
 
         return (
-          <div>
+          <div id="dashboard-container">
             <ul className="flex-container">
               <ChartContainer {...propPackage} key={graph.id} />{' '}
             </ul>
@@ -46,7 +46,8 @@ class TempDashboard extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getGraphs: () => dispatch(gotGraphs())
+  getGraphs: () => dispatch(gotGraphs()),
+  deletingGraph: id => dispatch(deletingGraph(id))
 })
 
 const mapStateToProps = state => ({

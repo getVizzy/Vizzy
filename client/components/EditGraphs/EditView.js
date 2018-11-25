@@ -1,16 +1,16 @@
-import React, {useImperativeMethods} from 'react'
+import React, { useImperativeMethods } from 'react'
 import PropTypes from 'prop-types'
-import {fetchAllUsers} from '../../store/user'
+import { fetchAllUsers } from '../../store/user'
 import ChartContainer from '../Chart/ChartContainer'
-import {gotData} from '../../store/data'
-import {postGraph} from '../../store/graph'
+import { gotData } from '../../store/data'
+import { postGraph } from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
 import Menu from './Menu'
 import classNames from 'classnames'
-import {connect} from 'react-redux'
-import {reinstateNumbers, download, addComma} from '../../utils'
-import {withStyles} from '@material-ui/core/styles'
+import { connect } from 'react-redux'
+import { reinstateNumbers, download, addComma } from '../../utils'
+import { withStyles } from '@material-ui/core/styles'
 import SaveIcon from '@material-ui/icons/Save'
 import Button from '@material-ui/core/Button'
 import Snackbar from '../Notifications/Snackbar'
@@ -26,12 +26,12 @@ const styles = theme => ({
 const sampleData = {
   dataJSON: {
     data: [
-      {quarter: '1', earnings: 13, items: 40, state: 'NY'},
-      {quarter: '2', earnings: 16, items: 60, state: 'NY'},
-      {quarter: '3', earnings: 17, items: 70, state: 'NY'},
-      {quarter: '4', earnings: 18, items: 80, state: 'NY'},
-      {quarter: '4', earnings: 18, items: 81, state: 'NY'},
-      {quarter: '4', earnings: 19, items: 90, state: 'NY'}
+      { quarter: '1', earnings: 13, items: 40, state: 'NY' },
+      { quarter: '2', earnings: 16, items: 60, state: 'NY' },
+      { quarter: '3', earnings: 17, items: 70, state: 'NY' },
+      { quarter: '4', earnings: 18, items: 80, state: 'NY' },
+      { quarter: '4', earnings: 18, items: 81, state: 'NY' },
+      { quarter: '4', earnings: 19, items: 90, state: 'NY' }
     ]
   }
 }
@@ -102,9 +102,10 @@ class EditView extends React.Component {
   }
 
   changeStyle(e, attribute) {
-    let updated
+
+    let updated;
     e && e.target ? (updated = e.target.value) : (updated = e)
-    console.log('OTHER SIDE', e, updated)
+    console.log("OTHER SIDE", e, updated)
     switch (attribute) {
       case 'dataId':
         if (updated !== '0') {
@@ -130,7 +131,7 @@ class EditView extends React.Component {
       case 'pieTransformation':
         this.setState({
           pieTransformation: updated
-        })
+        });
         break
       default:
         this.setState({
@@ -240,15 +241,16 @@ class EditView extends React.Component {
   }
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props
 
     const matchingUser = this.props.allUsers.filter(user => {
       return user.roomKey === this.props.singleRoom
     })
 
     if (matchingUser[0]) {
+
       const dataMatch = matchingUser[0].data
-      let data
+      let data;
 
       if (!dataMatch) {
         return 'Loading...'
@@ -292,17 +294,17 @@ class EditView extends React.Component {
 
         return (
           <div id="globalEdit">
-            <div id="edit">
-              <div id="editChart">
-                {this.state.x === '' || this.state.y === '' ? (
-                  ''
-                ) : (
+          <div id="edit">
+            <div id="editChart">
+            {this.state.x === '' || this.state.y === '' ? (
+                ''
+              ) : (
                   <ChartContainer {...propPackage} />
                 )}
-              </div>
-              <div id="editMenu">
-                <Menu {...propPackage} />
-                {this.state.styleNotification ? (
+            </div>
+            <div id="editMenu">
+            <Menu {...propPackage } />
+            {this.state.styleNotification ? (
                   <Snackbar
                     {...notificationProps}
                     message={this.state.message}
@@ -310,18 +312,18 @@ class EditView extends React.Component {
                   />
                 ) : (
                   <div />
-                )}
-              </div>
+            )}
             </div>
+          </div>
+          <div>
             <div>
-              <div>
-                <Button
+              <Button
                   variant="contained"
                   size="small"
                   className={classes.button}
                   onClick={() => {
                     this.saveNotification()
-                    this.props.addGraph(this.state)
+                    this.props.addGraph(this.state);
                   }}
                 >
                   <SaveIcon
@@ -330,33 +332,21 @@ class EditView extends React.Component {
                   Save
                 </Button>
               </div>
-              {this.state.saveNotification ? (
-                <Snackbar
-                  {...notificationProps}
-                  saveNotification={this.state.saveNotification}
-                  message="Graph saved to your dashboard!"
-                />
-              ) : (
-                ''
-              )}
+                {this.state.saveNotification ? <Snackbar {...notificationProps} saveNotification={this.state.saveNotification} message="Graph saved to your dashboard!" /> : ''}
               <div>Room ID: {this.props.singleRoom}</div>
               <div>
-                <button type="button" onClick={this.leaveRoom}>
-                  Exit Room
-                </button>
+                  <button type="button" onClick={this.leaveRoom}>
+                    Exit Room
+                  </button>
               </div>
-              {this.state.notification ? (
-                <Snackbar {...notificationProps} />
-              ) : (
-                ''
-              )}
-            </div>
+                  {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
+              </div>
           </div>
         )
       }
     } else {
       this.props.history.push('/room')
-      return null
+      return null;
     }
   }
 }
@@ -366,11 +356,11 @@ EditView.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  gotData: function() {
+  gotData: function () {
     dispatch(gotData())
   },
-  addGraph: function(graphData) {
-    dispatch(postGraph(graphData))
+  addGraph: function (graphData) {
+    dispatch(postGraph(graphData));
   },
   onFetchAllUsers: () => dispatch(fetchAllUsers())
 })

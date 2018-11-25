@@ -35,4 +35,17 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.delete('/:graphId', async (req, res, next) => {
+  try {
+    const graph = await Graph.destroy({
+      where: {
+        id: req.params.graphId
+      }
+    })
+    res.sendStatus(202)
+  } catch (error) {
+    next(error)
+  }
+})
 module.exports = router
