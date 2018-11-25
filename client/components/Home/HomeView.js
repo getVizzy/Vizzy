@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {withStyles} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import FileDrop from '../FileDrop'
@@ -8,8 +8,10 @@ import UserDataSets from './UserDataSets'
 import DataIcon from '@material-ui/icons/LibraryBooks'
 import UploadIcon from '@material-ui/icons/CloudUpload'
 import Tooltip from '@material-ui/core/Tooltip'
+import HeaderGrid from './HeaderGrid'
+import HeaderContent from './HeaderContent'
 
-import {typography} from 'material-ui/styles'
+import { typography } from 'material-ui/styles'
 
 const styles = theme => ({
   root: {
@@ -43,53 +45,56 @@ class InteractiveGrid extends React.Component {
   }
 
   render() {
-    const {classes} = this.props
-    const {alignItems, direction, justify} = this.state
+    const { classes } = this.props
+    const { alignItems, direction, justify } = this.state
 
     return (
-      <Grid container className={classes.root}>
-        <Grid item xs={10}>
-          <Grid
-            container
-            spacing={16}
-            className={classes.demo}
-            alignItems={alignItems}
-            direction={direction}
-            justify={justify}
-          >
-            <Grid item>
-              <Paper
-                className={classes.paper}
-                style={{
-                  paddingTop: 120,
-                  paddingBottom: 120,
-                  paddingLeft: 150,
-                  paddingRight: 150
-                }}
-              >
-                <UploadIcon className={classes.icon} />
-                <Tooltip title="Add" placement="top">
-                  <FileDrop />
-                </Tooltip>
-              </Paper>
-            </Grid>
-            <Grid item>
-              <Paper
-                className={classes.paper}
-                style={{
-                  paddingTop: 120,
-                  paddingBottom: 120,
-                  paddingLeft: 150,
-                  paddingRight: 150
-                }}
-              >
-                <DataIcon className={classes.icon} />
-                <UserDataSets />
-              </Paper>
+      <div id='homeContainer'>
+        <HeaderGrid />
+        <Grid container className={classes.root}>
+          <Grid item xs={10}>
+            <Grid
+              container
+              spacing={16}
+              className={classes.demo}
+              alignItems={alignItems}
+              direction={direction}
+              justify={justify}
+            >
+              <Grid item>
+                <Paper
+                  className={classes.paper}
+                  style={{
+                    paddingTop: 120,
+                    paddingBottom: 120,
+                    paddingLeft: 150,
+                    paddingRight: 150
+                  }}
+                >
+                  <UploadIcon className={classes.icon} />
+                  <Tooltip title="Add" placement="top">
+                    <FileDrop />
+                  </Tooltip>
+                </Paper>
+              </Grid>
+              <Grid item>
+                <Paper
+                  className={classes.paper}
+                  style={{
+                    paddingTop: 120,
+                    paddingBottom: 120,
+                    paddingLeft: 150,
+                    paddingRight: 150
+                  }}
+                >
+                  <DataIcon className={classes.icon} />
+                  <UserDataSets />
+                </Paper>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     )
   }
 }

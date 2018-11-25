@@ -18,6 +18,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 
+const logoOne = 'https://i.ibb.co/mS7jzXv/logo-1.png'
+
 
 const drawerWidth = 240;
 
@@ -31,8 +33,8 @@ const styles = theme => ({
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
+    justifyContent: 'center',
+    // padding: '0 8px',
     ...theme.mixins.toolbar,
   },
   appBar: {
@@ -148,13 +150,13 @@ class PermanentDrawerLeft extends React.Component {
               <Typography
                 onClick={this.props.handleClick}
                 component="h1"
-                variant="h6"
+                variant="body1"
                 color="inherit"
                 noWrap
               >
                 Logout
               </Typography>
-              <LogoutIcon onClick={this.props.handleClick} />
+              <LogoutIcon onClick={this.props.handleClick} fontSize='small' />
 
             </IconButton>
 
@@ -169,6 +171,7 @@ class PermanentDrawerLeft extends React.Component {
         >
           <div className={classes.toolbarIcon}>
             <IconButton onClick={this.handleDrawerClose}>
+              <img src={logoOne} height='30' width='130' position='center' />
               <ChevronLeftIcon />
             </IconButton>
           </div>
