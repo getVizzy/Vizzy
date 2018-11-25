@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, FileDrop} from './components'
-import {me} from './store'
+import { Login, Signup, UserHome, FileDrop } from './components'
+import { me } from './store'
 import Dashboard from './components/Dashboard'
 
 import VictoryBarChart from './components/Chart/VictoryBarChart'
@@ -29,7 +29,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const { isLoggedIn } = this.props
 
     return (
       <div id="routes">
@@ -49,9 +49,9 @@ class Routes extends Component {
               <Route exact path="/" component={HomeView} />
               <Route path="/home" component={HomeView} />
               <Route path="/upload" component={FileDrop} />
-              <div id="globalContent">
-                <Route path="/dashboard" component={TempDashboard} />
-              </div>
+              {/* <div id="globalContent"> */}
+              <Route path="/dashboard" component={TempDashboard} />
+              {/* </div> */}
               <Route path="/bar" component={VictoryBarChart} />
               <Route path="/line" component={VictoryLineGraph} />
               <Route path="/scatter" component={VictoryScatterChart} />
