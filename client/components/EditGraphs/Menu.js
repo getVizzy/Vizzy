@@ -13,11 +13,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import PieColorOptions from '../Chart/PieColorOptions'
+import ColorSelect from './ColorSelect'
 
 
-const styles = theme => ({
-
-});
+const styles = theme => ({});
 
 function TabContainer(props) {
   const { children, dir } = props;
@@ -113,38 +112,26 @@ class Menu extends React.Component {
           <Grid container spacing={16} className={classes.root}>
             <Grid item xs={12}>
 
-              {/* <FormControl component="fieldset">
-                <SimpleSelect
-                  name="Dataset"
-                  items={this.props.dataMatch}
-                  {...this.props}
-                />
-              </FormControl> */}
-                    <p>Color:</p>
-      {this.props.graphSelected === 'pie' ? <PieColorOptions {...this.props} /> :
-        <select name="color" onChange={e => this.props.changeStyle(e, 'color')}>
-          <option value="tomato">Tomato</option>
-          <option value="gold">Gold</option>
-          <option value="orange">Orange</option>
-          <option value="#f77">Salmon</option>
-          <option value="#55e">Purple</option>
-          <option value="#8af">Periwinkle</option>
-        </select>}
-      {this.props.graphSelected === 'line' ? (
-        ''
-      ) : (
-          <div>
-            <p>Highlight:</p>
-            <select name="highlight" onChange={e => this.props.changeStyle(e, 'highlight')}>
-              <option value="orange">Orange</option>
-              <option value="tomato">Tomato</option>
-              <option value="gold">Gold</option>
-              <option value="#f77">Salmon</option>
-              <option value="#55e">Purple</option>
-              <option value="#8af">Periwinkle</option>
-            </select>
-          </div>
-        )}
+          {this.props.graphSelected === 'pie' ? <PieColorOptions {...this.props} /> :
+
+            <FormControl component="fieldset">
+              <ColorSelect
+                name="Color"
+                {...this.props}
+              />
+            </FormControl>
+          }
+
+          {this.props.graphSelected === 'line' ? (
+            ''
+          ) : (
+                <FormControl component="fieldset">
+                  <ColorSelect
+                    name="Highlight"
+                    {...this.props}
+                  />
+                </FormControl>
+          )}
 
       <p>Pointer:</p>
       <select name="tooltip" onChange={e => this.props.changeStyle(e, 'tooltip')}>
@@ -176,7 +163,7 @@ class Menu extends React.Component {
             onChange={e => {
               this.props.changeStyle(!this.props.regression, 'regression')
               // console.log('x and y on state', props.x, props.y)
-              if (!props.regression) {
+              if (!this.props.regression) {
                 this.props.buildRegressionModel(
                   this.props.graphData,
                   this.props.props.x,

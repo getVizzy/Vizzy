@@ -24,25 +24,19 @@ class SimpleSelect extends React.Component {
   constructor() {
     super()
     this.state = {
-      set: ''
+      data: ''
     };
     this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange(event) {
-    let name;
-    this.setState({
-      set: 'Hello',
-    });
     if(event.target.value !== '0') {
-      name = event.target.value.dataJSON.name
-      this.props.changeStyle(event.target.value.id, 'dataId')
+      this.props.changeStyle(event.target.value, 'dataId')
     } else {
-      name = "Sample Data"
       this.props.changeStyle('0', 'dataId')
     }
     this.setState({
-      set: 'Hello',
+      data: event.target.value
     });
   };
 
@@ -55,10 +49,10 @@ class SimpleSelect extends React.Component {
         <Select
           onChange={(e) => this.handleChange(e)}
           displayEmpty
-          value={this.state.set}
+          value={this.state.data}
           className={classes.selectEmpty}>
-          <MenuItem value=""></MenuItem>
 
+          <MenuItem value="" />
           <MenuItem value='0'>Sample Data</MenuItem>
 
           {this.props.items.map((option) =>
@@ -68,7 +62,7 @@ class SimpleSelect extends React.Component {
             // ) {
             //   this.triggerRefresh()
             // }
-              <MenuItem key={option.id} value={option} className={classes.menuItem}>
+              <MenuItem key={option.id} value={option.id} className={classes.menuItem}>
                 {option.dataJSON.name}
               </MenuItem>
           )}

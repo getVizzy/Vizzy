@@ -296,12 +296,15 @@ class EditView extends React.Component {
           <div id="globalEdit">
           <div id="edit">
             <div id="editChart">
+
             {this.state.x === '' || this.state.y === '' ? (
                 ''
               ) : (
                   <ChartContainer {...propPackage} />
                 )}
+
             </div>
+
             <div id="editMenu">
             <Menu {...propPackage } />
             {this.state.styleNotification ? (
@@ -315,6 +318,7 @@ class EditView extends React.Component {
             )}
             </div>
           </div>
+
           <div>
             <div>
               <Button
