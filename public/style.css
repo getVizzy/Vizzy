@@ -260,6 +260,14 @@ li {
 }
 
 #dashboard-container {
+  /* display: flex;
+  flex-wrap: wrap;
+  justify-content: center; */
+  padding-top: 3em;
+  padding-bottom: 1em;
+}
+
+#globalContent {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

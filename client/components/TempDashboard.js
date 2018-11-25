@@ -35,9 +35,7 @@ class TempDashboard extends Component {
 
         return (
           <div id="dashboard-container">
-            <ul className="flex-container">
-              <ChartContainer {...propPackage} key={graph.id} />{' '}
-            </ul>
+            <ChartContainer {...propPackage} key={graph.id} />{' '}
           </div>
         )
       })
