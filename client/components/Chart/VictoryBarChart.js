@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   VictoryBar,
   VictoryChart,
@@ -8,7 +8,7 @@ import {
   VictoryTooltip,
   VictoryLabel
 } from 'victory'
-import {download} from '../../utils'
+import { download } from '../../utils'
 import Download from './Download'
 import history from '../../history'
 import DeleteGraph from './DeleteGraph'
@@ -22,11 +22,11 @@ export default class VictoryBarChart extends Component {
         <div id="chart">
           <VictoryChart
             theme={VictoryTheme.material}
-            style={{parent: {maxWidth: '100%'}}}
+            style={{ parent: { maxWidth: '100%' } }}
             domainPadding={60}
             width={600}
             height={400}
-            padding={{left: 100, right: 25, top: 35, bottom: 75}}
+            padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
           >
             <VictoryLabel
               text={this.props.title}
@@ -45,8 +45,8 @@ export default class VictoryBarChart extends Component {
             <VictoryAxis
               label={this.props.x}
               style={{
-                axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 12, padding: 30}
+                axis: { stroke: '#756f6a' },
+                axisLabel: { fontSize: 12, padding: 30 }
               }}
               tickValues={data.map(datum => datum[this.props.x])}
               tickFormat={data.map(datum => {
@@ -62,22 +62,22 @@ export default class VictoryBarChart extends Component {
               dependentAxis
               label={this.props.y}
               style={{
-                axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 12, padding: 60}
+                axis: { stroke: '#756f6a' },
+                axisLabel: { fontSize: 12, padding: 60 }
               }}
             />
             <VictoryStack>
               <VictoryBar
                 labelComponent={
                   <VictoryTooltip
-                    flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
+                    flyoutStyle={{ fill: 'white', stroke: 'lightgrey' }}
                     cornerRadius={+this.props.tooltip}
                   />
                 }
-                style={{data: {fill: this.props.color}}}
+                style={{ data: { fill: this.props.color } }}
                 animate={{
                   duration: 2000,
-                  onLoad: {duration: 1000}
+                  onLoad: { duration: 1000 }
                 }}
                 events={[
                   {
@@ -88,12 +88,12 @@ export default class VictoryBarChart extends Component {
                           {
                             target: 'data',
                             mutation: () => ({
-                              style: {fill: this.props.highlight}
+                              style: { fill: this.props.highlight }
                             })
                           },
                           {
                             target: 'labels',
-                            mutation: () => ({active: true})
+                            mutation: () => ({ active: true })
                           }
                         ]
                       },
@@ -101,11 +101,11 @@ export default class VictoryBarChart extends Component {
                         return [
                           {
                             target: 'data',
-                            mutation: () => {}
+                            mutation: () => { }
                           },
                           {
                             target: 'labels',
-                            mutation: () => ({active: false})
+                            mutation: () => ({ active: false })
                           }
                         ]
                       }

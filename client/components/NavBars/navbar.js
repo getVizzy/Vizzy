@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom'
 import { logout } from '../../store'
 import Sidebar from './Sidebar'
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
+const Navbar = ({ handleSwitch, handleClick, isLoggedIn }) => (
   <div style={{ backgroundColor: 'white', marginTop: '20px' }}>
     {isLoggedIn ? (
       <div>
         {/* navbar will show these links after you log in */}
-        <Sidebar />
+        <Sidebar handleSwitch={handleSwitch} />
       </div>
     ) : // <nav style={{backgroundColor: 'white'}}>
       //   <div>

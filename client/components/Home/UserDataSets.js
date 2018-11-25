@@ -4,23 +4,24 @@ import { connect } from 'react-redux'
 
 const UserDataSets = props => {
   return (
-    <div>
-      <h5>Your Datasets</h5>
-    </div>
+    <span>
+
+    </span>
   )
 }
 
 const mapStateToProps = state => ({
-  data: state.data
+  data: state.data,
+  user: state.user.user,
+  rooms: state.room.rooms,
+  singleRoom: state.room.singleRoom,
+  allUsers: state.user.allUsers
 })
 
-const mapDispatchToProps = dispatch => ({
-  gotData: function () {
-    dispatch(gotData())
-  }
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDataSets)
+
+
+export default connect(mapStateToProps)(UserDataSets)
 
 
 
