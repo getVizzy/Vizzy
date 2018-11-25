@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import { download } from '../../utils'
+import React, {Component} from 'react'
+import {download} from '../../utils'
+import Download from './Download'
+import history from '../../history'
+import DeleteGraph from './DeleteGraph'
 
 import * as d3 from 'd3'
 import {
   VictoryChart,
   VictoryScatter,
   VictoryLine,
-  VictoryZoomContainer,
-  VictoryBrushContainer,
   VictoryAxis,
-  VictoryStack,
   VictoryTheme,
   VictoryTooltip,
   VictoryLabel,
@@ -17,23 +17,23 @@ import {
 } from 'victory'
 
 export default class VictoryScatterChart extends Component {
-
   render() {
     let data = this.props.data
     const changeStyle = this.props.changeStyle
     let y = this.props.y
     let x = this.props.x
     let downloadPNG = download.bind(this)
+    console.log('scatter', this.props)
 
     return (
       <div id="container">
         <div id="chart">
           <VictoryChart
             theme={VictoryTheme.material}
-            style={{ parent: { maxWidth: '100%' } }}
+            style={{parent: {maxWidth: '100%'}}}
             width={600}
             height={400}
-            padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
+            padding={{left: 100, right: 25, top: 35, bottom: 75}}
             containerComponent={
               <VictoryVoronoiContainer
                 voronoiDimension="x"
@@ -41,7 +41,7 @@ export default class VictoryScatterChart extends Component {
                 labelComponent={
                   <VictoryTooltip
                     cornerRadius={+this.props.tooltip}
-                    flyoutStyle={{ fill: 'white', stroke: 'lightgrey' }}
+                    flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
                   />
                 }
               />
@@ -61,14 +61,14 @@ export default class VictoryScatterChart extends Component {
               y={24}
             />
             <VictoryScatter
-              style={{ data: { fill: this.props.color } }}
+              style={{data: {fill: this.props.color}}}
               size={7}
               data={data}
               x={x}
               y={y}
               animate={{
                 duration: 2000,
-                onLoad: { duration: 1000 }
+                onLoad: {duration: 1000}
               }}
               events={[
                 {
@@ -78,7 +78,7 @@ export default class VictoryScatterChart extends Component {
                       return [
                         {
                           target: 'labels',
-                          mutation: () => ({ active: true })
+                          mutation: () => ({active: true})
                         }
                       ]
                     },
@@ -87,11 +87,11 @@ export default class VictoryScatterChart extends Component {
                       return [
                         {
                           target: 'data',
-                          mutation: () => { }
+                          mutation: () => {}
                         },
                         {
                           target: 'labels',
-                          mutation: () => ({ active: false })
+                          mutation: () => ({active: false})
                         }
                       ]
                     }
@@ -117,22 +117,21 @@ export default class VictoryScatterChart extends Component {
             <VictoryAxis
               label={x}
               style={{
-                axis: { stroke: '#756f6a' },
-                axisLabel: { fontSize: 12, padding: 30 }
+                axis: {stroke: '#756f6a'},
+                axisLabel: {fontSize: 12, padding: 30}
               }}
             />
             <VictoryAxis
               dependentAxis
               label={y}
               style={{
-                axis: { stroke: '#756f6a' },
-                axisLabel: { fontSize: 12, padding: 60 }
+                axis: {stroke: '#756f6a'},
+                axisLabel: {fontSize: 12, padding: 60}
               }}
             />
           </VictoryChart>
-        </div>
-        <div id="controls">
-          {/* <p>Left Axis:</p>
+          <div id="controls">
+            {/* <p>Left Axis:</p>
             <select
               onChange={e => {
                 //save old y value
@@ -158,27 +157,19 @@ export default class VictoryScatterChart extends Component {
                 value={keys[0]}
               >{`${keys[0][0].toUpperCase()}${keys[0].slice(1)}`}</option>
             </select> */}
-
-          {/* <button
-            onClick={() => downloadPNG(this.props.title, this.props.graphId)}
-          >
-            Download
-          </button> */}
-
+            {history.location.pathname === '/dashboard' ? (
+              <div>
+                <Download
+                  downloadPNG={downloadPNG}
+                  title={this.props.title}
+                  graphId={this.props.graphId}
+                />
+                <DeleteGraph graphId={this.props.graphId} />
+              </div>
+            ) : null}
+          </div>
         </div>
-        <p />
-        <p />
-        <p />
-
-        <canvas
-          id={this.props.graphId}
-          width="600"
-          height="470"
-          display="none"
-          style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
-        />
       </div>
     )
   }
 }
-

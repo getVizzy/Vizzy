@@ -110,18 +110,18 @@ li {
   padding: 0px;
 }
 
-#container {
+/* #container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin: auto;
-}
+} */
 
-#chart {
-  flex-grow: 2;
-  padding-left: 60px;
-  padding-right: 20px;
-}
+/* #chart { */
+/* flex-grow: 2; */
+/* padding-left: 60px; */
+/* padding-right: 20px;
+} */
 
 #container-row {
   display: flex;
@@ -132,10 +132,10 @@ li {
   padding-top: 25px;
 }
 
-#controls {
+/* #controls {
   padding-top: 100px;
   padding-right: 250px;
-}
+} */
 
 #dropzone {
   display: flex;
@@ -218,12 +218,19 @@ li {
 }
 
 .description {
+  padding-top: 0.1em;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
 }
 
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 #edit {
   display: flex;
   flex-direction: row;
@@ -237,7 +244,7 @@ li {
 }
 
 #editMenu {
-  flex-grow: 1
+  flex-grow: 1;
 }
 
 #editChart {
@@ -252,3 +259,17 @@ li {
   margin-top: 75px;
 }
 
+#dashboard-container {
+  /* display: flex;
+  flex-wrap: wrap;
+  justify-content: center; */
+  padding-top: 3em;
+  padding-bottom: 1em;
+}
+
+#globalContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 3em;
+}

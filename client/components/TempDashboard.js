@@ -19,7 +19,6 @@ class TempDashboard extends Component {
   }
 
   render() {
-    console.log('graphs', this.props.graphs)
     if (!this.props.graphs) {
       return 'Getting your graphs!'
     } else {
@@ -34,14 +33,19 @@ class TempDashboard extends Component {
           ...graph.properties
         }
 
-        return <ChartContainer {...propPackage} key={graph.id} />
+        return (
+          <div id="dashboard-container">
+            <ChartContainer {...propPackage} key={graph.id} />{' '}
+          </div>
+        )
       })
     }
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  getGraphs: () => dispatch(gotGraphs())
+  getGraphs: () => dispatch(gotGraphs()),
+  deletingGraph: id => dispatch(deletingGraph(id))
 })
 
 const mapStateToProps = state => ({

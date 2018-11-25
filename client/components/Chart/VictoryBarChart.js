@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-
 import {
   VictoryBar,
   VictoryChart,
@@ -9,15 +8,15 @@ import {
   VictoryTooltip,
   VictoryLabel
 } from 'victory'
-
 import {download} from '../../utils'
+import Download from './Download'
+import history from '../../history'
+import DeleteGraph from './DeleteGraph'
 
 export default class VictoryBarChart extends Component {
-
   render() {
     let data = this.props.data
     let downloadPNG = download.bind(this)
-
     return (
       <div id="container">
         <div id="chart">
@@ -111,36 +110,31 @@ export default class VictoryBarChart extends Component {
                         ]
                       }
                     }
-                }]}
-                  data={data.map(datum => {
-                    let label = datum[this.props.y].toString()
-                    label = this.props.addComma(label) || label
-                    datum.label = label
-                    return datum
-                  })}
-                  x={this.props.x}
-                  y={this.props.y}
-                  barRatio={0.9}
-                />
-              </VictoryStack>
-            </VictoryChart>
+                  }
+                ]}
+                data={data.map(datum => {
+                  let label = datum[this.props.y].toString()
+                  label = this.props.addComma(label) || label
+                  datum.label = label
+                  return datum
+                })}
+                x={this.props.x}
+                y={this.props.y}
+                barRatio={0.9}
+              />
+            </VictoryStack>
+          </VictoryChart>
         </div>
-        {/* <p>
-          <button
-            onClick={() => downloadPNG(this.props.title, this.props.graphId)}
-          >
-            Download
-          </button>
-        </p> */}
-
-        <canvas>
-          id={this.props.graphId}
-          width="600"
-          height="400"
-          display="none"
-          {/* style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}} */}
-          ref={this.canvas}
-        </canvas>
+        {history.location.pathname === '/dashboard' ? (
+          <div>
+            <Download
+              downloadPNG={downloadPNG}
+              title={this.props.title}
+              graphId={this.props.graphId}
+            />
+            <DeleteGraph graphId={this.props.graphId} />
+          </div>
+        ) : null}
       </div>
     )
   }
