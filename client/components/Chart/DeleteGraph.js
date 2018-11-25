@@ -16,7 +16,9 @@ const styles = theme => ({
       width: 400,
       marginLeft: 'auto',
       marginRight: 'auto'
-    }
+    },
+    vertical: 'bottom',
+    horizontal: 'center'
   },
   submit: {
     marginTop: theme.spacing.unit * 3
