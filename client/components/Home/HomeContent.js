@@ -1,45 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import FileDrop from '../FileDrop'
 import AddIcon from '@material-ui/icons/AddCircle'
 import EmailIcon from '@material-ui/icons/Email'
-import BarChartIcon from '@material-ui/icons/InsertChart'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import CreateIcon from '@material-ui/icons/Create'
 import DataIcon from '@material-ui/icons/LibraryBooks'
 import HappyIcon from '@material-ui/icons/TagFaces'
-
 import UserDataSets from './UserDataSets'
-
-
-import CardHeader from '@material-ui/core/CardHeader';
 import { Link } from 'react-router-dom'
-
-
-
 
 //images
 const tiles = 'https://i.ibb.co/pLtgcSk/colorfultiles.jpg'
 const teamworkImg = 'https://i.ibb.co/8Y1QRnT/teamwork-jpg.jpg'
 const dataImg = 'https://i.ibb.co/vxQtwMt/data.jpg'
-// const graphsImg = 'https://i.ibb.co/sKD0vXn/allgraphs.jpg'
 const graphsImg = 'https://i.ibb.co/5Bn5r99/allcharts5.jpg'
 const createGraphImg = 'https://i.ibb.co/7kxh190/allcharts4.jpg'
-
+const libraryImg = 'https://i.ibb.co/9hTyvy1/library.jpg'
+const logoImg = 'https://i.ibb.co/gd3w2qb/VizLogo.png'
 
 const styles = theme => ({
   appBar: {
@@ -93,7 +82,6 @@ const styles = theme => ({
   }
 });
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const HomeContent = (props) => {
   const { classes } = props;
@@ -245,7 +233,7 @@ const HomeContent = (props) => {
               <Card className={classes.card}>
                 <CardMedia
                   className={classes.cardMedia}
-                  image={graphsImg} // eslint-disable-line max-len
+                  image={libraryImg} // eslint-disable-line max-len
                   title="Image title"
                 />
                 <CardContent className={classes.cardContent}>
@@ -254,14 +242,10 @@ const HomeContent = (props) => {
                     Your Datasets
                   </Typography>
                   <Typography>
-                    <UserDataSets />
+                    View a listing of the datasets you have imported
                   </Typography>
                 </CardContent>
-                {/* <CardActions>
-                  <Button size="small" color="primary">
-                    <Link to="/room">Dashboard here</Link>
-                  </Button>
-                </CardActions> */}
+                <UserDataSets userData={props.userData} />
               </Card>
             </Grid>
 
@@ -296,10 +280,10 @@ const HomeContent = (props) => {
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          <img src={logoImg} width='150' height='70' />
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
+          Data Visualization made simple, interactive, and collaborative
         </Typography>
       </footer>
       {/* End footer */}

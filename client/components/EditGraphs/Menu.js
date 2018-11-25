@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import FormControl from '@material-ui/core/FormControl'
 import Paper from '@material-ui/core/Paper'
 import PropTypes from 'prop-types'
-import {withStyles} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import GraphMenu from './GraphMenu'
 import SimpleSelect from './SimpleSelect'
 import Axes from './Axes'
@@ -20,10 +20,10 @@ import ColorLens from '@material-ui/icons/colorLens'
 const styles = theme => ({})
 
 function TabContainer(props) {
-  const {children, dir} = props
+  const { children, dir } = props
 
   return (
-    <Typography component="div" dir={dir} style={{padding: 8 * 3}}>
+    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
       {children}
     </Typography>
   )
@@ -47,15 +47,15 @@ class Menu extends React.Component {
   }
 
   handleChange = (event, value) => {
-    this.setState({value})
+    this.setState({ value })
   }
 
   handleChangeIndex = index => {
-    this.setState({value: index})
+    this.setState({ value: index })
   }
 
   render() {
-    const {classes, theme} = this.props
+    const { classes, theme } = this.props
 
     return (
       <Paper id="editPaper">
@@ -205,4 +205,4 @@ Menu.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
-export default withStyles(styles, {withTheme: true})(Menu)
+export default withStyles(styles, { withTheme: true })(Menu)
