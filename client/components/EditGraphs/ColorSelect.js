@@ -30,7 +30,6 @@ const styles = theme => ({
     },
     color: theme.palette.common.white,
     backgroundColor: theme.palette.secondary.light,
-    elevation: 5
   },
   icon: {
     color: theme.palette.common.white
