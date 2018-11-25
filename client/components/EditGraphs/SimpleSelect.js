@@ -31,7 +31,6 @@ class SimpleSelect extends React.Component {
 
   handleChange(event) {
     let name;
-    console.log("STATE HERE", this.state.set)
     if(event.target.value !== '0') {
       name = event.target.value.dataJSON.name
       this.props.changeStyle(event.target.value.id, 'dataId')
@@ -46,7 +45,6 @@ class SimpleSelect extends React.Component {
   };
 
   render() {
-    console.log("STATE", this.state.set)
     const {classes} = this.props
     return (
       <FormControl className={classes.formControl}>
