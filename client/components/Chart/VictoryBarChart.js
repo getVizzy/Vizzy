@@ -111,7 +111,7 @@ export default class VictoryBarChart extends Component {
                         ]
                       }
                     }
-                  ]}
+                }]}
                   data={data.map(datum => {
                     let label = datum[this.props.y].toString()
                     label = this.props.addComma(label) || label
@@ -125,21 +125,22 @@ export default class VictoryBarChart extends Component {
               </VictoryStack>
             </VictoryChart>
         </div>
-//         <p>
-//           <button
-//             onClick={() => downloadPNG(this.props.title, this.props.graphId)}
-//           >
-//             Download
-//           </button>
-//         </p>
-        <canvas
+        <p>
+          {/* <button
+            onClick={() => downloadPNG(this.props.title, this.props.graphId)}
+          >
+            Download
+          </button> */}
+        </p>
+
+        <canvas>
           id={this.props.graphId}
           width="600"
           height="400"
           display="none"
           style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
           // ref={this.canvas}
-        />
+        </canvas>
       </div>
     )
   }

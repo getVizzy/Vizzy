@@ -31,6 +31,9 @@ class SimpleSelect extends React.Component {
 
   handleChange(event) {
     let name;
+    this.setState({
+      set: 'Hello',
+    });
     if(event.target.value !== '0') {
       name = event.target.value.dataJSON.name
       this.props.changeStyle(event.target.value.id, 'dataId')
@@ -38,9 +41,8 @@ class SimpleSelect extends React.Component {
       name = "Sample Data"
       this.props.changeStyle('0', 'dataId')
     }
-
     this.setState({
-      set: name,
+      set: 'Hello',
     });
   };
 
