@@ -113,19 +113,6 @@ li {
   padding: 0px;
 }
 
-/* #container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: auto;
-} */
-
-/* #chart { */
-/* flex-grow: 2; */
-/* padding-left: 60px; */
-/* padding-right: 20px;
-} */
-
 #container-row {
   display: flex;
   flex-direction: row;
@@ -134,11 +121,6 @@ li {
   padding-right: 30px;
   padding-top: 25px;
 }
-
-/* #controls {
-  padding-top: 100px;
-  padding-right: 250px;
-} */
 
 #dropzone {
   display: flex;
@@ -252,10 +234,13 @@ li {
 }
 
 #editChart {
+  display: flex;
+  flex-direction: column;
   flex-grow: 2;
   width: 600px;
   margin-left: 0px;
   margin-right: 150px;
+  justify-content: center;
 }
 
 #globalEdit {
@@ -283,4 +268,15 @@ li {
   flex-wrap: wrap;
   justify-content: center;
   padding-top: 3em;
+}
+
+#controlButtons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+#ctrlBtn {
+  width: 150px;
 }

@@ -24,6 +24,7 @@ export const deleteGraph = id => ({
 export const postGraph = graphData => async dispatch => {
   try {
     const body = await axios.post('/api/graph', graphData)
+    console.log("BODY IN THUNK", body, "DATA", body.data)
     dispatch(addGraph(body.data))
   } catch (err) {
     console.error(err)
@@ -52,7 +53,7 @@ export const deletingGraph = id => {
 }
 
 export default function(state = initialState, action) {
-  console.log('typeeee', action.type)
+  console.log("IN REDUCER", action)
   switch (action.type) {
     case GET_GRAPHS:
       return [...action.graphs]

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { Login, Signup, UserHome, FileDrop } from './components'
 import { me } from './store'
 import Dashboard from './components/Dashboard'
+import {gotGraphs} from './store/graph'
 
 import VictoryBarChart from './components/Chart/VictoryBarChart'
 import VictoryLineGraph from './components/Chart/VictoryLineGraph'
@@ -24,8 +25,9 @@ import MainPage from './components/MainPage'
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount() {
-    this.props.loadInitialData()
+  async componentDidMount() {
+    await this.props.loadInitialData();
+    await this.props.getGraphs()
   }
 
   render() {
@@ -50,7 +52,7 @@ class Routes extends Component {
               <Route path="/home" component={HomeView} />
               <Route path="/upload" component={FileDrop} />
               {/* <div id="globalContent"> */}
-              <Route path="/dashboard" component={TempDashboard} />
+                <Route path="/dashboard" component={TempDashboard} />
               {/* </div> */}
               <Route path="/bar" component={VictoryBarChart} />
               <Route path="/line" component={VictoryLineGraph} />
@@ -84,7 +86,8 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    }
+    },
+    getGraphs: () => dispatch(gotGraphs()),
   }
 }
 

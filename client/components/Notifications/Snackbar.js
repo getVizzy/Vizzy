@@ -24,7 +24,7 @@ class PositionedSnackbar extends React.Component {
     !this.props.styleNotification && !this.props.saveNotification ?
     (this.props.userThatJoined ? this.props.joinNotification()
       : this.props.leaveNotification())
-    : this.props.resetStyle();
+    : this.props.resetSnackbar();
   };
 
   render() {
