@@ -14,7 +14,8 @@ import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import PieColorOptions from '../Chart/PieColorOptions'
 import ColorSelect from './ColorSelect'
-
+import Build from '@material-ui/icons/Build'
+import ColorLens from '@material-ui/icons/colorLens'
 
 const styles = theme => ({})
 
@@ -66,8 +67,8 @@ class Menu extends React.Component {
             textColor="primary"
             fullWidth
           >
-            <Tab label="DATA" />
-            <Tab label="OPTIONS" />
+            <Tab label={<Build />} />
+            <Tab label={<ColorLens />} />
           </Tabs>
         </AppBar>
 
@@ -112,41 +113,45 @@ class Menu extends React.Component {
                     column="x"
                   />
                 </FormControl>
-              </Grid>
             </Grid>
           </Grid>
         </TabContainer>
         <TabContainer dir={theme.direction}>
           <Grid container spacing={16} className={classes.root}>
-            <Grid item xs={12}>
 
           {this.props.graphSelected === 'pie' ? <PieColorOptions {...this.props} /> :
-
-            <FormControl component="fieldset">
-              <ColorSelect
-                name="Color"
-                {...this.props}
-              />
-            </FormControl>
+            <Grid item xs={12}>
+              <FormControl component="fieldset">
+                <ColorSelect
+                  name="Color"
+                  {...this.props}
+                />
+              </FormControl>
+            </Grid>
           }
 
           {this.props.graphSelected === 'line' ? (
             ''
           ) : (
-                <FormControl component="fieldset">
-                  <ColorSelect
-                    name="Highlight"
-                    {...this.props}
-                  />
-                </FormControl>
+            <Grid item xs={12}>
+              <FormControl component="fieldset">
+                <ColorSelect
+                  name="Highlight"
+                  {...this.props}
+                />
+              </FormControl>
+            </Grid>
           )}
 
-      <p>Pointer:</p>
-      <select name="tooltip" onChange={e => this.props.changeStyle(e, 'tooltip')}>
-        <option value={5}>Round edge</option>
-        <option value={0}>Square</option>
-        <option value={25}>Circle</option>
-      </select>
+          <Grid item xs={12}>
+            <FormControl component="fieldset">
+                <SimpleSelect
+                  name="Pointer"
+                  items={[5, 0, 25]}
+                  {...this.props}
+                />
+            </FormControl>
+          </Grid>
       {
         this.props.graphSelected === 'pie' ? (
           <div>
@@ -187,9 +192,8 @@ class Menu extends React.Component {
       ) : (
           ''
         )}
-              </Grid>
-            </Grid>
-          </TabContainer>
+          </Grid>
+        </TabContainer>
         </SwipeableViews>
       </Paper>
     )
