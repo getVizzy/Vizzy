@@ -79,7 +79,7 @@ export default class VictoryPieChart extends Component {
             }
             data={parsedData}
             labels={d =>
-              `${this.props.x} ${d.x}: ${Math.round(d.y / totalValues * 100)}%`
+              `${this.props.x} ${d.x}: ${Math.round(d.y / totalValues * 10000) / 100}%`
             }
             theme={VictoryTheme.material}
             domainPadding={60}
