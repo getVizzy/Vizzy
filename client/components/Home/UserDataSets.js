@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 
 const UserDataSets = props => {
   return (
-    <div>
+    <span>
 
-    </div>
+    </span>
   )
 }
 

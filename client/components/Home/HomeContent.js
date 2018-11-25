@@ -234,7 +234,7 @@ const HomeContent = (props) => {
                 </CardContent>
                 <CardActions>
                   <Button size="small" color="primary">
-                    <Link to="/room">Dashboard here</Link>
+                    <Link to="/dashboard">Dashboard here</Link>
                   </Button>
                 </CardActions>
               </Card>
@@ -257,11 +257,11 @@ const HomeContent = (props) => {
                     <UserDataSets />
                   </Typography>
                 </CardContent>
-                <CardActions>
+                {/* <CardActions>
                   <Button size="small" color="primary">
                     <Link to="/room">Dashboard here</Link>
                   </Button>
-                </CardActions>
+                </CardActions> */}
               </Card>
             </Grid>
 
@@ -284,7 +284,7 @@ const HomeContent = (props) => {
                 </CardContent>
                 <CardActions>
                   <Button size="small" color="primary">
-                    <Link to="/room">Here</Link>
+                    Fun Here
                   </Button>
                 </CardActions>
               </Card>
