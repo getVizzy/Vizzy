@@ -16,8 +16,19 @@ import PieColorOptions from '../Chart/PieColorOptions'
 import ColorSelect from './ColorSelect'
 import Build from '@material-ui/icons/Build'
 import ColorLens from '@material-ui/icons/colorLens'
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import { buildRegressionModel } from '../../utils'
 
-const styles = theme => ({})
+
+const styles = theme => ({
+  textField: {
+    marginRight: theme.spacing.unit * 4,
+  }
+})
 
 function TabContainer(props) {
   const { children, dir } = props
@@ -117,9 +128,15 @@ class Menu extends React.Component {
           </Grid>
         </TabContainer>
         <TabContainer dir={theme.direction}>
-          <Grid container spacing={16} className={classes.root}>
+          <Grid container spacing={16} >
 
-          {this.props.graphSelected === 'pie' ? <PieColorOptions {...this.props} /> :
+          {this.props.graphSelected === 'pie' ?
+            <Grid item xs={12}>
+            <FormControl component="fieldset">
+              <PieColorOptions {...this.props} />
+              </FormControl>
+            </Grid>
+            :
             <Grid item xs={12}>
               <FormControl component="fieldset">
                 <ColorSelect
@@ -152,43 +169,69 @@ class Menu extends React.Component {
                 />
             </FormControl>
           </Grid>
-      {
-        this.props.graphSelected === 'pie' ? (
+        {
+          this.props.graphSelected === 'pie' ? (
+
+            <Grid item xs={12}>
+              <FormControl component="fieldset">
+                  <SimpleSelect
+                    name="Pie Style"
+                    items={['Normal', 'Donut', 'Flower', 'Windmill']}
+                    {...this.props}
+                  />
+              </FormControl>
+            </Grid>
+          ) : ('')
+        }
+
+        <Grid item xs={12}>
+        <FormControl component="fieldset">
+
+          <FormLabel className={classes.labels}>
+            Graph Title
+          </FormLabel>
           <div>
-            <p>Transformation:</p>
-            <select name="pieTransformation" onChange={e => this.props.changeStyle(e, 'pieTransformation')}>
-              <option value='normal'>Normal</option>
-              <option value='donut'>Donut</option>
-              <option value='flower'>Flower</option>
-              <option value='windmill'>Windmill</option>
-            </select>
+          <TextField
+              id="filled-name"
+              className={classes.textField}
+              value={this.props.title}
+              onChange={e => this.props.titleChange(e)}
+              margin="normal"
+          >
+          </TextField>
+          <Button variant="outlined" color="secondary" className={classes.button} onClick={this.props.titleSubmit}>Apply</Button>
           </div>
-        ) : ('')
-      }
-      <p>Graph Title:</p>
-      <input value={this.props.title} onChange={e => this.props.titleChange(e)} />
-      <button onClick={this.props.titleSubmit}>Add</button>
+          </FormControl >
+        </Grid>
+
       {this.props.graphSelected === 'scatter' ? (
-        <p>
-          Regression Line:{' '}
-          <input
-            type="checkbox"
+        <Grid item xs={12}>
+        <FormControl component="fieldset">
+        <FormControlLabel
+        control={
+          <Checkbox
+            checked={this.state.checkedA}
             onChange={e => {
               this.props.changeStyle(!this.props.regression, 'regression')
               // console.log('x and y on state', props.x, props.y)
               if (!this.props.regression) {
-                this.props.buildRegressionModel(
+                buildRegressionModel(
                   this.props.graphData,
-                  this.props.props.x,
-                  this.props.props.y,
-                  this.props.props.changeStyle
+                  this.props.x,
+                  this.props.y,
+                  this.props.changeStyle
                 )
               } else {
                 this.props.changeStyle([], 'regressionLine')
               }
             }}
+            value="checkedA"
           />
-        </p>
+        }
+        label="Regression Line"
+        />
+        </FormControl >
+      </Grid>
       ) : (
           ''
         )}

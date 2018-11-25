@@ -28,7 +28,7 @@ export default class ChartContainer extends Component {
     ) : this.props.graphSelected === 'pie' ? (
       <Pie {...this.props} />
     ) : (
-              <div />
+              ''
             )
   }
 }

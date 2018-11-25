@@ -1,5 +1,3 @@
-BROKEN INTO DIFFERENT COMPONENTS. WILL DELETE WHEN EDIT VIEW IS FINALIZED
-
 import React from 'react'
 import { buildRegressionModel } from '../../utils'
 import SimpleSelect from './SimpleSelect'

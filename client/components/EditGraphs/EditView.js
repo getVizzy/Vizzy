@@ -63,7 +63,7 @@ class EditView extends React.Component {
         '#4575b4'
       ],
       pieTransformation: 'normal',
-      notification: false, //For snackbar notifications. Open to discuss a more dry approach
+      notification: false,
       userThatLeft: '',
       userThatJoined: '',
       message: '',
@@ -102,10 +102,8 @@ class EditView extends React.Component {
   }
 
   changeStyle(e, attribute) {
-
     let updated;
     e && e.target ? (updated = e.target.value) : (updated = e)
-    console.log("OTHER SIDE", e, updated)
     switch (attribute) {
       case 'dataId':
         if (updated !== '0') {
@@ -123,14 +121,13 @@ class EditView extends React.Component {
         })
         break
       case 'pieColor':
-        updated = e.target.value.split(',')
         this.setState({
           pieColor: updated
         })
         break
       case 'pieTransformation':
         this.setState({
-          pieTransformation: updated
+          pieTransformation: updated.toLowerCase()
         });
         break
       default:
@@ -165,6 +162,9 @@ class EditView extends React.Component {
         break
       case 'color':
         message = `Color changed`
+        break
+      case 'tooltip':
+        message = `Tooltip shape changed`
         break
       default:
         message = `${attribute[0].toUpperCase()}${attribute.slice(
