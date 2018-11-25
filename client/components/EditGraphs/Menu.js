@@ -13,6 +13,8 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import PieColorOptions from '../Chart/PieColorOptions'
+import ColorSelect from './ColorSelect'
+
 
 const styles = theme => ({})
 
@@ -112,112 +114,79 @@ class Menu extends React.Component {
                 </FormControl>
               </Grid>
             </Grid>
-          </TabContainer>
-          <TabContainer dir={theme.direction}>
-            <Grid container spacing={16} className={classes.root}>
-              <Grid item xs={12}>
-                {/* <FormControl component="fieldset">
-                <SimpleSelect
-                  name="Dataset"
-                  items={this.props.dataMatch}
-                  {...this.props}
-                />
-              </FormControl> */}
-                <p>Color:</p>
-                {this.props.graphSelected === 'pie' ? (
-                  <PieColorOptions {...this.props} />
-                ) : (
-                  <select
-                    name="color"
-                    onChange={e => this.props.changeStyle(e, 'color')}
-                  >
-                    <option value="tomato">Tomato</option>
-                    <option value="gold">Gold</option>
-                    <option value="orange">Orange</option>
-                    <option value="#f77">Salmon</option>
-                    <option value="#55e">Purple</option>
-                    <option value="#8af">Periwinkle</option>
-                  </select>
-                )}
-                {this.props.graphSelected === 'line' ? (
-                  ''
-                ) : (
-                  <div>
-                    <p>Highlight:</p>
-                    <select
-                      name="highlight"
-                      onChange={e => this.props.changeStyle(e, 'highlight')}
-                    >
-                      <option value="orange">Orange</option>
-                      <option value="tomato">Tomato</option>
-                      <option value="gold">Gold</option>
-                      <option value="#f77">Salmon</option>
-                      <option value="#55e">Purple</option>
-                      <option value="#8af">Periwinkle</option>
-                    </select>
-                  </div>
-                )}
+          </Grid>
+        </TabContainer>
+        <TabContainer dir={theme.direction}>
+          <Grid container spacing={16} className={classes.root}>
+            <Grid item xs={12}>
 
-                <p>Pointer:</p>
-                <select
-                  name="tooltip"
-                  onChange={e => this.props.changeStyle(e, 'tooltip')}
-                >
-                  <option value={5}>Round edge</option>
-                  <option value={0}>Square</option>
-                  <option value={25}>Circle</option>
-                </select>
-                {this.props.graphSelected === 'pie' ? (
-                  <div>
-                    <p>Transformation:</p>
-                    <select
-                      name="pieTransformation"
-                      onChange={e =>
-                        this.props.changeStyle(e, 'pieTransformation')
-                      }
-                    >
-                      <option value="normal">Normal</option>
-                      <option value="donut">Donut</option>
-                      <option value="flower">Flower</option>
-                      <option value="windmill">Windmill</option>
-                    </select>
-                  </div>
-                ) : (
-                  ''
-                )}
-                <p>Graph Title:</p>
-                <input
-                  value={this.props.title}
-                  onChange={e => this.props.titleChange(e)}
-                />
-                <button onClick={this.props.titleSubmit}>Add</button>
-                {this.props.graphSelected === 'scatter' ? (
-                  <p>
-                    Regression Line:{' '}
-                    <input
-                      type="checkbox"
-                      onChange={e => {
-                        this.props.changeStyle(
-                          !this.props.regression,
-                          'regression'
-                        )
-                        // console.log('x and y on state', props.x, props.y)
-                        if (!props.regression) {
-                          this.props.buildRegressionModel(
-                            this.props.graphData,
-                            this.props.props.x,
-                            this.props.props.y,
-                            this.props.props.changeStyle
-                          )
-                        } else {
-                          this.props.changeStyle([], 'regressionLine')
-                        }
-                      }}
-                    />
-                  </p>
-                ) : (
-                  ''
-                )}
+          {this.props.graphSelected === 'pie' ? <PieColorOptions {...this.props} /> :
+
+            <FormControl component="fieldset">
+              <ColorSelect
+                name="Color"
+                {...this.props}
+              />
+            </FormControl>
+          }
+
+          {this.props.graphSelected === 'line' ? (
+            ''
+          ) : (
+                <FormControl component="fieldset">
+                  <ColorSelect
+                    name="Highlight"
+                    {...this.props}
+                  />
+                </FormControl>
+          )}
+
+      <p>Pointer:</p>
+      <select name="tooltip" onChange={e => this.props.changeStyle(e, 'tooltip')}>
+        <option value={5}>Round edge</option>
+        <option value={0}>Square</option>
+        <option value={25}>Circle</option>
+      </select>
+      {
+        this.props.graphSelected === 'pie' ? (
+          <div>
+            <p>Transformation:</p>
+            <select name="pieTransformation" onChange={e => this.props.changeStyle(e, 'pieTransformation')}>
+              <option value='normal'>Normal</option>
+              <option value='donut'>Donut</option>
+              <option value='flower'>Flower</option>
+              <option value='windmill'>Windmill</option>
+            </select>
+          </div>
+        ) : ('')
+      }
+      <p>Graph Title:</p>
+      <input value={this.props.title} onChange={e => this.props.titleChange(e)} />
+      <button onClick={this.props.titleSubmit}>Add</button>
+      {this.props.graphSelected === 'scatter' ? (
+        <p>
+          Regression Line:{' '}
+          <input
+            type="checkbox"
+            onChange={e => {
+              this.props.changeStyle(!this.props.regression, 'regression')
+              // console.log('x and y on state', props.x, props.y)
+              if (!this.props.regression) {
+                this.props.buildRegressionModel(
+                  this.props.graphData,
+                  this.props.props.x,
+                  this.props.props.y,
+                  this.props.props.changeStyle
+                )
+              } else {
+                this.props.changeStyle([], 'regressionLine')
+              }
+            }}
+          />
+        </p>
+      ) : (
+          ''
+        )}
               </Grid>
             </Grid>
           </TabContainer>
