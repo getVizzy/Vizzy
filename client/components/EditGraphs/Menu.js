@@ -113,7 +113,6 @@ class Menu extends React.Component {
                     column="x"
                   />
                 </FormControl>
-              </Grid>
             </Grid>
           </Grid>
         </TabContainer>
