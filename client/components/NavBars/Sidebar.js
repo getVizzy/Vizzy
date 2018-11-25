@@ -193,13 +193,13 @@ class PermanentDrawerLeft extends React.Component {
               {this.props.user.user.email}
             </Typography>
 
-            <Tooltip title='Toggle light/dark theme'>
+            <Tooltip title='Toggle between light/dark theme'>
               <IconButton color="inherit">
                 <InvertColorsIcon onClick={this.props.handleSwitch} fontSize='small' />
               </IconButton>
             </Tooltip>
 
-            <Tooltip title='Logout'>
+            <Tooltip title={`See you again soon!`}>
               <IconButton color="inherit">
                 <Typography
                   onClick={this.props.handleClick}
