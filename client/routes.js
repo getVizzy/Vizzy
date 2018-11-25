@@ -32,37 +32,38 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-      <div id="globalContent">
-      <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-        {/* Below route only for testing PC */}
-        <Route
-          exact
-          path="/"
-          render={() => (isLoggedIn ? <Redirect to="/home" /> : <MainPage />)}
-        />
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/test" component={TempDashboard} />
-            <Route exact path="/" component={HomeView} />
-            <Route path="/home" component={HomeView} />
-            <Route path="/upload" component={FileDrop} />
-            <Route path="/dashboard" component={TempDashboard} />
-            <Route path="/bar" component={VictoryBarChart} />
-            <Route path="/line" component={VictoryLineGraph} />
-            <Route path="/scatter" component={VictoryScatterChart} />
-            <Route path="/pie" component={VictoryPieChart} />
-            <Route path="/editgraph" component={EditView} />
-            <Route exact path="/room" component={RoomSelection} />
-            <Route path="/room/live" component={EditView} />
-          </Switch>
-        )}
-        {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
-      </Switch>
+      <div id="routes">
+        <Switch>
+          {/* Routes placed here are available to all visitors */}
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          {/* Below route only for testing PC */}
+          <Route
+            exact
+            path="/"
+            render={() => (isLoggedIn ? <Redirect to="/home" /> : <MainPage />)}
+          />
+          {isLoggedIn && (
+            <Switch>
+              {/* Routes placed here are only available after logging in */}
+              <Route exact path="/" component={HomeView} />
+              <Route path="/home" component={HomeView} />
+              <Route path="/upload" component={FileDrop} />
+              <div id="globalContent">
+                <Route path="/dashboard" component={TempDashboard} />
+              </div>
+              <Route path="/bar" component={VictoryBarChart} />
+              <Route path="/line" component={VictoryLineGraph} />
+              <Route path="/scatter" component={VictoryScatterChart} />
+              <Route path="/pie" component={VictoryPieChart} />
+              <Route path="/editgraph" component={EditView} />
+              <Route exact path="/room" component={RoomSelection} />
+              <Route path="/room/live" component={EditView} />
+            </Switch>
+          )}
+          {/* Displays our Login component as a fallback */}
+          <Route component={Login} />
+        </Switch>
       </div>
     )
   }

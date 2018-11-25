@@ -2,7 +2,7 @@ body {
   font-family: sans-serif;
 }
 
-body .main-page-container {
+body #routes .main-page-container {
   /* background-image: url('data.jpg') no-repeat center center fixed; */
 
   /* background-color: #01579b; */
@@ -17,6 +17,7 @@ body .main-page-container {
   color: white;
   font-family: 'Nunito', sans-serif;
   font-size: 17pt;
+  background-origin: content-box;
 }
 
 .layer {
