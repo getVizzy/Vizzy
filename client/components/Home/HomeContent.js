@@ -18,6 +18,10 @@ import FileDrop from '../FileDrop'
 import AddIcon from '@material-ui/icons/AddCircle'
 import EmailIcon from '@material-ui/icons/Email'
 import BarChartIcon from '@material-ui/icons/InsertChart'
+import DashboardIcon from '@material-ui/icons/Dashboard'
+import CreateIcon from '@material-ui/icons/Create'
+
+
 
 
 import CardHeader from '@material-ui/core/CardHeader';
@@ -28,8 +32,9 @@ import { Link } from 'react-router-dom'
 
 //images
 const tiles = 'https://i.ibb.co/pLtgcSk/colorfultiles.jpg'
-const teamworkImg = 'https://i.ibb.co/cYRnVWR/team-Puzzle2.png'
+const teamworkImg = 'https://i.ibb.co/8Y1QRnT/teamwork-jpg.jpg'
 const dataImg = 'https://i.ibb.co/vxQtwMt/data.jpg'
+const graphsImg = 'https://i.ibb.co/sKD0vXn/allgraphs.jpg'
 
 
 const styles = theme => ({
@@ -169,7 +174,7 @@ const HomeContent = (props) => {
                   </Typography>
                   <Typography>
 
-                    Data visualization is more fun when collaborating with others. Invite team members to collaborate in real-time to build intuitive and insightful graphs.
+                    Data visualization is more fun when collaborating with others. Invite team members to collaborate in real-time to build interactive and insightful graphs.
                     </Typography>
                 </CardContent>
                 <CardActions>
@@ -191,7 +196,7 @@ const HomeContent = (props) => {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    <BarChartIcon className={classes.contentIcon} color="primary" />
+                    <CreateIcon className={classes.contentIcon} color="primary" />
                     Solo Grapher
                   </Typography>
                   <Typography>
@@ -200,7 +205,32 @@ const HomeContent = (props) => {
                 </CardContent>
                 <CardActions>
                   <Button size="small" color="primary">
-                    Graph here
+                    <Link to="/room">Graph here</Link>
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+
+            {/* card 4 */}
+            <Grid item sm={6} md={4} lg={3}>
+              <Card className={classes.card}>
+                <CardMedia
+                  className={classes.cardMedia}
+                  image={graphsImg} // eslint-disable-line max-len
+                  title="Image title"
+                />
+                <CardContent className={classes.cardContent}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    <DashboardIcon className={classes.contentIcon} color="primary" />
+                    {`View Past Graphs`}
+                  </Typography>
+                  <Typography>
+                    View all of the interative graphs that you have crafted in one central dashboard. You can download and share these graphs to assist in meaningful discussions and decision making processes.
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    <Link to="/room">Dashboard here</Link>
                   </Button>
                 </CardActions>
               </Card>
