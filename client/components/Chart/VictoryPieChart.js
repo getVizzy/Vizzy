@@ -1,26 +1,10 @@
 import React, {Component} from 'react'
-
-import {
-  VictoryPie,
-  VictoryChart,
-  VictoryAxis,
-  VictoryStack,
-  VictoryTheme,
-  VictoryTooltip,
-  VictoryLabel
-} from 'victory'
+import {VictoryPie, VictoryTheme, VictoryTooltip} from 'victory'
+import history from '../../history'
 
 import {download} from '../../utils'
+import Download from './Download'
 import {conv1dWithBias} from '@tensorflow/tfjs-layers/dist/layers/convolutional'
-
-// const data = [
-//   { quarter: '1', earnings: 13, items: 40, state: 'NY' },
-//   { quarter: '2', earnings: 16, items: 60, state: 'NY' },
-//   { quarter: '3', earnings: 17, items: 70, state: 'NY' },
-//   { quarter: '4', earnings: 18, items: 80, state: 'NY' },
-//   { quarter: '4', earnings: 18, items: 81, state: 'NY' },
-//   { quarter: '4', earnings: 19, items: 90, state: 'NY' }
-// ]
 
 const data = [
   {x: 'puppy', y: 4},
@@ -36,16 +20,27 @@ let colorOptions = {
   sky: ['9FBBCC', '7A9CC6', '80CED7', '9AD1D4']
 }
 
-export default class VictoryPieChart extends Component {
-  constructor() {
-    super()
-    this.state = {}
+const styles = theme => ({
+  main: {
+    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto'
+    }
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 3
   }
+})
 
+export default class VictoryPieChart extends Component {
   render() {
-    // let data = this.props.data;
-    // console.log('HERE', this.props)
     let downloadPNG = download.bind(this)
+
     return (
       <div id="container">
         <div id="chart">
@@ -110,20 +105,13 @@ export default class VictoryPieChart extends Component {
             ]}
             colorScale={this.props.pieColor}
           />
-          <p>
-            <button
-              onClick={() => downloadPNG(this.props.title, this.props.graphId)}
-            >
-              Download
-            </button>
-          </p>
-          <canvas
-            id={this.props.graphId}
-            width="600"
-            height="400"
-            display="none"
-            style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
-          />
+          {history.location.pathname === '/dashboard' ? (
+            <Download
+              downloadPNG={downloadPNG}
+              title={this.props.title}
+              graphId={this.props.graphId}
+            />
+          ) : null}
         </div>
       </div>
     )

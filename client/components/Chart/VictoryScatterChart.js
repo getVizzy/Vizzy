@@ -1,61 +1,28 @@
 import React, {Component} from 'react'
 import {download} from '../../utils'
+import Download from './Download'
+import history from '../../history'
 
 import * as d3 from 'd3'
 import {
   VictoryChart,
   VictoryScatter,
   VictoryLine,
-  VictoryZoomContainer,
-  VictoryBrushContainer,
   VictoryAxis,
-  VictoryStack,
   VictoryTheme,
   VictoryTooltip,
   VictoryLabel,
   VictoryVoronoiContainer
 } from 'victory'
-import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import withStyles from '@material-ui/core/styles/withStyles'
-import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
 
-const styles = theme => ({
-  main: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    }
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 8,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
-  },
-
-  submit: {
-    marginTop: theme.spacing.unit * 3
-  }
-})
-
-class VictoryScatterChart extends Component {
+export default class VictoryScatterChart extends Component {
   render() {
     let data = this.props.data
     const changeStyle = this.props.changeStyle
     let y = this.props.y
     let x = this.props.x
     let downloadPNG = download.bind(this)
-    const {classes} = this.props
+    console.log('scatter', this.props)
 
     return (
       <div id="container">
@@ -189,42 +156,16 @@ class VictoryScatterChart extends Component {
                 value={keys[0]}
               >{`${keys[0][0].toUpperCase()}${keys[0].slice(1)}`}</option>
             </select> */}
-
-            <main className={classes.main}>
-              <CssBaseline />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={() =>
-                  downloadPNG(this.props.title, this.props.graphId)
-                }
-              >
-                Download
-              </Button>
-            </main>
+            {history.location.pathname === '/dashboard' ? (
+              <Download
+                downloadPNG={downloadPNG}
+                title={this.props.title}
+                graphId={this.props.graphId}
+              />
+            ) : null}
           </div>
         </div>
-
-        <canvas
-          id={this.props.graphId}
-          width="600"
-          height="470"
-          display="none"
-          style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
-        />
       </div>
     )
   }
-}
-
-export default withStyles(styles)(VictoryScatterChart)
-
-/**
- * PROP TYPES
- */
-VictoryScatterChart.propTypes = {
-  classes: PropTypes.object.isRequired
 }

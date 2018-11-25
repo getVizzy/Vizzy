@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import {download} from '../../utils'
+import Download from './Download'
+import history from '../../history'
 
 import {
   VictoryChart,
   VictoryLine,
-  VictoryZoomContainer,
-  VictoryBrushContainer,
   VictoryAxis,
-  VictoryStack,
   VictoryTheme,
   VictoryTooltip,
   VictoryLabel,
@@ -24,6 +23,7 @@ export default class VictoryLineGraph extends Component {
     let y = this.props.y
     let x = this.props.x
     let downloadPNG = download.bind(this)
+    console.log('linegraph', this.props)
 
     return (
       <div id="container">
@@ -126,22 +126,16 @@ export default class VictoryLineGraph extends Component {
             />
           </VictoryChart>
         </div>
-        <div>
-          <button
-            onClick={() => downloadPNG(this.props.title, this.props.graphId)}
-          >
-            Download
-          </button>
-          <canvas
-            id={this.props.graphId}
-            width="600"
-            height="470"
-            display="none"
-            style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
-          />
+        <div id="controls">
+          {history.location.pathname === '/dashboard' ? (
+            <Download
+              downloadPNG={downloadPNG}
+              title={this.props.title}
+              graphId={this.props.graphId}
+            />
+          ) : null}
         </div>
       </div>
     )
   }
 }
-

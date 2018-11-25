@@ -117,11 +117,11 @@ li {
   margin: auto;
 } */
 
-#chart {
-  /* flex-grow: 2; */
-  /* padding-left: 60px; */
-  padding-right: 20px;
-}
+/* #chart { */
+/* flex-grow: 2; */
+/* padding-left: 60px; */
+/* padding-right: 20px;
+} */
 
 #container-row {
   display: flex;
@@ -132,10 +132,10 @@ li {
   padding-top: 25px;
 }
 
-#controls {
+/* #controls {
   padding-top: 100px;
   padding-right: 250px;
-}
+} */
 
 #dropzone {
   display: flex;
