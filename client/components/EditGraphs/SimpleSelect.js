@@ -20,6 +20,8 @@ const styles = theme => ({
   },
 });
 
+const pointers = ["Rounded edge", "Square", "Circle"]
+
 class SimpleSelect extends React.Component {
   constructor() {
     super()
@@ -30,10 +32,11 @@ class SimpleSelect extends React.Component {
   }
 
   handleChange(event) {
+    let attribute = this.props.name === 'Dataset' ? 'dataId' : 'tooltip'
     if(event.target.value !== '0') {
-      this.props.changeStyle(event.target.value, 'dataId')
+      this.props.changeStyle(event.target.value, attribute)
     } else {
-      this.props.changeStyle('0', 'dataId')
+      this.props.changeStyle('0', attribute)
     }
     this.setState({
       data: event.target.value
@@ -53,19 +56,24 @@ class SimpleSelect extends React.Component {
           className={classes.selectEmpty}>
 
           <MenuItem value="" />
+          { this.props.name === 'Dataset' ?
           <MenuItem value='0'>Sample Data</MenuItem>
+          : '' }
 
-          {this.props.items.map((option) =>
+          {this.props.items.map((option, i) => {
             // if (
             //   this.state.selected !== 'Choose a dataset' &&
             //   !this.props.items.includes(this.state.selected)
             // ) {
             //   this.triggerRefresh()
             // }
-              <MenuItem key={option.id} value={option.id} className={classes.menuItem}>
-                {option.dataJSON.name}
+            let val = this.props.name === 'Dataset' ? option.id : option
+            let display = this.props.name === 'Dataset' ? option.dataJSON.name : pointers[i]
+
+              return <MenuItem key={option.id} value={val} className={classes.menuItem}>
+                {display}
               </MenuItem>
-          )}
+          })}
         </Select>
     </FormControl>
     )

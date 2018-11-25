@@ -1,8 +1,7 @@
 import React from 'react'
-import { Navbar } from './components'
+import {Navbar} from './components'
 import Routes from './routes'
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles'
 
 class App extends React.Component {
   constructor() {
@@ -14,13 +13,15 @@ class App extends React.Component {
   }
 
   handleSwitch() {
-    this.state.switchType === 'light' ?
-      this.setState({ switchType: 'dark' })
-      : this.setState({ switchType: "light" });
+    this.state.switchType === 'light'
+      ? this.setState({switchType: 'dark'})
+      : this.setState({switchType: 'light'})
   }
   render() {
-
     const theme = createMuiTheme({
+      typography: {
+        useNextVariants: true
+      },
       palette: {
         type: this.state.switchType,
         primary: {
@@ -36,7 +37,6 @@ class App extends React.Component {
           contrastText: '#ff'
         }
       }
-
     })
     return (
       <div>
