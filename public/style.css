@@ -235,7 +235,8 @@ li {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
+  align-content: flex-start;
+  margin: auto;
 }
 
 #editPaper {
@@ -244,12 +245,14 @@ li {
 }
 
 #editMenu {
-  flex-grow: 1;
+  /* flex-grow: 1; */
 }
 
 #editChart {
   flex-grow: 2;
   width: 600px;
+  margin-left: 0px;
+  margin-right: 150px;
 }
 
 #globalEdit {

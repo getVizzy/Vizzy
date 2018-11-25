@@ -102,7 +102,7 @@ class EditView extends React.Component {
   }
 
   changeStyle(e, attribute) {
-
+    console.log("EVENT", e, "ATTRIBUTE", attribute)
     let updated;
     e && e.target ? (updated = e.target.value) : (updated = e)
     console.log("OTHER SIDE", e, updated)
@@ -123,7 +123,6 @@ class EditView extends React.Component {
         })
         break
       case 'pieColor':
-        updated = e.target.value.split(',')
         this.setState({
           pieColor: updated
         })
@@ -165,6 +164,9 @@ class EditView extends React.Component {
         break
       case 'color':
         message = `Color changed`
+        break
+      case 'tooltip':
+        message = `Tooltip shape changed`
         break
       default:
         message = `${attribute[0].toUpperCase()}${attribute.slice(

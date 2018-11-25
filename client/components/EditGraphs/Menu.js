@@ -119,7 +119,13 @@ class Menu extends React.Component {
         <TabContainer dir={theme.direction}>
           <Grid container spacing={16} className={classes.root}>
 
-          {this.props.graphSelected === 'pie' ? <PieColorOptions {...this.props} /> :
+          {this.props.graphSelected === 'pie' ?
+            <Grid item xs={12}>
+            <FormControl component="fieldset">
+              <PieColorOptions {...this.props} />
+              </FormControl>
+            </Grid>
+            :
             <Grid item xs={12}>
               <FormControl component="fieldset">
                 <ColorSelect
