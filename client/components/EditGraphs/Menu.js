@@ -1,45 +1,45 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
-import Paper from '@material-ui/core/Paper';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react'
+import Grid from '@material-ui/core/Grid'
+import FormControl from '@material-ui/core/FormControl'
+import Paper from '@material-ui/core/Paper'
+import PropTypes from 'prop-types'
+import {withStyles} from '@material-ui/core/styles'
 import GraphMenu from './GraphMenu'
 import SimpleSelect from './SimpleSelect'
 import Axes from './Axes'
-import SwipeableViews from 'react-swipeable-views';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+import SwipeableViews from 'react-swipeable-views'
+import AppBar from '@material-ui/core/AppBar'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import Typography from '@material-ui/core/Typography'
 import PieColorOptions from '../Chart/PieColorOptions'
 import ColorSelect from './ColorSelect'
 import Build from '@material-ui/icons/Build'
 import ColorLens from '@material-ui/icons/colorLens'
 
-const styles = theme => ({});
+const styles = theme => ({})
 
 function TabContainer(props) {
-  const { children, dir } = props;
+  const {children, dir} = props
 
   return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
+    <Typography component="div" dir={dir} style={{padding: 8 * 3}}>
       {children}
     </Typography>
-  );
+  )
 }
 
 TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  dir: PropTypes.string.isRequired,
-};
+  dir: PropTypes.string.isRequired
+}
 
 class Menu extends React.Component {
   constructor() {
     super()
     this.state = {
-      value: 0,
-    };
+      value: 0
+    }
   }
 
   filterColumn(data, dataType) {
@@ -47,19 +47,19 @@ class Menu extends React.Component {
   }
 
   handleChange = (event, value) => {
-    this.setState({ value });
-  };
+    this.setState({value})
+  }
 
   handleChangeIndex = index => {
-    this.setState({ value: index });
-  };
+    this.setState({value: index})
+  }
 
   render() {
-    const { classes, theme } = this.props;
+    const {classes, theme} = this.props
 
     return (
       <Paper id="editPaper">
-      <AppBar position="static" color="default">
+        <AppBar position="static" color="default">
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
@@ -78,34 +78,42 @@ class Menu extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <TabContainer dir={theme.direction}>
-          <Grid container spacing={16}>
-            <Grid item xs={12}>
+            <Grid container spacing={16}>
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <SimpleSelect
+                    name="Dataset"
+                    items={this.props.dataMatch}
+                    {...this.props}
+                  />
+                </FormControl>
+              </Grid>
 
-              <FormControl component="fieldset">
-                <SimpleSelect
-                  name="Dataset"
-                  items={this.props.dataMatch}
-                  {...this.props}
-                />
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormControl component="fieldset">
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
                   <GraphMenu {...this.props} />
-              </FormControl>
-            </Grid>
+                </FormControl>
+              </Grid>
 
-            <Grid item xs={12}>
-              <FormControl component="fieldset">
-                <Axes {...this.props } filterColumn={this.filterColumn} column="y" />
-              </FormControl>
-            </Grid>
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <Axes
+                    {...this.props}
+                    filterColumn={this.filterColumn}
+                    column="y"
+                  />
+                </FormControl>
+              </Grid>
 
-            <Grid item xs={12}>
-              <FormControl component="fieldset">
-                <Axes {...this.props } filterColumn={this.filterColumn} column="x" />
-              </FormControl>
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <Axes
+                    {...this.props}
+                    filterColumn={this.filterColumn}
+                    column="x"
+                  />
+                </FormControl>
+              </Grid>
             </Grid>
           </Grid>
         </TabContainer>
@@ -195,7 +203,7 @@ class Menu extends React.Component {
 
 Menu.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-};
+  theme: PropTypes.object.isRequired
+}
 
-export default withStyles(styles, { withTheme: true })(Menu);
+export default withStyles(styles, {withTheme: true})(Menu)

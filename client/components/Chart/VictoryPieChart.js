@@ -1,39 +1,46 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
+import {VictoryPie, VictoryTheme, VictoryTooltip} from 'victory'
+import history from '../../history'
+import DeleteGraph from './DeleteGraph'
+import {download} from '../../utils'
+import Download from './Download'
+import {conv1dWithBias} from '@tensorflow/tfjs-layers/dist/layers/convolutional'
 
-import {
-  VictoryPie,
-  VictoryLegend,
-  VictoryContainer,
-  VictoryChart,
-  VictoryAxis,
-  VictoryStack,
-  VictoryTheme,
-  VictoryTooltip,
-  VictoryLabel
-} from 'victory'
+const data = [
+  {x: 'puppy', y: 4},
+  {x: 'cat', y: 2},
+  {x: 'birds', y: 3},
+  {x: 'fish', y: 2},
+  {x: 'frogs', y: 1}
+]
 
-import { download } from '../../utils'
-import { conv1dWithBias } from '@tensorflow/tfjs-layers/dist/layers/convolutional'
+let colorOptions = {
+  forest: ['#008f68', '#6DB65B', '#4AAE9B', '#EFBB35'],
+  sunshine: ['tomato', 'orange', 'gold', '#f77'],
+  sky: ['9FBBCC', '7A9CC6', '80CED7', '9AD1D4']
+}
 
-// const data = [
-//   { quarter: '1', earnings: 13, items: 40, state: 'NY' },
-//   { quarter: '2', earnings: 16, items: 60, state: 'NY' },
-//   { quarter: '3', earnings: 17, items: 70, state: 'NY' },
-//   { quarter: '4', earnings: 18, items: 80, state: 'NY' },
-//   { quarter: '4', earnings: 18, items: 81, state: 'NY' },
-//   { quarter: '4', earnings: 19, items: 90, state: 'NY' }
-// ]
-
+const styles = theme => ({
+  main: {
+    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto'
+    }
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 3
+  }
+})
 
 export default class VictoryPieChart extends Component {
-  constructor() {
-    super()
-    this.state = {}
-  }
-
   render() {
     let downloadPNG = download.bind(this)
-    let { data, x, y, pieColor, pieTransformation } = this.props
+    let {data, x, y, pieColor, pieTransformation} = this.props
 
     //code to parsed and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
     let filterData = []
@@ -42,20 +49,18 @@ export default class VictoryPieChart extends Component {
     data.forEach(datum => {
       let label = datum[x].toString()
       let value = datum[y]
-      filterData.push({ 'x': label, 'y': value })
+      filterData.push({x: label, y: value})
     })
 
     filterData.forEach(obj => {
       let key = obj.x
-      if (!dict[key])
-        dict[key] = obj.y
-      else
-        dict[key] += obj.y
+      if (!dict[key]) dict[key] = obj.y
+      else dict[key] += obj.y
     })
 
-    let parsedData = Object.keys(dict).map(function (key) {
-      return { x: key, y: dict[key] };
-    });
+    let parsedData = Object.keys(dict).map(function(key) {
+      return {x: key, y: dict[key]}
+    })
 
     let totalValues = 0
     parsedData.forEach(datum => {
@@ -67,21 +72,22 @@ export default class VictoryPieChart extends Component {
     return (
       <div id="container">
         <div id="chart">
-
           <VictoryPie
             labelComponent={
               <VictoryTooltip
-                flyoutStyle={{ fill: 'white', stroke: 'lightgrey' }}
+                flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
                 cornerRadius={+this.props.tooltip}
               />
             }
             data={parsedData}
-            labels={(d) => `${this.props.x} ${d.x}: ${Math.round(((d.y) / totalValues) * 100)}%`}
+            labels={d =>
+              `${this.props.x} ${d.x}: ${Math.round(d.y / totalValues * 100)}%`
+            }
             theme={VictoryTheme.material}
             domainPadding={60}
             width={600}
             height={400}
-            padding={{ left: 100, right: 60, top: 35, bottom: 75 }}
+            padding={{left: 100, right: 60, top: 35, bottom: 75}}
             size={7}
             labelRadius={90}
             style={{
@@ -90,11 +96,11 @@ export default class VictoryPieChart extends Component {
                 fontSize: 12,
                 maxWidth: '100%'
               },
-              parent: { maxWidth: '100%' }
+              parent: {maxWidth: '100%'}
             }}
             animate={{
               duration: 2000,
-              onLoad: { duration: 1000 }
+              onLoad: {duration: 1000}
             }}
             events={[
               {
@@ -105,12 +111,12 @@ export default class VictoryPieChart extends Component {
                       {
                         target: 'data',
                         mutation: () => ({
-                          style: { fill: this.props.highlight }
+                          style: {fill: this.props.highlight}
                         })
                       },
                       {
                         target: 'labels',
-                        mutation: () => ({ active: true })
+                        mutation: () => ({active: true})
                       }
                     ]
                   },
@@ -118,11 +124,11 @@ export default class VictoryPieChart extends Component {
                     return [
                       {
                         target: 'data',
-                        mutation: () => { }
+                        mutation: () => {}
                       },
                       {
                         target: 'labels',
-                        mutation: () => ({ active: false })
+                        mutation: () => ({active: false})
                       }
                     ]
                   }
@@ -134,22 +140,17 @@ export default class VictoryPieChart extends Component {
             cornerRadius={pieTransformation === 'flower' ? 25 : 0}
             padAngle={pieTransformation === 'windmill' ? 10 : 0}
           />
+          {history.location.pathname === '/dashboard' ? (
+            <div>
+              <Download
+                downloadPNG={downloadPNG}
+                title={this.props.title}
+                graphId={this.props.graphId}
+              />
+              <DeleteGraph graphId={this.props.graphId} />
+            </div>
+          ) : null}
         </div>
-        {/* <div>
-          <button
-            type="button"
-            onClick={() => downloadPNG(this.props.title, this.props.graphId)}
-          >
-            Download
-            </button>
-        </div> */}
-        <canvas
-          id={this.props.graphId}
-          width="600"
-          height="400"
-          display="none"
-          style={{ visibility: 'hidden', zIndex: -950, position: 'absolute' }}
-        />
       </div>
     )
   }
