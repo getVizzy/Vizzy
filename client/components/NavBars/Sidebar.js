@@ -18,14 +18,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import Avatar from '@material-ui/core/Avatar';
-import { AvatarColors } from './Colors'
+import InvertColorsIcon from '@material-ui/icons/InvertColors';
+import Tooltip from '@material-ui/core/Tooltip';
 
-import lightGreen from '@material-ui/core/colors/lightGreen';
-import lime from '@material-ui/core/colors/lime';
-import teal from '@material-ui/core/colors/teal';
-import yellow from '@material-ui/core/colors/yellow';
-import amber from '@material-ui/core/colors/amber';
-import indigo from '@material-ui/core/colors/indigo';
+
+
 let colors = [
   '#8bc34a',
   '#cddc39',
@@ -182,8 +179,8 @@ class PermanentDrawerLeft extends React.Component {
             >
               Vizzy
             </Typography>
+
             <Avatar className={classes.avatar}>{this.props.user.user.email.slice(0, 1).toUpperCase()}</Avatar>
-            <Typography />
 
             <Typography
               onClick={this.props.handleClick}
@@ -196,19 +193,27 @@ class PermanentDrawerLeft extends React.Component {
               {this.props.user.user.email}
             </Typography>
 
-            <IconButton color="inherit">
-              <Typography
-                onClick={this.props.handleClick}
-                component="h1"
-                variant="body1"
-                color="inherit"
-                noWrap
-              >
-                Logout
-              </Typography>
-              <LogoutIcon onClick={this.props.handleClick} fontSize='small' />
+            <Tooltip title='Toggle light/dark theme'>
+              <IconButton color="inherit">
+                <InvertColorsIcon onClick={this.props.handleSwitch} fontSize='small' />
+              </IconButton>
+            </Tooltip>
 
-            </IconButton>
+            <Tooltip title='Logout'>
+              <IconButton color="inherit">
+                <Typography
+                  onClick={this.props.handleClick}
+                  component="h1"
+                  variant="body1"
+                  color="inherit"
+                  noWrap
+                >
+                  Logout
+              </Typography>
+                <LogoutIcon onClick={this.props.handleClick} fontSize='small' />
+
+              </IconButton>
+            </Tooltip>
 
           </Toolbar>
         </AppBar>
