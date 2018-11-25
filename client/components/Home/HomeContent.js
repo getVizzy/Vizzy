@@ -15,16 +15,22 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux'
 import FileDrop from '../FileDrop'
-import AddIcon from '@material-ui/icons/AddBox'
+import AddIcon from '@material-ui/icons/AddCircle'
+import EmailIcon from '@material-ui/icons/Email'
+import BarChartIcon from '@material-ui/icons/InsertChart'
+
+
 import CardHeader from '@material-ui/core/CardHeader';
 import { Link } from 'react-router-dom'
 
 
 
 
-
+//images
 const tiles = 'https://i.ibb.co/pLtgcSk/colorfultiles.jpg'
 const teamworkImg = 'https://i.ibb.co/cYRnVWR/team-Puzzle2.png'
+const dataImg = 'https://i.ibb.co/vxQtwMt/data.jpg'
+
 
 const styles = theme => ({
   appBar: {
@@ -73,6 +79,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing.unit * 6,
   },
+  contentIcon: {
+    marginRight: 20,
+  }
 });
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -120,13 +129,14 @@ const HomeContent = (props) => {
               <Card className={classes.card}>
                 <CardMedia
                   className={classes.cardMedia}
-                  image={tiles} // eslint-disable-line max-len
+                  image={dataImg} // eslint-disable-line max-len
                   title="Image title"
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
+                    <AddIcon className={classes.contentIcon} color="primary" />
                     Data Import
-                    </Typography>
+                  </Typography>
                   <Typography>
                     Have data? You can upload it here and we'll keep it handy for you when it's time to get graphing.
                     </Typography>
@@ -154,9 +164,11 @@ const HomeContent = (props) => {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
+                    <EmailIcon className={classes.contentIcon} color="primary" />
                     {'Invite & Collaborate'}
                   </Typography>
                   <Typography>
+
                     Data visualization is more fun when collaborating with others. Invite team members to collaborate in real-time to build intuitive and insightful graphs.
                     </Typography>
                 </CardContent>
@@ -179,6 +191,7 @@ const HomeContent = (props) => {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
+                    <BarChartIcon className={classes.contentIcon} color="primary" />
                     Solo Grapher
                   </Typography>
                   <Typography>
