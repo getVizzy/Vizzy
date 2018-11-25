@@ -102,10 +102,8 @@ class EditView extends React.Component {
   }
 
   changeStyle(e, attribute) {
-    console.log("EVENT", e, "ATTRIBUTE", attribute)
     let updated;
     e && e.target ? (updated = e.target.value) : (updated = e)
-    console.log("OTHER SIDE", e, updated)
     switch (attribute) {
       case 'dataId':
         if (updated !== '0') {

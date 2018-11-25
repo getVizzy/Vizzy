@@ -12,7 +12,6 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   formControl: {
-    margin: theme.spacing.unit,
     width: 270,
   },
   selectEmpty: {
@@ -48,7 +47,6 @@ class SimpleSelect extends React.Component {
     return (
       <FormControl className={classes.formControl}>
         <FormLabel className={classes.labels} >{this.props.name}</FormLabel>
-
         <Select
           onChange={(e) => this.handleChange(e)}
           displayEmpty
@@ -56,6 +54,7 @@ class SimpleSelect extends React.Component {
           className={classes.selectEmpty}>
 
           <MenuItem value="" />
+
           { this.props.name === 'Dataset' ?
           <MenuItem value='0'>Sample Data</MenuItem>
           : '' }
