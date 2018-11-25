@@ -147,9 +147,6 @@ class PermanentDrawerLeft extends React.Component {
 
   render() {
     const { classes } = this.props;
-    console.log('NAVBAR', this.props)
-    console.log('HERE', randomColor)
-
     return (
       <div className={classes.root}>
 
