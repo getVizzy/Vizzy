@@ -2,7 +2,7 @@ body {
   font-family: sans-serif;
 }
 
-body #routes .main-page-container {
+body .main-page-container {
   overflow: hidden;
   background-image: url('data.jpg');
   background-size: cover;

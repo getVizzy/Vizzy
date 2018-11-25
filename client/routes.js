@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserHome, FileDrop } from './components'
-import { me } from './store'
+import {Login, Signup, UserHome, FileDrop} from './components'
+import {me} from './store'
 import Dashboard from './components/Dashboard'
 import {gotGraphs} from './store/graph'
 
@@ -26,15 +26,15 @@ import MainPage from './components/MainPage'
  */
 class Routes extends Component {
   async componentDidMount() {
-    await this.props.loadInitialData();
+    await this.props.loadInitialData()
     await this.props.getGraphs()
   }
 
   render() {
-    const { isLoggedIn } = this.props
+    const {isLoggedIn} = this.props
 
     return (
-      <div id="routes">
+      <div id="globalContent">
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
@@ -51,9 +51,7 @@ class Routes extends Component {
               <Route exact path="/" component={HomeView} />
               <Route path="/home" component={HomeView} />
               <Route path="/upload" component={FileDrop} />
-              {/* <div id="globalContent"> */}
-                <Route path="/dashboard" component={TempDashboard} />
-              {/* </div> */}
+              <Route path="/dashboard" component={TempDashboard} />
               <Route path="/bar" component={VictoryBarChart} />
               <Route path="/line" component={VictoryLineGraph} />
               <Route path="/scatter" component={VictoryScatterChart} />
@@ -87,7 +85,7 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     },
-    getGraphs: () => dispatch(gotGraphs()),
+    getGraphs: () => dispatch(gotGraphs())
   }
 }
 
