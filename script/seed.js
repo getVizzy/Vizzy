@@ -43,6 +43,7 @@ async function seed() {
   const data = await Promise.all([
     Data.create({
       userId: 1,
+      name: 'DatasetOne',
       dataJSON: {
         data: [
           { x: '1', y: '2' },

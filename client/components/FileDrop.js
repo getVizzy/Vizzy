@@ -4,6 +4,19 @@ import Modal from 'react-modal'
 import { postData } from '../store/data'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import AddIcon from '@material-ui/icons/AddBox'
+import { withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button';
+
+
+
+// const styles = theme => ({
+//   icon: {
+//     fontSize: 30,
+//     align: 'center',
+//     color: 'primary'
+//   }
+// })
 
 class FileDrop extends Component {
   constructor() {
@@ -60,10 +73,13 @@ class FileDrop extends Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
       <div>
-        <h5>Have data? Import it here!</h5>
-        <button onClick={this.openModal}>Import Data</button>
+        {/* <AddIcon onClick={this.openModal} className={classes.icon} /> */}
+        <Button size="small" color="primary" onClick={this.openModal}>Import Here</Button>
+        {/* <button onClick={this.openModal}>Import Data</button> */}
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -104,3 +120,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FileDrop)
+
+// export default connect(mapStateToProps, mapDispatchToProps)(
+//   withStyles(styles)(FileDrop)
+// )

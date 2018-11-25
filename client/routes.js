@@ -50,7 +50,7 @@ class Routes extends Component {
             <Route exact path="/" component={HomeView} />
             <Route path="/home" component={HomeView} />
             <Route path="/upload" component={FileDrop} />
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard" component={TempDashboard} />
             <Route path="/bar" component={VictoryBarChart} />
             <Route path="/line" component={VictoryLineGraph} />
             <Route path="/scatter" component={VictoryScatterChart} />
