@@ -2,7 +2,6 @@ import ReactDOM from 'react-dom'
 import * as tf from '@tensorflow/tfjs'
 
 export function reinstateNumbers(array) {
-  console.log('ARRAY IN RN', array)
   let restoredData = array.map(data => {
     let newFormat = {}
     let alpha = 'abcdefghijklmnopqrstuvwxyz!#/@^*()'

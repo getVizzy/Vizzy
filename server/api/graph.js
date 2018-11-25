@@ -8,7 +8,19 @@ router.post('/', async (req, res, next) => {
       properties: req.body,
       datumId: req.body.dataId
     })
-    res.send(graph)
+    console.log("FIRST GRAPH", graph)
+    const allData = await Graph.findAll({
+      where: {
+        id: graph.id
+      },
+      include: [
+        {
+          model: Data
+        }
+      ]
+    })
+    console.log("ALL DATA", allData[0])
+    res.send(allData[0])
   } catch (err) {
     next(err)
   }

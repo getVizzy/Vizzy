@@ -194,7 +194,7 @@ class EditView extends React.Component {
 
   leaveRoom() {
     socket.emit('leaveRoom', this.props.singleRoom, this.props.user)
-    this.props.history.push('/dashboard')
+    this.props.history.push('/home')
   }
 
   leaveNotification(user) {

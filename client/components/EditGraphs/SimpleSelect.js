@@ -60,12 +60,6 @@ class SimpleSelect extends React.Component {
           : '' }
 
           {this.props.items.map((option, i) => {
-            // if (
-            //   this.state.selected !== 'Choose a dataset' &&
-            //   !this.props.items.includes(this.state.selected)
-            // ) {
-            //   this.triggerRefresh()
-            // }
             let val = this.props.name === 'Dataset' ? option.id : option
             let display = this.props.name === 'Dataset' ? option.dataJSON.name :
             this.props.name === 'Pointer' ? pointers[i] :

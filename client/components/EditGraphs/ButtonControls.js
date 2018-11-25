@@ -21,17 +21,8 @@ const styles = theme => ({
   },
 });
 
-class ButtonControls extends React.Component {
-
-  handleChange(event) {
-    this.props.changeStyle(event, this.props.column)
-    this.setState({
-      column: event.target.value,
-    });
-  };
-
-  render() {
-    const { classes } = this.props;
+const ButtonControls = (props) => {
+    const { classes } = props;
     return (
       <div id="controlButtons">
         <div id="ctrlBtn">
@@ -40,9 +31,9 @@ class ButtonControls extends React.Component {
               color="primary"
               className={classes.button}
               onClick={() => {
-                this.props.saveNotification()
-                if(this.props.state.dataId !== '0') {
-                  this.props.addGraph(this.props.state);
+                props.saveNotification()
+                if(props.state.dataId !== '0') {
+                  props.addGraph(props.state);
                 }
               }}
             >
@@ -57,7 +48,7 @@ class ButtonControls extends React.Component {
               variant="outlined"
               color="secondary"
               type="button"
-              onClick={this.props.leaveRoom}
+              onClick={props.leaveRoom}
               className={classes.button}
             >
             <DirectionsWalk
@@ -67,9 +58,9 @@ class ButtonControls extends React.Component {
             </Button>
           </div>
         </div>
-    )
-  }
+  )
 }
+
 
 ButtonControls.propTypes = {
   classes: PropTypes.object.isRequired,

@@ -11,6 +11,7 @@ class TempDashboard extends Component {
   }
 
   componentDidMount() {
+    console.log("HITTING HERE IN COMPONENT DID MOUNT")
     this.props.getGraphs()
   }
 
@@ -19,10 +20,12 @@ class TempDashboard extends Component {
   }
 
   render() {
-    if (!this.props.graphs) {
+    console.log("THESE ARE THE GRAPHS", this.props.graphs)
+    if (!this.props.graphs.length) {
       return 'Getting your graphs!'
     } else {
       return this.props.graphs.map((graph, i) => {
+        console.log("GRAPH HERE", graph)
         let data = reinstateNumbers(graph.datum.dataJSON.data)
         let propPackage = {
           data: data,
