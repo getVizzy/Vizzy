@@ -32,7 +32,7 @@ class SimpleSelect extends React.Component {
   }
 
   handleChange(event) {
-    let attribute = this.props.name === 'Dataset' ? 'dataId' : 'tooltip'
+    let attribute = this.props.name === 'Dataset' ? 'dataId' : this.props.name === 'Pointer' ? 'tooltip' : 'pieTransformation'
     if(event.target.value !== '0') {
       this.props.changeStyle(event.target.value, attribute)
     } else {
@@ -68,9 +68,11 @@ class SimpleSelect extends React.Component {
             //   this.triggerRefresh()
             // }
             let val = this.props.name === 'Dataset' ? option.id : option
-            let display = this.props.name === 'Dataset' ? option.dataJSON.name : pointers[i]
+            let display = this.props.name === 'Dataset' ? option.dataJSON.name :
+            this.props.name === 'Pointer' ? pointers[i] :
+            option
 
-              return <MenuItem key={option.id} value={val} className={classes.menuItem}>
+              return <MenuItem key={i} value={val} className={classes.menuItem}>
                 {display}
               </MenuItem>
           })}

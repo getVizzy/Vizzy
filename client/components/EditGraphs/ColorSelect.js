@@ -20,7 +20,13 @@ const styles = theme => ({
   },
   chip: {
     margin: theme.spacing.unit,
-  },
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& $primary, & $icon': {
+        color: theme.palette.common.white,
+      }
+    }
+  }
 });
 
 const colors = ['Sunshine', 'Forest', 'Blue', 'Berry', 'Tomato']

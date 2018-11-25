@@ -63,7 +63,7 @@ class EditView extends React.Component {
         '#4575b4'
       ],
       pieTransformation: 'normal',
-      notification: false, //For snackbar notifications. Open to discuss a more dry approach
+      notification: false,
       userThatLeft: '',
       userThatJoined: '',
       message: '',
@@ -129,7 +129,7 @@ class EditView extends React.Component {
         break
       case 'pieTransformation':
         this.setState({
-          pieTransformation: updated
+          pieTransformation: updated.toLowerCase()
         });
         break
       default:

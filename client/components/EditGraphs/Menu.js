@@ -160,15 +160,25 @@ class Menu extends React.Component {
           </Grid>
       {
         this.props.graphSelected === 'pie' ? (
-          <div>
-            <p>Transformation:</p>
-            <select name="pieTransformation" onChange={e => this.props.changeStyle(e, 'pieTransformation')}>
-              <option value='normal'>Normal</option>
-              <option value='donut'>Donut</option>
-              <option value='flower'>Flower</option>
-              <option value='windmill'>Windmill</option>
-            </select>
-          </div>
+
+          <Grid item xs={12}>
+            <FormControl component="fieldset">
+                <SimpleSelect
+                  name="Pie Style"
+                  items={['Normal', 'Donut', 'Flower', 'Windmill']}
+                  {...this.props}
+                />
+            </FormControl>
+          </Grid>
+          // <div>
+          //   <p>Transformation:</p>
+          //   <select name="pieTransformation" onChange={e => this.props.changeStyle(e, 'pieTransformation')}>
+          //     <option value='normal'>Normal</option>
+          //     <option value='donut'>Donut</option>
+          //     <option value='flower'>Flower</option>
+          //     <option value='windmill'>Windmill</option>
+          //   </select>
+          // </div>
         ) : ('')
       }
       <p>Graph Title:</p>
