@@ -66,9 +66,12 @@ class RoomSelection extends Component {
   }
 
   render() {
+    if(!this.props.user.user.id) {
+      return "Loading..."
+    }
     const roomKey = this.props.user.user.roomKey
     return (
-      <div>
+      <div id="globalEdit">
         {/* <button type="button" onClick={this.handleCreateRoom}> */}
         Your Room ID: {roomKey}
         {/* </button> */}

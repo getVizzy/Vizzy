@@ -44,7 +44,7 @@ class CreateRoom extends Component {
   render() {
     console.log('CREATEROOM PROPS',this.props)
     return (
-      <div>
+      <div id="globalEdit">
       <button type="button" onClick={this.handleClick}>Create Room</button>
       <form id="roomId" onSubmit={this.handleSubmit}>
            <input

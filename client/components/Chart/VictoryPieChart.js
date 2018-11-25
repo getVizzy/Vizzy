@@ -40,6 +40,34 @@ const styles = theme => ({
 export default class VictoryPieChart extends Component {
   render() {
     let downloadPNG = download.bind(this)
+    let {data, x, y, pieColor, pieTransformation} = this.props
+
+    //code to parsed and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
+    let filterData = []
+    let dict = {}
+
+    data.forEach(datum => {
+      let label = datum[x].toString()
+      let value = datum[y]
+      filterData.push({x: label, y: value})
+    })
+
+    filterData.forEach(obj => {
+      let key = obj.x
+      if (!dict[key]) dict[key] = obj.y
+      else dict[key] += obj.y
+    })
+
+    let parsedData = Object.keys(dict).map(function(key) {
+      return {x: key, y: dict[key]}
+    })
+
+    let totalValues = 0
+    parsedData.forEach(datum => {
+      totalValues += datum.y
+    })
+
+    console.log('Victory data', this.props)
 
     return (
       <div id="container">
@@ -51,7 +79,10 @@ export default class VictoryPieChart extends Component {
                 cornerRadius={+this.props.tooltip}
               />
             }
-            data={data}
+            data={parsedData}
+            labels={d =>
+              `${this.props.x} ${d.x}: ${Math.round(d.y / totalValues * 100)}%`
+            }
             theme={VictoryTheme.material}
             domainPadding={60}
             width={600}
@@ -64,7 +95,8 @@ export default class VictoryPieChart extends Component {
                 fill: 'black',
                 fontSize: 12,
                 maxWidth: '100%'
-              }
+              },
+              parent: {maxWidth: '100%'}
             }}
             animate={{
               duration: 2000,
@@ -103,7 +135,10 @@ export default class VictoryPieChart extends Component {
                 }
               }
             ]}
-            colorScale={this.props.pieColor}
+            colorScale={pieColor}
+            innerRadius={pieTransformation === 'donut' ? 100 : 0}
+            cornerRadius={pieTransformation === 'flower' ? 25 : 0}
+            padAngle={pieTransformation === 'windmill' ? 10 : 0}
           />
           {history.location.pathname === '/dashboard' ? (
             <Download

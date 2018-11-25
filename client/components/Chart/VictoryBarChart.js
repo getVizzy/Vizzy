@@ -16,9 +16,6 @@ export default class VictoryBarChart extends Component {
   render() {
     let data = this.props.data
     let downloadPNG = download.bind(this)
-    console.log('barchart', this.props)
-
-    console.log('histroybar', history.location.pathname)
 
     return (
       <div id="container">
