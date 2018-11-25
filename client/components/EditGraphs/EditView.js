@@ -1,4 +1,4 @@
-import React, { useImperativeMethods } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { fetchAllUsers } from '../../store/user'
 import ChartContainer from '../Chart/ChartContainer'
@@ -7,12 +7,9 @@ import { postGraph } from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
 import Menu from './Menu'
-import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { reinstateNumbers, download, addComma } from '../../utils'
 import { withStyles } from '@material-ui/core/styles'
-import SaveIcon from '@material-ui/icons/Save'
-import Button from '@material-ui/core/Button'
 import Snackbar from '../Notifications/Snackbar'
 
 const styles = theme => ({
@@ -76,7 +73,7 @@ class EditView extends React.Component {
     this.leaveNotification = this.leaveNotification.bind(this)
     this.joinNotification = this.joinNotification.bind(this)
     this.styleNotification = this.styleNotification.bind(this)
-    this.resetStyle = this.resetStyle.bind(this)
+    this.resetSnackbar = this.resetSnackbar.bind(this)
     this.titleChange = this.titleChange.bind(this)
     this.titleSubmit = this.titleSubmit.bind(this)
     this.saveNotification = this.saveNotification.bind(this)
@@ -234,9 +231,10 @@ class EditView extends React.Component {
     })
   }
 
-  resetStyle() {
+  resetSnackbar() {
     this.setState({
-      styleNotification: false
+      styleNotification: false,
+      saveNotification: false
     })
   }
 
@@ -280,7 +278,11 @@ class EditView extends React.Component {
           titleSubmit: this.titleSubmit,
           graphData: data,
           dataMatch: dataMatch,
-          handleGraphSelected: this.changeStyle
+          handleGraphSelected: this.changeStyle,
+          state: this.state,
+          leaveRoom: this.leaveRoom,
+          saveNotification: this.saveNotification,
+          addGraph: this.props.addGraph
         }
 
         let notificationProps = {
@@ -289,62 +291,44 @@ class EditView extends React.Component {
           userThatLeft: this.state.userThatLeft,
           joinNotification: this.joinNotification,
           leaveNotification: this.leaveNotification,
-          resetStyle: this.resetStyle
+          resetSnackbar: this.resetSnackbar
         }
 
         return (
           <div id="globalEdit">
-          <div id="edit">
-            <div id="editChart">
+            <div id="edit">
+              <div id="editChart">
+                <div style={{height: '500px'}}>
+                  {this.state.x === '' || this.state.y === '' ? (
+                      ''
+                    ) : (
+                        <ChartContainer {...propPackage} />
+                      )}
+                </div>
+              </div>
 
-            {this.state.x === '' || this.state.y === '' ? (
-                ''
-              ) : (
-                  <ChartContainer {...propPackage} />
-                )}
-
+              <div id="editMenu">
+                <Menu {...propPackage } />
+              </div>
             </div>
 
-            <div id="editMenu">
-            <Menu {...propPackage } />
-            {this.state.styleNotification ? (
-                  <Snackbar
-                    {...notificationProps}
-                    message={this.state.message}
-                    styleNotification={this.state.styleNotification}
-                  />
-                ) : (
-                  <div />
-            )}
-            </div>
-          </div>
-
-          <div>
             <div>
-              <Button
-                  variant="contained"
-                  size="small"
-                  className={classes.button}
-                  onClick={() => {
-                    this.saveNotification()
-                    this.props.addGraph(this.state);
-                  }}
-                >
-                  <SaveIcon
-                    className={classNames(classes.leftIcon, classes.iconSmall)}
-                  />
-                  Save
-                </Button>
-              </div>
-                {this.state.saveNotification ? <Snackbar {...notificationProps} saveNotification={this.state.saveNotification} message="Graph saved to your dashboard!" /> : ''}
-              <div>Room ID: {this.props.singleRoom}</div>
-              <div>
-                  <button type="button" onClick={this.leaveRoom}>
-                    Exit Room
-                  </button>
-              </div>
-                  {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
-              </div>
+              {this.state.styleNotification ?
+                <Snackbar
+                  {...notificationProps}
+                  message={this.state.message}
+                  styleNotification={this.state.styleNotification}
+                />
+              : ''}
+
+              {this.state.saveNotification ?
+                <Snackbar
+                  {...notificationProps}
+                  saveNotification={this.state.saveNotification}
+                  message={this.state.dataId !== '0' ? "Graph saved to your dashboard!" : "Cannot save graph with sample data"} /> : ''}
+
+              {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
+            </div>
           </div>
         )
       }

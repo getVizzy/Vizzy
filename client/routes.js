@@ -49,9 +49,9 @@ class Routes extends Component {
               <Route exact path="/" component={HomeView} />
               <Route path="/home" component={HomeView} />
               <Route path="/upload" component={FileDrop} />
-              <div id="globalContent">
+              {/* <div id="globalContent"> */}
                 <Route path="/dashboard" component={TempDashboard} />
-              </div>
+              {/* </div> */}
               <Route path="/bar" component={VictoryBarChart} />
               <Route path="/line" component={VictoryLineGraph} />
               <Route path="/scatter" component={VictoryScatterChart} />

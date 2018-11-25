@@ -22,12 +22,6 @@ const styles = theme => ({
   },
   chip: {
     margin: theme.spacing.unit,
-    '&:focus': {
-      backgroundColor: theme.palette.secondary.light,
-      '& $primary, & $icon': {
-        color: theme.palette.common.white,
-      }
-    },
     color: theme.palette.common.white,
     backgroundColor: theme.palette.secondary.light,
   },
@@ -40,20 +34,6 @@ const colors = ['Sunshine', 'Forest', 'Blue', 'Berry', 'Tomato']
 const hexes = ['#FEE090', '#01665E', '#4575B4', '#C51B7D', '#D73027']
 const highlights = ['Gold', 'Orchid', 'Sea Green', 'Light Blue', ]
 const highHexes = ['#fee090', '#E9A3C9', '#5ab4ac', '#91BFDB']
-
-// const colorIcons = [
-//   <WbSunny className={styles.icon} color={styles.theme.palette.primary.contrastText} />,
-//   <Nature />,
-//   <WbCloudy />,
-//   <LocalFlorist />,
-//   <Lens />
-// ]
-// const highIcons = [
-//   <Lens />,
-//   <FilterVintage />,
-//   <Waves />,
-//   <CloudQueue />
-// ]
 
 class ColorSelect extends React.Component {
   constructor() {

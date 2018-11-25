@@ -22,13 +22,10 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import { buildRegressionModel } from '../../utils'
+import ButtonControls from './ButtonControls'
 
 
-const styles = theme => ({
-  textField: {
-    marginRight: theme.spacing.unit * 4,
-  }
-})
+const styles = theme => ({})
 
 function TabContainer(props) {
   const { children, dir } = props
@@ -91,39 +88,38 @@ class Menu extends React.Component {
           <TabContainer dir={theme.direction}>
             <Grid container spacing={16}>
               <Grid item xs={12}>
-                <FormControl component="fieldset">
                   <SimpleSelect
                     name="Dataset"
                     items={this.props.dataMatch}
                     {...this.props}
                   />
-                </FormControl>
               </Grid>
 
               <Grid item xs={12}>
-                <FormControl component="fieldset">
                   <GraphMenu {...this.props} />
-                </FormControl>
               </Grid>
 
               <Grid item xs={12}>
-                <FormControl component="fieldset">
                   <Axes
                     {...this.props}
                     filterColumn={this.filterColumn}
                     column="y"
                   />
-                </FormControl>
               </Grid>
 
               <Grid item xs={12}>
-                <FormControl component="fieldset">
                   <Axes
                     {...this.props}
                     filterColumn={this.filterColumn}
                     column="x"
                   />
-                </FormControl>
+            </Grid>
+            <Grid item xs={12} >
+              <ButtonControls
+                state={this.props.state}
+                leaveRoom={this.props.leaveRoom}
+                saveNotification={this.props.saveNotification}
+                addGraph={this.props.addGraph} />
             </Grid>
           </Grid>
         </TabContainer>
@@ -132,18 +128,13 @@ class Menu extends React.Component {
 
           {this.props.graphSelected === 'pie' ?
             <Grid item xs={12}>
-            <FormControl component="fieldset">
               <PieColorOptions {...this.props} />
-              </FormControl>
             </Grid>
             :
             <Grid item xs={12}>
-              <FormControl component="fieldset">
                 <ColorSelect
                   name="Color"
-                  {...this.props}
-                />
-              </FormControl>
+                  {...this.props} />
             </Grid>
           }
 
@@ -151,35 +142,29 @@ class Menu extends React.Component {
             ''
           ) : (
             <Grid item xs={12}>
-              <FormControl component="fieldset">
                 <ColorSelect
                   name="Highlight"
                   {...this.props}
                 />
-              </FormControl>
             </Grid>
           )}
 
           <Grid item xs={12}>
-            <FormControl component="fieldset">
                 <SimpleSelect
                   name="Pointer"
                   items={[5, 0, 25]}
                   {...this.props}
                 />
-            </FormControl>
           </Grid>
         {
           this.props.graphSelected === 'pie' ? (
 
             <Grid item xs={12}>
-              <FormControl component="fieldset">
                   <SimpleSelect
                     name="Pie Style"
                     items={['Normal', 'Donut', 'Flower', 'Windmill']}
                     {...this.props}
                   />
-              </FormControl>
             </Grid>
           ) : ('')
         }
@@ -191,50 +176,50 @@ class Menu extends React.Component {
             Graph Title
           </FormLabel>
           <div>
-          <TextField
-              id="filled-name"
-              className={classes.textField}
-              value={this.props.title}
-              onChange={e => this.props.titleChange(e)}
-              margin="normal"
-          >
-          </TextField>
-          <Button variant="outlined" color="secondary" className={classes.button} onClick={this.props.titleSubmit}>Apply</Button>
+            <TextField
+                id="filled-name"
+                className={classes.textField}
+                value={this.props.title}
+                onChange={e => this.props.titleChange(e)}
+                margin="normal"
+            >
+            </TextField>
+            <Button variant="outlined" color="secondary" style={{marginLeft: '30px'}} onClick={this.props.titleSubmit}>Apply</Button>
           </div>
           </FormControl >
         </Grid>
 
-      {this.props.graphSelected === 'scatter' ? (
-        <Grid item xs={12}>
-        <FormControl component="fieldset">
-        <FormControlLabel
-        control={
-          <Checkbox
-            checked={this.state.checkedA}
-            onChange={e => {
-              this.props.changeStyle(!this.props.regression, 'regression')
-              // console.log('x and y on state', props.x, props.y)
-              if (!this.props.regression) {
-                buildRegressionModel(
-                  this.props.graphData,
-                  this.props.x,
-                  this.props.y,
-                  this.props.changeStyle
-                )
-              } else {
-                this.props.changeStyle([], 'regressionLine')
-              }
-            }}
-            value="checkedA"
+        {this.props.graphSelected === 'scatter' ? (
+          <Grid item xs={12}>
+          <FormControl component="fieldset">
+          <FormControlLabel
+          control={
+            <Checkbox
+              checked={this.state.checkedA}
+              onChange={e => {
+                this.props.changeStyle(!this.props.regression, 'regression')
+                // console.log('x and y on state', props.x, props.y)
+                if (!this.props.regression) {
+                  buildRegressionModel(
+                    this.props.graphData,
+                    this.props.x,
+                    this.props.y,
+                    this.props.changeStyle
+                  )
+                } else {
+                  this.props.changeStyle([], 'regressionLine')
+                }
+              }}
+              value="checkedA"
+            />
+          }
+          label="Regression Line"
           />
-        }
-        label="Regression Line"
-        />
-        </FormControl >
-      </Grid>
-      ) : (
-          ''
-        )}
+          </FormControl >
+        </Grid>
+        ) : (
+            ''
+          )}
           </Grid>
         </TabContainer>
         </SwipeableViews>
