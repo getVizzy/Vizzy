@@ -20,8 +20,10 @@ import EmailIcon from '@material-ui/icons/Email'
 import BarChartIcon from '@material-ui/icons/InsertChart'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import CreateIcon from '@material-ui/icons/Create'
+import DataIcon from '@material-ui/icons/LibraryBooks'
+import HappyIcon from '@material-ui/icons/TagFaces'
 
-
+import UserDataSets from './UserDataSets'
 
 
 import CardHeader from '@material-ui/core/CardHeader';
@@ -34,7 +36,9 @@ import { Link } from 'react-router-dom'
 const tiles = 'https://i.ibb.co/pLtgcSk/colorfultiles.jpg'
 const teamworkImg = 'https://i.ibb.co/8Y1QRnT/teamwork-jpg.jpg'
 const dataImg = 'https://i.ibb.co/vxQtwMt/data.jpg'
-const graphsImg = 'https://i.ibb.co/sKD0vXn/allgraphs.jpg'
+// const graphsImg = 'https://i.ibb.co/sKD0vXn/allgraphs.jpg'
+const graphsImg = 'https://i.ibb.co/5Bn5r99/allcharts5.jpg'
+const createGraphImg = 'https://i.ibb.co/7kxh190/allcharts4.jpg'
 
 
 const styles = theme => ({
@@ -190,7 +194,7 @@ const HomeContent = (props) => {
               <Card className={classes.card}>
                 <CardMedia
                   className={classes.cardMedia}
-                  image={tiles} // eslint-disable-line max-len
+                  image={createGraphImg} // eslint-disable-line max-len
                   title="Image title"
 
                 />
@@ -231,6 +235,56 @@ const HomeContent = (props) => {
                 <CardActions>
                   <Button size="small" color="primary">
                     <Link to="/room">Dashboard here</Link>
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+
+            {/* card 5 */}
+            <Grid item sm={6} md={4} lg={3}>
+              <Card className={classes.card}>
+                <CardMedia
+                  className={classes.cardMedia}
+                  image={graphsImg} // eslint-disable-line max-len
+                  title="Image title"
+                />
+                <CardContent className={classes.cardContent}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    <DataIcon className={classes.contentIcon} color="primary" />
+                    Your Datasets
+                  </Typography>
+                  <Typography>
+                    <UserDataSets />
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    <Link to="/room">Dashboard here</Link>
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+
+            {/* card 6 */}
+            <Grid item sm={6} md={4} lg={3}>
+              <Card className={classes.card}>
+                <CardMedia
+                  className={classes.cardMedia}
+                  image={tiles} // eslint-disable-line max-len
+                  title="Image title"
+                />
+                <CardContent className={classes.cardContent}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    <HappyIcon className={classes.contentIcon} color="primary" />
+                    Bored?
+                  </Typography>
+                  <Typography>
+                    Take a peek at an interesting graph curated just for you.
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    <Link to="/room">Here</Link>
                   </Button>
                 </CardActions>
               </Card>
