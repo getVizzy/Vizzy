@@ -23,10 +23,15 @@ export default class VictoryScatterChart extends Component {
     let y = this.props.y
     let x = this.props.x
     let downloadPNG = download.bind(this)
-    console.log('scatter', this.props)
+    const date = new Date(this.props.createdAt).toDateString()
 
     return (
       <div id="container">
+        <div className="date">
+          {history.location.pathname === '/dashboard' ? (
+            <div>{date}</div>
+          ) : null}
+        </div>
         <div id="chart">
           <VictoryChart
             theme={VictoryTheme.material}
