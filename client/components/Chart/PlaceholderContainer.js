@@ -1,13 +1,13 @@
 import React from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import Bar from "./Bar";
+import Bar from "./BarAnimation";
 import { range as d3Range } from "d3";
 
 let run = null;
 let counter = 0;
 const styles = {
   fontFamily: "sans-serif",
-  textAlign: "center",
+  textAlign: "left",
   marginLeft: '50px'
 };
 
@@ -62,6 +62,7 @@ export default class CoverGraphContainer extends React.Component {
     return (
       <MuiThemeProvider>
         <div style={styles}>
+          <p>Your graph will look nice here.</p>
           <svg width="100%" height="150" onClick={() => clearInterval(run)}>
             <Bar
               data={data}
@@ -73,6 +74,7 @@ export default class CoverGraphContainer extends React.Component {
               highlightedBar={currentIndex}
             />
           </svg>
+          <p>Choose a dataset to get started.</p>
         </div>
       </MuiThemeProvider>
     );

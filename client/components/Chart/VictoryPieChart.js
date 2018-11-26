@@ -42,7 +42,7 @@ export default class VictoryPieChart extends Component {
     let downloadPNG = download.bind(this)
     let {data, x, y, pieColor, pieTransformation} = this.props
 
-    //code to parsed and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
+    //code to parse and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
     let filterData = []
     let dict = {}
 

@@ -11,10 +11,8 @@ import { connect } from 'react-redux'
 import { reinstateNumbers, download, addComma } from '../../utils'
 import { withStyles } from '@material-ui/core/styles'
 import Snackbar from '../Notifications/Snackbar'
-import BarChart from'@material-ui/icons/BarChart'
-import CoverGraphContainer from '../Chart/CoverGraphContainer'
-import CircularProgress from '@material-ui/core/CircularProgress';
-
+import PlaceholderContainer from '../Chart/PlaceholderContainer'
+import Progress from './Progress'
 
 const styles = theme => ({
   root: {
@@ -24,6 +22,8 @@ const styles = theme => ({
     margin: '0 auto',
   },
 })
+
+const graphics = [<PlaceholderContainer />, <Progress />]
 
 const sampleData = {
   dataJSON: {
@@ -70,7 +70,8 @@ class EditView extends React.Component {
       userThatJoined: '',
       message: '',
       styleNotification: false,
-      saveNotification: false
+      saveNotification: false,
+      graphic: 0
     }
 
     this.changeStyle = this.changeStyle.bind(this)
@@ -97,7 +98,7 @@ class EditView extends React.Component {
     socket.on('receiveLeaveRoom', user => {
       this.leaveNotification(user)
     })
-    //moved receiveCode socket from constructor to componentDidMount per Dan's rec, observed no difference
+
     socket.on('receiveCode', payload => {
       this.updateCodeFromSockets(payload)
     })
@@ -119,7 +120,8 @@ class EditView extends React.Component {
           y: '',
           regression: false,
           regressionLine: [],
-          regressionModel: {}
+          regressionModel: {},
+          graphic: 1
         })
         break
       case 'pieColor':
@@ -174,6 +176,11 @@ class EditView extends React.Component {
           1
         )} updated to ${updated}`
     }
+    // let email = this.props.user.roomKey === this.props.singleRoom ?
+    //   this.state.userThatJoined
+    //   : this.props.allUsers.filter(user => user.roomKey === this.props.singleRoom)[0].email;
+
+    // message = message + ` by ${email}`
 
     this.setState({
       message: message,
@@ -226,7 +233,6 @@ class EditView extends React.Component {
     } else {
       this.setState({
         notification: false,
-        userThatJoined: ''
       })
     }
   }
@@ -304,25 +310,19 @@ class EditView extends React.Component {
             <div id="edit" className={classes.root}>
 {/*CHART CONTAINER */}
               <div id="editChart">
-                  {this.state.x === '' || this.state.y === '' ? (
-                    this.state.dataId === '' ?
-                      <div id="working">
-                      <p>Your graph will look nice here.</p>
-                      <CoverGraphContainer />
-                      <p>Choose a dataset to get started.</p>
-                      </div>
-                      :
-                      <div id="working">
-                        <p>Graph in progress...</p>
-                        <CircularProgress className={classes.progress} />
-                      </div>
-                    ) : (
-                        <ChartContainer {...propPackage} />
-                      )}
+                {this.state.x === '' || this.state.y === '' ?
+                  <div id="working">
+                    {graphics[this.state.graphic]}
+                  </div>
+                    :
+                  <ChartContainer {...propPackage} />
+                }
               </div>
+
 {/*MENU PANEL */}
               <div id="editMenu">
                 <Menu {...propPackage } />
+
 {/*SNACKBAR NOTIFICATIONS */}
                 {this.state.styleNotification ?
                   <Snackbar
