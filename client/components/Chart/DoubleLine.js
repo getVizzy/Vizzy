@@ -24,7 +24,7 @@ export default class CustomTheme extends React.Component {
 
           {/* Define labels */}
           <VictoryLabel x={25} y={24} style={styles.title}
-            text="A Spurious Correlation"
+            text="For Example: A Spurious Correlation..."
           />
           <VictoryLabel x={25} y={350} style={styles.subtitle}
             text="Correlation drawn from tylervigen.com/spurious-correlations"
@@ -189,10 +189,11 @@ export default class CustomTheme extends React.Component {
       title: {
         textAnchor: "start",
         verticalAnchor: "end",
-        fill: "#000000",
+        fill: "#808080",
         fontFamily: "inherit",
         fontSize: "18px",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontStyle: "italic"
       },
       subtitle: {
         textAnchor: "start",

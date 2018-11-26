@@ -12,6 +12,8 @@ import { reinstateNumbers, download, addComma } from '../../utils'
 import { withStyles } from '@material-ui/core/styles'
 import Snackbar from '../Notifications/Snackbar'
 import DoubleLine from '../Chart/DoubleLine'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const styles = theme => ({
   root: {
@@ -301,7 +303,11 @@ class EditView extends React.Component {
               <div id="editChart">
                   {this.state.x === '' || this.state.y === '' ? (
                     this.state.dataId === '' ?
-                      <DoubleLine /> : ''
+                      <DoubleLine /> :
+                      <div id="working">
+                        <p>Graph in progress...</p>
+                        <CircularProgress className={classes.progress} />
+                      </div>
                     ) : (
                         <ChartContainer {...propPackage} />
                       )}
