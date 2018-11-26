@@ -30,7 +30,7 @@ module.exports = io => {
       console.log(`success, ${user.email} has joined ${roomKey}`)
     })
 
-    socket.on('newChanges', function (room, data) {
+    socket.on('newChanges', function(room, data) {
       // socket.broadcast.to(room).emit('receive code', data)
       console.log('socketroom', room)
       console.log('my emitted data', data)
@@ -38,6 +38,10 @@ module.exports = io => {
 
       //updated from socket.broadcast.to to socket.to. Didn't notice a difference
       socket.to(room).emit('receiveCode', data)
+    })
+
+    socket.on('newMessages', function(room, message) {
+      socket.to(room).emit('receiveMessage', message)
     })
 
     // socket.on('new changes', function(data) {
