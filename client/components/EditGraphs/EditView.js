@@ -301,6 +301,7 @@ class EditView extends React.Component {
 
         return (
             <div id="edit" className={classes.root}>
+{/*CHART CONTAINER */}
               <div id="editChart">
                   {this.state.x === '' || this.state.y === '' ? (
                     this.state.dataId === '' ?
@@ -313,25 +314,25 @@ class EditView extends React.Component {
                         <ChartContainer {...propPackage} />
                       )}
               </div>
-
+{/*MENU PANEL */}
               <div id="editMenu">
                 <Menu {...propPackage } />
+{/*SNACKBAR NOTIFICATIONS */}
+                {this.state.styleNotification ?
+                  <Snackbar
+                    {...notificationProps}
+                    message={this.state.message}
+                    styleNotification={this.state.styleNotification}
+                  />
+                : ''}
 
-              {this.state.styleNotification ?
-                <Snackbar
-                  {...notificationProps}
-                  message={this.state.message}
-                  styleNotification={this.state.styleNotification}
-                />
-              : ''}
+                {this.state.saveNotification ?
+                  <Snackbar
+                    {...notificationProps}
+                    saveNotification={this.state.saveNotification}
+                    message={this.state.dataId !== '0' ? "Graph saved to your dashboard!" : "Cannot save graph with sample data"} /> : ''}
 
-              {this.state.saveNotification ?
-                <Snackbar
-                  {...notificationProps}
-                  saveNotification={this.state.saveNotification}
-                  message={this.state.dataId !== '0' ? "Graph saved to your dashboard!" : "Cannot save graph with sample data"} /> : ''}
-
-              {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
+                {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
               </div>
           </div>
         )
