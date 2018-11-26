@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserHome, FileDrop } from './components'
-import { me } from './store'
+import {Login, Signup, UserHome, FileDrop} from './components'
+import {me} from './store'
 import Dashboard from './components/Dashboard'
-import { gotGraphs } from './store/graph'
+import {gotGraphs} from './store/graph'
 
 import VictoryBarChart from './components/Chart/VictoryBarChart'
 import VictoryLineGraph from './components/Chart/VictoryLineGraph'
@@ -17,7 +17,8 @@ import TempDashboard from './components/TempDashboard'
 import EditView from './components/EditGraphs/EditView'
 // import RoomSelection from './components/Room/RoomSelection'
 import MainPage from './components/MainPage'
-import RoomEntry from './components/Room/RoomEntry';
+import InviteForm from './components/InviteForm'
+import RoomEntry from './components/Room/RoomEntry'
 
 /**
  * COMPONENT
@@ -29,7 +30,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props
+    const {isLoggedIn} = this.props
 
     return (
       <div id="globalContent">
