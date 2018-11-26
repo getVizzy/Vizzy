@@ -14,6 +14,7 @@ import Snackbar from '../Notifications/Snackbar'
 import BarChart from '@material-ui/icons/BarChart'
 import CoverGraphContainer from '../Chart/CoverGraphContainer'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Chatroom from './Chatroom'
 
 const styles = theme => ({
   root: {
@@ -21,6 +22,9 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     margin: '0 auto'
+  },
+  chatroom: {
+    display: 'block'
   }
 })
 
@@ -300,59 +304,67 @@ class EditView extends React.Component {
         }
 
         return (
-          <div id="edit" className={classes.root}>
-            {/*CHART CONTAINER */}
-            <div id="editChart">
-              {this.state.x === '' || this.state.y === '' ? (
-                this.state.dataId === '' ? (
-                  <div id="working">
-                    <p>Your graph will look nice here.</p>
-                    <CoverGraphContainer />
-                    <p>Choose a dataset to get started.</p>
-                  </div>
+          <div>
+            <div id="edit" className={classes.root}>
+              {/*CHART CONTAINER */}
+              <div id="editChart">
+                {this.state.x === '' || this.state.y === '' ? (
+                  this.state.dataId === '' ? (
+                    <div id="working">
+                      <p>Your graph will look nice here.</p>
+                      <CoverGraphContainer />
+                      <p>Choose a dataset to get started.</p>
+                    </div>
+                  ) : (
+                    <div id="working">
+                      <p>Graph in progress...</p>
+                      <CircularProgress className={classes.progress} />
+                    </div>
+                  )
                 ) : (
-                  <div id="working">
-                    <p>Graph in progress...</p>
-                    <CircularProgress className={classes.progress} />
-                  </div>
-                )
-              ) : (
-                <ChartContainer {...propPackage} />
-              )}
+                  <ChartContainer {...propPackage} />
+                )}
+              </div>
+              {/*MENU PANEL */}
+              <div id="editMenu">
+                <Menu {...propPackage} />
+                {/*SNACKBAR NOTIFICATIONS */}
+                {this.state.styleNotification ? (
+                  <Snackbar
+                    {...notificationProps}
+                    message={this.state.message}
+                    styleNotification={this.state.styleNotification}
+                  />
+                ) : (
+                  ''
+                )}
+
+                {this.state.saveNotification ? (
+                  <Snackbar
+                    {...notificationProps}
+                    saveNotification={this.state.saveNotification}
+                    message={
+                      this.state.dataId !== '0'
+                        ? 'Graph saved to your dashboard!'
+                        : 'Cannot save graph with sample data'
+                    }
+                  />
+                ) : (
+                  ''
+                )}
+
+                {this.state.notification ? (
+                  <Snackbar {...notificationProps} />
+                ) : (
+                  ''
+                )}
+              </div>
             </div>
-            {/*MENU PANEL */}
-            <div id="editMenu">
-              <Menu {...propPackage} />
-              {/*SNACKBAR NOTIFICATIONS */}
-              {this.state.styleNotification ? (
-                <Snackbar
-                  {...notificationProps}
-                  message={this.state.message}
-                  styleNotification={this.state.styleNotification}
-                />
-              ) : (
-                ''
-              )}
-
-              {this.state.saveNotification ? (
-                <Snackbar
-                  {...notificationProps}
-                  saveNotification={this.state.saveNotification}
-                  message={
-                    this.state.dataId !== '0'
-                      ? 'Graph saved to your dashboard!'
-                      : 'Cannot save graph with sample data'
-                  }
-                />
-              ) : (
-                ''
-              )}
-
-              {this.state.notification ? (
-                <Snackbar {...notificationProps} />
-              ) : (
-                ''
-              )}
+            <div className={classes.chatroom}>
+              <Chatroom
+                singleRoom={this.props.singleRoom}
+                user={this.props.user}
+              />
             </div>
           </div>
         )
