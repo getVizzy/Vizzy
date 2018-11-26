@@ -51,8 +51,8 @@ export default class VictoryBarChart extends Component {
             <VictoryAxis
               label={this.props.x}
               style={{
-                axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 12, padding: 30}
+                axis: { stroke: '#756f6a' },
+                axisLabel: { fontSize: 16, padding: 30 }
               }}
               tickValues={data.map(datum => datum[this.props.x])}
               tickFormat={data.map(datum => {
@@ -68,8 +68,8 @@ export default class VictoryBarChart extends Component {
               dependentAxis
               label={this.props.y}
               style={{
-                axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 12, padding: 60}
+                axis: { stroke: '#756f6a' },
+                axisLabel: { fontSize: 16, padding: 60 }
               }}
             />
             <VictoryStack>

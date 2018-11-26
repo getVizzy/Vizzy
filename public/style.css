@@ -216,38 +216,52 @@ li {
   flex-wrap: wrap;
   justify-content: center;
 }
+
 #edit {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-content: flex-start;
-  margin: auto;
+  margin: 0 auto;
+  margin-top: 75px
 }
 
 #editPaper {
   width: 350px;
   flex-grow: 1;
-}
-
-#editMenu {
-  /* flex-grow: 1; */
+  height: 525px;
 }
 
 #editChart {
   display: flex;
   flex-direction: column;
   flex-grow: 2;
-  width: 600px;
-  margin-left: 0px;
-  margin-right: 150px;
+  width: 550px;
+  margin-left: 45px;
+  margin-right: 45px;
   justify-content: center;
+}
+
+#working {
+  display: flex;
+  flex-direction: column;
+  margin-top: 75px;
+  margin-left: 100px;
+  font-size: 20px;
+  font-style: italic;
+  color: lightgrey;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  align-items: center;
 }
 
 #globalEdit {
   display: flex;
   flex-direction: column;
+  margin-top: 100px;
   margin-left: 100px;
-  margin-top: 75px;
+  margin-right: 0 auto;
 }
 
 #homeContainer {
@@ -279,6 +293,7 @@ li {
 }
 
 #ctrlBtn {
+  margin-top: 10px;
   width: 150px;
 }
 

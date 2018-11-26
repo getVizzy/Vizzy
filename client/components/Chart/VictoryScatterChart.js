@@ -123,7 +123,7 @@ export default class VictoryScatterChart extends Component {
               label={x}
               style={{
                 axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 12, padding: 30}
+                axisLabel: {fontSize: 16, padding: 30}
               }}
             />
             <VictoryAxis
@@ -131,7 +131,7 @@ export default class VictoryScatterChart extends Component {
               label={y}
               style={{
                 axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 12, padding: 60}
+                axisLabel: {fontSize: 16, padding: 60}
               }}
             />
           </VictoryChart>

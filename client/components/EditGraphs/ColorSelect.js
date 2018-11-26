@@ -27,7 +27,13 @@ const styles = theme => ({
   },
   icon: {
     color: theme.palette.common.white
-  }
+  },
+  formControl: {
+    width: 295,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
 });
 
 const colors = ['Sunshine', 'Forest', 'Blue', 'Berry', 'Tomato']

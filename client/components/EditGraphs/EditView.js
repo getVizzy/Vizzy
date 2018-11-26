@@ -11,13 +11,17 @@ import { connect } from 'react-redux'
 import { reinstateNumbers, download, addComma } from '../../utils'
 import { withStyles } from '@material-ui/core/styles'
 import Snackbar from '../Notifications/Snackbar'
+import DoubleLine from '../Chart/DoubleLine'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
-  }
+    paddingBottom: theme.spacing.unit * 2,
+    margin: '0 auto',
+  },
 })
 
 const sampleData = {
@@ -38,16 +42,16 @@ class EditView extends React.Component {
     super(props)
     this.state = {
       graphSelected: 'line',
-      color: 'tomato',
+      color: '#4575B4',
       title: '',
-      highlight: 'orange',
+      highlight: '#FEE090',
       tooltip: '5',
       x: '',
       y: '',
       regression: false,
       regressionLine: [],
       regressionModel: {},
-      dataId: '0',
+      dataId: '',
       zoomDomain: {
         x: [new Date(2018, 1, 1), new Date(2018, 12, 1)]
       },
@@ -295,24 +299,23 @@ class EditView extends React.Component {
         }
 
         return (
-          <div id="globalEdit">
-            <div id="edit">
+            <div id="edit" className={classes.root}>
               <div id="editChart">
-                <div style={{height: '500px'}}>
                   {this.state.x === '' || this.state.y === '' ? (
-                      ''
+                    this.state.dataId === '' ?
+                      <DoubleLine /> :
+                      <div id="working">
+                        <p>Graph in progress...</p>
+                        <CircularProgress className={classes.progress} />
+                      </div>
                     ) : (
                         <ChartContainer {...propPackage} />
                       )}
-                </div>
               </div>
 
               <div id="editMenu">
                 <Menu {...propPackage } />
-              </div>
-            </div>
 
-            <div>
               {this.state.styleNotification ?
                 <Snackbar
                   {...notificationProps}
@@ -328,7 +331,7 @@ class EditView extends React.Component {
                   message={this.state.dataId !== '0' ? "Graph saved to your dashboard!" : "Cannot save graph with sample data"} /> : ''}
 
               {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
-            </div>
+              </div>
           </div>
         )
       }
