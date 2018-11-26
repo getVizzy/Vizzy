@@ -16,7 +16,7 @@ export default class CustomTheme extends React.Component {
 
     return (
       <div style={{marginLeft: '100px', marginTop: '30px'}}>
-        <svg style={styles.parent} viewBox="0 0 500 400">
+        <svg style={styles.parent} viewBox="0 0 400 700">
 
           {/* Create stylistic elements */}
           <rect x="0" y="0" width="10" height="30" fill="#C51B7D"/>
