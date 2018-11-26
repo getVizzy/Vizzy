@@ -16,7 +16,7 @@ export default class CustomTheme extends React.Component {
 
     return (
       <div style={{marginLeft: '100px', marginTop: '30px'}}>
-        <svg style={styles.parent} viewBox="0 0 400 700">
+        <svg style={styles.parent} viewBox="0 0 500 700">
 
           {/* Create stylistic elements */}
           <rect x="0" y="0" width="10" height="30" fill="#C51B7D"/>
@@ -26,7 +26,7 @@ export default class CustomTheme extends React.Component {
           <VictoryLabel x={25} y={24} style={styles.title}
             text="For Example: A Spurious Correlation..."
           />
-          <VictoryLabel x={25} y={350} style={styles.subtitle}
+          <VictoryLabel x={25} y={375} style={styles.subtitle}
             text="Correlation drawn from tylervigen.com/spurious-correlations"
           />
 
