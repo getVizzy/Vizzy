@@ -17,6 +17,7 @@ import TempDashboard from './components/TempDashboard'
 import EditView from './components/EditGraphs/EditView'
 import RoomSelection from './components/Room/RoomSelection'
 import MainPage from './components/MainPage'
+import InviteForm from './components/InviteForm'
 
 /**
  * COMPONENT
@@ -36,6 +37,7 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route path="/test" component={InviteForm} />
           {/* Below route only for testing PC */}
           <Route
             exact
