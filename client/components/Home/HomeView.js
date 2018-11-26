@@ -1,10 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import HomeContent from './HomeContent'
-import { gotData } from '../../store/data'
-
+import {gotData} from '../../store/data'
 
 const styles = theme => ({
   root: {
@@ -18,11 +17,12 @@ class HomeView extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
+    const {classes} = this.props
+    console.log(this.props, 'props inside home view')
     return (
-      <div id='homeContainer'>
+      <div id="homeContainer">
         {/* <HeaderGrid /> */}
-        <HomeContent userData={this.props.data} />
+        <HomeContent userData={this.props.data} user={this.props.user} />
       </div>
     )
   }
@@ -43,7 +43,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   gotData: () => dispatch(gotData())
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(
   withStyles(styles)(HomeView)

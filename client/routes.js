@@ -37,7 +37,7 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route path="/test" component={InviteForm} />
+          <Route path="/email" component={InviteForm} />
           {/* Below route only for testing PC */}
           <Route
             exact

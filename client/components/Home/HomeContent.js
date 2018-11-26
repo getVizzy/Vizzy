@@ -1,17 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux'
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import Button from '@material-ui/core/Button'
+import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import CardMedia from '@material-ui/core/CardMedia'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import {withStyles} from '@material-ui/core/styles'
+import {connect} from 'react-redux'
 import FileDrop from '../FileDrop'
+import InviteForm from '../InviteForm'
 import AddIcon from '@material-ui/icons/AddCircle'
 import EmailIcon from '@material-ui/icons/Email'
 import DashboardIcon from '@material-ui/icons/Dashboard'
@@ -19,7 +20,7 @@ import CreateIcon from '@material-ui/icons/Create'
 import DataIcon from '@material-ui/icons/LibraryBooks'
 import HappyIcon from '@material-ui/icons/TagFaces'
 import UserDataSets from './UserDataSets'
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 //images
 const tiles = 'https://i.ibb.co/pLtgcSk/colorfultiles.jpg'
@@ -32,10 +33,10 @@ const logoImg = 'https://i.ibb.co/gd3w2qb/VizLogo.png'
 
 const styles = theme => ({
   appBar: {
-    position: 'relative',
+    position: 'relative'
   },
   icon: {
-    marginRight: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2
   },
   heroUnit: {
     // backgroundColor: theme.palette.background.paper,
@@ -44,10 +45,10 @@ const styles = theme => ({
   heroContent: {
     maxWidth: 600,
     margin: '0 auto',
-    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`,
+    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
   },
   heroButtons: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: theme.spacing.unit * 4
   },
   layout: {
     width: 'auto',
@@ -56,8 +57,8 @@ const styles = theme => ({
     [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
       width: 1100,
       marginLeft: 'auto',
-      marginRight: 'auto',
-    },
+      marginRight: 'auto'
+    }
   },
   cardGrid: {
     // padding: `${theme.spacing.unit * 8}px 0`,
@@ -65,26 +66,26 @@ const styles = theme => ({
   card: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '56.25%' // 16:9
   },
   cardContent: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing.unit * 6,
+    padding: theme.spacing.unit * 6
   },
   contentIcon: {
-    marginRight: 20,
+    marginRight: 20
   }
-});
+})
 
+const HomeContent = props => {
+  const {classes} = props
 
-const HomeContent = (props) => {
-  const { classes } = props;
   return (
     <React.Fragment>
       <CssBaseline />
@@ -93,13 +94,29 @@ const HomeContent = (props) => {
         {/* Hero unit */}
         <div className={classes.heroUnit}>
           <div className={classes.heroContent}>
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
               Welcome Home
             </Typography>
-            <Typography variant="h6" align="center" color="textSecondary" paragraph>
+            <Typography
+              variant="h6"
+              align="center"
+              color="textSecondary"
+              paragraph
+            >
               Let's get Vizzy
             </Typography>
-            <Typography variant="h6" align="center" color="textSecondary" paragraph>
+            <Typography
+              variant="h6"
+              align="center"
+              color="textSecondary"
+              paragraph
+            >
               Create . Collaborate . Visualize
             </Typography>
             <div className={classes.heroButtons}>
@@ -135,8 +152,9 @@ const HomeContent = (props) => {
                     Data Import
                   </Typography>
                   <Typography>
-                    Have data? You can upload it here and we'll keep it handy for you when it's time to get graphing.
-                    </Typography>
+                    Have data? You can upload it here and we'll keep it handy
+                    for you when it's time to get graphing.
+                  </Typography>
                 </CardContent>
                 <CardActions>
                   <FileDrop />
@@ -161,18 +179,20 @@ const HomeContent = (props) => {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    <EmailIcon className={classes.contentIcon} color="primary" />
+                    <EmailIcon
+                      className={classes.contentIcon}
+                      color="primary"
+                    />
                     {'Invite & Collaborate'}
                   </Typography>
                   <Typography>
-
-                    Data visualization is more fun when collaborating with others. Invite team members to collaborate in real-time to build interactive and insightful graphs.
-                    </Typography>
+                    Data visualization is more fun when collaborating with
+                    others. Invite team members to collaborate in real-time to
+                    build interactive and insightful graphs.
+                  </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" color="primary">
-                    Invite Here
-                    </Button>
+                  <InviteForm user={props.user} />
                 </CardActions>
               </Card>
             </Grid>
@@ -184,16 +204,19 @@ const HomeContent = (props) => {
                   className={classes.cardMedia}
                   image={createGraphImg} // eslint-disable-line max-len
                   title="Image title"
-
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    <CreateIcon className={classes.contentIcon} color="primary" />
+                    <CreateIcon
+                      className={classes.contentIcon}
+                      color="primary"
+                    />
                     Solo Grapher
                   </Typography>
                   <Typography>
-                    Don't need to collaborate? You can start graphing right away and still gain meaningful insights from your data.
-                    </Typography>
+                    Don't need to collaborate? You can start graphing right away
+                    and still gain meaningful insights from your data.
+                  </Typography>
                 </CardContent>
                 <CardActions>
                   <Button size="small" color="primary">
@@ -213,11 +236,17 @@ const HomeContent = (props) => {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    <DashboardIcon className={classes.contentIcon} color="primary" />
+                    <DashboardIcon
+                      className={classes.contentIcon}
+                      color="primary"
+                    />
                     {`View Past Graphs`}
                   </Typography>
                   <Typography>
-                    View all of the interative graphs that you have crafted in one central dashboard. You can download and share these graphs to assist in meaningful discussions and decision making processes.
+                    View all of the interative graphs that you have crafted in
+                    one central dashboard. You can download and share these
+                    graphs to assist in meaningful discussions and decision
+                    making processes.
                   </Typography>
                 </CardContent>
                 <CardActions>
@@ -259,7 +288,10 @@ const HomeContent = (props) => {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    <HappyIcon className={classes.contentIcon} color="primary" />
+                    <HappyIcon
+                      className={classes.contentIcon}
+                      color="primary"
+                    />
                     Bored?
                   </Typography>
                   <Typography>
@@ -273,27 +305,31 @@ const HomeContent = (props) => {
                 </CardActions>
               </Card>
             </Grid>
-
           </Grid>
         </div>
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          <img src={logoImg} width='150' height='70' />
+          <img src={logoImg} width="150" height="70" />
         </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+        <Typography
+          variant="subtitle1"
+          align="center"
+          color="textSecondary"
+          component="p"
+        >
           Data Visualization made simple, interactive, and collaborative
         </Typography>
       </footer>
       {/* End footer */}
     </React.Fragment>
-  );
+  )
 }
 
 HomeContent.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+  classes: PropTypes.object.isRequired
+}
 
 const mapStateToProps = state => ({
   data: state.data,
@@ -303,7 +339,4 @@ const mapStateToProps = state => ({
   allUsers: state.user.allUsers
 })
 
-
-export default connect(mapStateToProps)(
-  withStyles(styles)(HomeContent)
-)
+export default connect(mapStateToProps)(withStyles(styles)(HomeContent))

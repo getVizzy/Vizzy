@@ -31,21 +31,23 @@ router.post('/email', (req, res, next) => {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'vizzynoreply@gmail.com',
-      pass: 'H&llo123'
+      user: process.env.VIZZY_EMAIL,
+      pass: process.env.VIZZY_PASS
     }
   })
-  // const mailOptions = {
-  //   from: 'vizzynoreply@gmail.com', // sender address
-  //   to: 'grace@daher.net', // list of receivers
-  //   subject: 'Subject of your email', // Subject line
-  //   html: '<p>Your html here</p>' // plain text body
-  //}
+
   const mailOptions = {}
-  mailOptions.from = 'vizzynoreply@gmail.com'
+  let address = `https://getvizzy.herokuapp.com/room`
+  console.log('req.body.email', req.body.note)
+  mailOptions.from = process.env.VIZZY_EMAIL
   mailOptions.to = req.body.to
-  mailOptions.subject = req.body.subject
-  mailOptions.html = req.body.html
+  mailOptions.subject = 'Invitation to Vizzy Room'
+  mailOptions.html = `<p>${req.body.note}</p>
+  <p>Hello! ${
+    req.body.userEmail
+  } has invited you to collaborate. Please go to your <a href=${address} >room</a>, and enter your key: ${
+    req.body.room
+  }</p>`
 
   transporter.sendMail(mailOptions, function(err, info) {
     if (err) console.log(err)
