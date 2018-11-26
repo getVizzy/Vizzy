@@ -7,7 +7,6 @@ router.post('/', async (req, res, next) => {
       userId: req.user.id,
       dataJSON: req.body
     })
-    console.log(req.body, 'body inside of post request')
     res.send(req.body)
   } catch (err) {
     next(err)
@@ -17,7 +16,6 @@ router.post('/', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     if (req.user.id) {
-      console.log('REQ BODY', req.body)
       const data = await Data.findAll({
         where: {
           userId: req.user.id

@@ -48,7 +48,6 @@ export const fetchRooms = () => {
     try {
       const response = await axios.get(`/api/room`)
       const rooms = response.data
-      console.log('THUNK ROOMS', rooms)
       const action = gotRooms(rooms)
       dispatch(action)
 
