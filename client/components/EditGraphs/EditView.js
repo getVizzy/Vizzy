@@ -11,9 +11,8 @@ import { connect } from 'react-redux'
 import { reinstateNumbers, download, addComma } from '../../utils'
 import { withStyles } from '@material-ui/core/styles'
 import Snackbar from '../Notifications/Snackbar'
-import DoubleLine from '../Chart/DoubleLine'
-import CircularProgress from '@material-ui/core/CircularProgress';
-
+import PlaceholderContainer from '../Chart/PlaceholderContainer'
+import Progress from './Progress'
 
 const styles = theme => ({
   root: {
@@ -23,6 +22,8 @@ const styles = theme => ({
     margin: '0 auto',
   },
 })
+
+const graphics = [<PlaceholderContainer />, <Progress />]
 
 const sampleData = {
   dataJSON: {
@@ -69,7 +70,8 @@ class EditView extends React.Component {
       userThatJoined: '',
       message: '',
       styleNotification: false,
-      saveNotification: false
+      saveNotification: false,
+      graphic: 0
     }
 
     this.changeStyle = this.changeStyle.bind(this)
@@ -81,6 +83,7 @@ class EditView extends React.Component {
     this.titleChange = this.titleChange.bind(this)
     this.titleSubmit = this.titleSubmit.bind(this)
     this.saveNotification = this.saveNotification.bind(this)
+    this.triggerRefresh = this.triggerRefresh.bind(this)
   }
 
   async componentDidMount() {
@@ -96,9 +99,16 @@ class EditView extends React.Component {
     socket.on('receiveLeaveRoom', user => {
       this.leaveNotification(user)
     })
-    //moved receiveCode socket from constructor to componentDidMount per Dan's rec, observed no difference
+
     socket.on('receiveCode', payload => {
       this.updateCodeFromSockets(payload)
+    })
+  }
+
+  triggerRefresh() {
+    this.setState({
+      x: '',
+      y: ''
     })
   }
 
@@ -118,7 +128,16 @@ class EditView extends React.Component {
           y: '',
           regression: false,
           regressionLine: [],
-          regressionModel: {}
+          regressionModel: {},
+          graphic: 1
+        })
+        break
+      case 'graphSelected':
+        this.setState({
+          [attribute]: updated,
+          x: '',
+          regression: false,
+          regressionLine: []
         })
         break
       case 'pieColor':
@@ -127,8 +146,9 @@ class EditView extends React.Component {
         })
         break
       case 'pieTransformation':
+        updated = updated.toLowerCase();
         this.setState({
-          pieTransformation: updated.toLowerCase()
+          pieTransformation: updated
         });
         break
       default:
@@ -172,6 +192,11 @@ class EditView extends React.Component {
           1
         )} updated to ${updated}`
     }
+    // let email = this.props.user.roomKey === this.props.singleRoom ?
+    //   this.state.userThatJoined
+    //   : this.props.allUsers.filter(user => user.roomKey === this.props.singleRoom)[0].email;
+
+    // message = message + ` by ${email}`
 
     this.setState({
       message: message,
@@ -224,7 +249,6 @@ class EditView extends React.Component {
     } else {
       this.setState({
         notification: false,
-        userThatJoined: ''
       })
     }
   }
@@ -286,7 +310,7 @@ class EditView extends React.Component {
           state: this.state,
           leaveRoom: this.leaveRoom,
           saveNotification: this.saveNotification,
-          addGraph: this.props.addGraph
+          addGraph: this.props.addGraph,
         }
 
         let notificationProps = {
@@ -300,43 +324,44 @@ class EditView extends React.Component {
 
         return (
             <div id="edit" className={classes.root}>
+{/*CHART CONTAINER */}
               <div id="editChart">
-                  {this.state.x === '' || this.state.y === '' ? (
-                    this.state.dataId === '' ?
-                      <DoubleLine /> :
-                      <div id="working">
-                        <p>Graph in progress...</p>
-                        <CircularProgress className={classes.progress} />
-                      </div>
-                    ) : (
-                        <ChartContainer {...propPackage} />
-                      )}
+                {this.state.x === '' || this.state.y === '' ?
+                  <div id="working">
+                    {graphics[this.state.graphic]}
+                  </div>
+                    :
+                  <ChartContainer {...propPackage} />
+                }
               </div>
 
+{/*MENU PANEL */}
               <div id="editMenu">
                 <Menu {...propPackage } />
 
-              {this.state.styleNotification ?
-                <Snackbar
-                  {...notificationProps}
-                  message={this.state.message}
-                  styleNotification={this.state.styleNotification}
-                />
-              : ''}
+{/*SNACKBAR NOTIFICATIONS */}
+                {this.state.styleNotification ?
+                  <Snackbar
+                    {...notificationProps}
+                    message={this.state.message}
+                    styleNotification={this.state.styleNotification}
+                  />
+                : ''}
 
-              {this.state.saveNotification ?
-                <Snackbar
-                  {...notificationProps}
-                  saveNotification={this.state.saveNotification}
-                  message={this.state.dataId !== '0' ? "Graph saved to your dashboard!" : "Cannot save graph with sample data"} /> : ''}
+                {this.state.saveNotification ?
+                  <Snackbar
+                    {...notificationProps}
+                    saveNotification={this.state.saveNotification}
+                    message={this.state.dataId !== '0' ? "Graph saved to your dashboard!" : "Cannot save graph with sample data"} /> : ''}
 
-              {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
+                {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
               </div>
           </div>
         )
       }
-    } else {
-      this.props.history.push('/room')
+    }
+    else {
+      // this.props.history.push('/room')
       return null;
     }
   }

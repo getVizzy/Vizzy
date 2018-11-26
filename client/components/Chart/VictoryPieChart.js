@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {VictoryPie, VictoryTheme, VictoryTooltip} from 'victory'
+import {VictoryPie, VictoryTheme, VictoryTooltip, VictoryLabel } from 'victory'
 import history from '../../history'
 import DeleteGraph from './DeleteGraph'
 import {download} from '../../utils'
@@ -42,7 +42,7 @@ export default class VictoryPieChart extends Component {
     let downloadPNG = download.bind(this)
     let {data, x, y, pieColor, pieTransformation} = this.props
 
-    //code to parsed and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
+    //code to parse and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
     let filterData = []
     let dict = {}
 
@@ -76,6 +76,19 @@ export default class VictoryPieChart extends Component {
           ) : null}
         </div>
         <div id="chart">
+            <VictoryLabel
+              text={this.props.title}
+              style={{
+                fontSize: 20,
+                textAnchor: 'middle',
+                verticalAnchor: 'middle',
+                fill: '#000000',
+                fontFamily: 'inherit',
+                fontWeight: 'bold'
+              }}
+              x={300}
+              y={24}
+            />
           <VictoryPie
             labelComponent={
               <VictoryTooltip

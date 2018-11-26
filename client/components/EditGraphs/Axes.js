@@ -35,6 +35,12 @@ class Axes extends React.Component {
     })
   }
 
+  triggerRefresh() {
+    this.setState({
+      column: ''
+    })
+  }
+
   render() {
     const {classes} = this.props
     let items
@@ -55,7 +61,6 @@ class Axes extends React.Component {
 
       name = this.props.graphSelected === 'pie' ? 'Labels' : 'Bottom Axis'
     }
-
     return (
       <FormControl className={classes.formControl}>
         <FormLabel className={classes.labels}>{name}</FormLabel>
