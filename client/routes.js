@@ -15,9 +15,10 @@ import DoubleLine from './components/Chart/DoubleLine'
 import HomeView from './components/Home/HomeView'
 import TempDashboard from './components/TempDashboard'
 import EditView from './components/EditGraphs/EditView'
-import RoomSelection from './components/Room/RoomSelection'
+// import RoomSelection from './components/Room/RoomSelection'
 import MainPage from './components/MainPage'
 import InviteForm from './components/InviteForm'
+import RoomEntry from './components/Room/RoomEntry'
 
 /**
  * COMPONENT
@@ -37,7 +38,6 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route path="/email" component={InviteForm} />
           {/* Below route only for testing PC */}
           <Route
             exact
@@ -56,7 +56,7 @@ class Routes extends Component {
               <Route path="/scatter" component={VictoryScatterChart} />
               <Route path="/pie" component={VictoryPieChart} />
               <Route path="/editgraph" component={EditView} />
-              <Route exact path="/room" component={RoomSelection} />
+              <Route exact path="/room" component={RoomEntry} />
               <Route path="/room/live" component={EditView} />
             </Switch>
           )}

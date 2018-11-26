@@ -1,8 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import { auth } from '../store'
-import { Link } from 'react-router-dom'
+import {auth} from '../store'
+import {Link} from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -55,71 +55,75 @@ const styles = theme => ({
  */
 
 const AuthForm = props => {
-  const { name, displayName, handleSubmit, error, classes } = props
+  const {name, displayName, handleSubmit, error, classes} = props
 
   return displayName === 'Login' ? (
-    <main className={classes.main}>
-      <CssBaseline />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Log In
-        </Typography>
-        <form className={classes.form} onSubmit={handleSubmit} name={name}>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
-              name="password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-          </FormControl>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
+    <div>
+      <main className={classes.main}>
+        <CssBaseline />
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
             Log In
-          </Button>
-        </form>
-        <a href="/auth/google">
-          <Button
-            type="submit"
-            fullWidth
-            color="secondary"
-            variant="outlined"
-            className={classes.submit}
-          >
-            {displayName} with Google
-          </Button>
-        </a>
-        <Link to="/signup">
-          <Button
-            type="submit"
-            fullWidth
-            variant="outlined"
-            color="secondary"
-            className={classes.submit}
-          >
-            Sign Up
-          </Button>
-        </Link>
-      </Paper>
-    </main>
+          </Typography>
+          <form className={classes.form} onSubmit={handleSubmit} name={name}>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <Input id="email" name="email" autoComplete="email" autoFocus />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <Input
+                name="password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            </FormControl>
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Log In
+            </Button>
+            {error && error.response && <div> {error.response.data} </div>}
+          </form>
+          <a href="/auth/google">
+            <Button
+              type="submit"
+              fullWidth
+              color="secondary"
+              variant="outlined"
+              className={classes.submit}
+            >
+              {displayName} with Google
+            </Button>
+          </a>
+          <Link to="/signup">
+            <Button
+              type="submit"
+              fullWidth
+              variant="outlined"
+              color="secondary"
+              className={classes.submit}
+            >
+              Sign Up
+            </Button>
+          </Link>
+        </Paper>
+      </main>
+    </div>
   ) : (
+    <div>
       <main className={classes.main}>
         <CssBaseline />
         <Paper className={classes.paper}>
@@ -128,7 +132,7 @@ const AuthForm = props => {
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign Up
-        </Typography>
+          </Typography>
           <form className={classes.form} onSubmit={handleSubmit} name={name}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
@@ -155,7 +159,8 @@ const AuthForm = props => {
               className={classes.submit}
             >
               Sign Up
-          </Button>
+            </Button>
+            {error && error.response && <div> {error.response.data} </div>}
           </form>
           <a href="/auth/google">
             <Button
@@ -166,67 +171,12 @@ const AuthForm = props => {
               className={classes.submit}
             >
               {displayName} with Google
-          </Button>
+            </Button>
           </a>
         </Paper>
       </main>
-    )
-  //   <div>
-  //     <form onSubmit={handleSubmit} name={name}>
-  //       <div>
-  //         <label htmlFor="email">
-  //           <small>Email</small>
-  //         </label>
-  //         <input name="email" type="text" />
-  //       </div>
-  //       <div>
-  //         <label htmlFor="password">
-  //           <small>Password</small>
-  //         </label>
-  //         <input name="password" type="password" />
-  //       </div>
-  //       <div>
-  //         <button type="submit">{displayName}</button>
-  //       </div>
-
-  //       {error && error.response && <div> {error.response.data} </div>}
-  //     </form>
-  //     <a href="/auth/google">{displayName} with Google</a>
-  //     <br />
-  //     <div>
-  //       <Link to="/signup">Sign Up</Link>
-  //     </div>
-  //   </div>
-  // ) : (
-  //   <div>
-  //     <form onSubmit={handleSubmit} name={name}>
-  //       <div>
-  //         <label htmlFor="email">
-  //           <small>Email</small>
-  //         </label>
-  //         <input name="email" type="text" />
-  //       </div>
-  //       <div>
-  //         <label htmlFor="password">
-  //           <small>Password</small>
-  //         </label>
-  //         <input name="password" type="password" />
-  //       </div>
-  //       <div>
-  //         <button type="submit">{displayName}</button>
-  //       </div>
-
-  //       {error && error.response && <div> {error.response.data} </div>}
-  //     </form>
-  //     <a href="/auth/google">{displayName} with Google</a>
-
-  //     <br />
-
-  //     <div>
-  //       <Link to="/login">Login</Link>
-  //     </div>
-  //   </div>
-  // )
+    </div>
+  )
 }
 
 /**
@@ -240,7 +190,7 @@ const mapLogin = state => {
   return {
     name: 'login',
     displayName: 'Login',
-    error: state.user.error
+    error: state.user.user.error
   }
 }
 
@@ -248,7 +198,7 @@ const mapSignup = state => {
   return {
     name: 'signup',
     displayName: 'Sign Up',
-    error: state.user.error
+    error: state.user.user.error
   }
 }
 
