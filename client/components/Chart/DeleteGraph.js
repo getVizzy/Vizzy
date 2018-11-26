@@ -28,8 +28,6 @@ const styles = theme => ({
 class DeleteGraph extends Component {
   render() {
     const {classes} = this.props
-    console.log('idddddd', this.props.graphId)
-    console.log('deleteeee', this.props.deletingGraph)
 
     return (
       <div id="container">

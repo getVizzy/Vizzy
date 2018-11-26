@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
-import { VictoryPie, VictoryTheme, VictoryTooltip } from 'victory'
+import React, {Component} from 'react'
+import {VictoryPie, VictoryTheme, VictoryTooltip} from 'victory'
 import history from '../../history'
 import DeleteGraph from './DeleteGraph'
-import { download } from '../../utils'
+import {download} from '../../utils'
 import Download from './Download'
-import { conv1dWithBias } from '@tensorflow/tfjs-layers/dist/layers/convolutional'
+import {conv1dWithBias} from '@tensorflow/tfjs-layers/dist/layers/convolutional'
 
 const data = [
-  { x: 'puppy', y: 4 },
-  { x: 'cat', y: 2 },
-  { x: 'birds', y: 3 },
-  { x: 'fish', y: 2 },
-  { x: 'frogs', y: 1 }
+  {x: 'puppy', y: 4},
+  {x: 'cat', y: 2},
+  {x: 'birds', y: 3},
+  {x: 'fish', y: 2},
+  {x: 'frogs', y: 1}
 ]
 
 let colorOptions = {
@@ -40,7 +40,7 @@ const styles = theme => ({
 export default class VictoryPieChart extends Component {
   render() {
     let downloadPNG = download.bind(this)
-    let { data, x, y, pieColor, pieTransformation } = this.props
+    let {data, x, y, pieColor, pieTransformation} = this.props
 
     //code to parsed and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
     let filterData = []
@@ -49,7 +49,7 @@ export default class VictoryPieChart extends Component {
     data.forEach(datum => {
       let label = datum[x].toString()
       let value = datum[y]
-      filterData.push({ x: label, y: value })
+      filterData.push({x: label, y: value})
     })
 
     filterData.forEach(obj => {
@@ -58,34 +58,41 @@ export default class VictoryPieChart extends Component {
       else dict[key] += obj.y
     })
 
-    let parsedData = Object.keys(dict).map(function (key) {
-      return { x: key, y: dict[key] }
+    let parsedData = Object.keys(dict).map(function(key) {
+      return {x: key, y: dict[key]}
     })
 
     let totalValues = 0
     parsedData.forEach(datum => {
       totalValues += datum.y
     })
+    const date = new Date(this.props.createdAt).toDateString()
 
     return (
       <div id="container">
+        <div className="date">
+          {history.location.pathname === '/dashboard' ? (
+            <div>{date}</div>
+          ) : null}
+        </div>
         <div id="chart">
           <VictoryPie
             labelComponent={
               <VictoryTooltip
-                flyoutStyle={{ fill: 'white', stroke: 'lightgrey' }}
+                flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
                 cornerRadius={+this.props.tooltip}
               />
             }
             data={parsedData}
             labels={d =>
-              `${this.props.x} ${d.x}: ${Math.round(d.y / totalValues * 10000) / 100}%`
+              `${this.props.x} ${d.x}: ${Math.round(d.y / totalValues * 10000) /
+                100}%`
             }
             theme={VictoryTheme.material}
             domainPadding={60}
             width={600}
             height={400}
-            padding={{ left: 100, right: 60, top: 35, bottom: 75 }}
+            padding={{left: 100, right: 60, top: 35, bottom: 75}}
             size={7}
             labelRadius={90}
             style={{
@@ -94,11 +101,11 @@ export default class VictoryPieChart extends Component {
                 fontSize: 12,
                 maxWidth: '100%'
               },
-              parent: { maxWidth: '100%' }
+              parent: {maxWidth: '100%'}
             }}
             animate={{
               duration: 2000,
-              onLoad: { duration: 1000 }
+              onLoad: {duration: 1000}
             }}
             events={[
               {
@@ -109,12 +116,12 @@ export default class VictoryPieChart extends Component {
                       {
                         target: 'data',
                         mutation: () => ({
-                          style: { fill: this.props.highlight }
+                          style: {fill: this.props.highlight}
                         })
                       },
                       {
                         target: 'labels',
-                        mutation: () => ({ active: true })
+                        mutation: () => ({active: true})
                       }
                     ]
                   },
@@ -122,11 +129,11 @@ export default class VictoryPieChart extends Component {
                     return [
                       {
                         target: 'data',
-                        mutation: () => { }
+                        mutation: () => {}
                       },
                       {
                         target: 'labels',
-                        mutation: () => ({ active: false })
+                        mutation: () => ({active: false})
                       }
                     ]
                   }

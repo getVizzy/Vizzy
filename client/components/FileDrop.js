@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Dropzone from 'react-dropzone'
 import Modal from 'react-modal'
-import { postData } from '../store/data'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import {postData} from '../store/data'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import AddIcon from '@material-ui/icons/AddBox'
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button';
-
-
+import {withStyles} from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import {white} from 'material-ui/styles/colors'
 
 // const styles = theme => ({
 //   icon: {
@@ -65,20 +64,22 @@ class FileDrop extends Component {
   }
 
   openModal() {
-    this.setState({ modalIsOpen: true })
+    this.setState({modalIsOpen: true})
   }
 
   closeModal() {
-    this.setState({ modalIsOpen: false })
+    this.setState({modalIsOpen: false})
   }
 
   render() {
-    const { classes } = this.props;
+    const {classes} = this.props
 
     return (
       <div>
         {/* <AddIcon onClick={this.openModal} className={classes.icon} /> */}
-        <Button size="small" color="primary" onClick={this.openModal}>Import Here</Button>
+        <Button size="small" color="primary" onClick={this.openModal}>
+          Import Here
+        </Button>
         {/* <button onClick={this.openModal}>Import Data</button> */}
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -87,7 +88,7 @@ class FileDrop extends Component {
           ariaHideApp={false}
           className="modal"
         >
-          <div>
+          <div id="dropzone-div">
             <Dropzone
               onDrop={this.onDrop}
               className="dropzone"
@@ -100,10 +101,14 @@ class FileDrop extends Component {
           </div>
           <div>{/* {f.name} {this.data.size + ' bytes'} */}</div>
           <div>
-            <button onClick={() => {
-              this.props.addData(this.state.data);
-              this.closeModal()
-            }}>Done</button>
+            <button
+              onClick={() => {
+                this.props.addData(this.state.data)
+                this.closeModal()
+              }}
+            >
+              Done
+            </button>
           </div>
         </Modal>
       </div>

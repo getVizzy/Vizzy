@@ -268,6 +268,7 @@ li {
   flex-wrap: wrap;
   justify-content: center;
   padding-top: 3em;
+  padding-left: 2em;
 }
 
 #controlButtons {
@@ -279,4 +280,19 @@ li {
 
 #ctrlBtn {
   width: 150px;
+}
+
+#dropzone-div {
+  background-color: white;
+  opacity: 1;
+}
+
+.modal {
+  background-color: white;
+}
+
+.date {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
