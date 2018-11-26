@@ -25,11 +25,7 @@ import {buildRegressionModel} from '../../utils'
 import ButtonControls from './ButtonControls'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
 
-const styles = theme => ({
-  root: {
-    color: theme.palette.primary.main
-  }
-})
+const styles = theme => ({})
 
 function TabContainer(props) {
   const {children, dir} = props

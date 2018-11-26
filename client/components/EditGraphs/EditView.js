@@ -15,6 +15,8 @@ import BarChart from '@material-ui/icons/BarChart'
 import CoverGraphContainer from '../Chart/CoverGraphContainer'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Chatroom from './Chatroom'
+import PlaceholderContainer from '../Chart/PlaceholderContainer'
+import Progress from './Progress'
 
 const styles = theme => ({
   root: {
@@ -27,6 +29,8 @@ const styles = theme => ({
     display: 'block'
   }
 })
+
+const graphics = [<PlaceholderContainer />, <Progress />]
 
 const sampleData = {
   dataJSON: {
@@ -74,7 +78,8 @@ class EditView extends React.Component {
       message: '',
       styleNotification: false,
       saveNotification: false,
-      error: ''
+      error: '',
+      graphic: 0
     }
 
     this.changeStyle = this.changeStyle.bind(this)
@@ -86,6 +91,7 @@ class EditView extends React.Component {
     this.titleChange = this.titleChange.bind(this)
     this.titleSubmit = this.titleSubmit.bind(this)
     this.saveNotification = this.saveNotification.bind(this)
+    this.triggerRefresh = this.triggerRefresh.bind(this)
   }
 
   async componentDidMount() {
@@ -101,9 +107,16 @@ class EditView extends React.Component {
     socket.on('receiveLeaveRoom', user => {
       this.leaveNotification(user)
     })
-    //moved receiveCode socket from constructor to componentDidMount per Dan's rec, observed no difference
+
     socket.on('receiveCode', payload => {
       this.updateCodeFromSockets(payload)
+    })
+  }
+
+  triggerRefresh() {
+    this.setState({
+      x: '',
+      y: ''
     })
   }
 
@@ -123,7 +136,16 @@ class EditView extends React.Component {
           y: '',
           regression: false,
           regressionLine: [],
-          regressionModel: {}
+          regressionModel: {},
+          graphic: 1
+        })
+        break
+      case 'graphSelected':
+        this.setState({
+          [attribute]: updated,
+          x: '',
+          regression: false,
+          regressionLine: []
         })
         break
       case 'pieColor':
@@ -178,6 +200,11 @@ class EditView extends React.Component {
           1
         )} updated to ${updated}`
     }
+    // let email = this.props.user.roomKey === this.props.singleRoom ?
+    //   this.state.userThatJoined
+    //   : this.props.allUsers.filter(user => user.roomKey === this.props.singleRoom)[0].email;
+
+    // message = message + ` by ${email}`
 
     this.setState({
       message: message,
@@ -230,7 +257,6 @@ class EditView extends React.Component {
     } else {
       this.setState({
         notification: false,
-        userThatJoined: ''
       })
     }
   }
@@ -291,7 +317,7 @@ class EditView extends React.Component {
           state: this.state,
           leaveRoom: this.leaveRoom,
           saveNotification: this.saveNotification,
-          addGraph: this.props.addGraph
+          addGraph: this.props.addGraph,
         }
 
         let notificationProps = {
@@ -308,29 +334,22 @@ class EditView extends React.Component {
             <div id="edit" className={classes.root}>
               {/*CHART CONTAINER */}
               <div id="editChart">
-                {this.state.x === '' || this.state.y === '' ? (
-                  this.state.dataId === '' ? (
-                    <div id="working">
-                      <p>Your graph will look nice here.</p>
-                      <CoverGraphContainer />
-                      <p>Choose a dataset to get started.</p>
-                    </div>
-                  ) : (
-                    <div id="working">
-                      <p>Graph in progress...</p>
-                      <CircularProgress className={classes.progress} />
-                    </div>
-                  )
-                ) : (
+                {this.state.x === '' || this.state.y === '' ?
+                  <div id="working">
+                    {graphics[this.state.graphic]}
+                  </div>
+                    :
                   <ChartContainer {...propPackage} />
-                )}
+                }
               </div>
-              {/*MENU PANEL */}
+
+{/*MENU PANEL */}
               <div id="editMenu">
-                <Menu {...propPackage} />
-                {/*SNACKBAR NOTIFICATIONS */}
-                {this.state.styleNotification ? (
-                  <Snackbar
+                <Menu {...propPackage } />
+
+{/*SNACKBAR NOTIFICATIONS */}
+                {this.state.styleNotification ?
+                  (<Snackbar
                     {...notificationProps}
                     message={this.state.message}
                     styleNotification={this.state.styleNotification}
@@ -369,9 +388,10 @@ class EditView extends React.Component {
           </div>
         )
       }
-    } else {
-      this.props.history.push('/room')
-      return null
+    }
+    else {
+      // this.props.history.push('/room')
+      return null;
     }
   }
 }
