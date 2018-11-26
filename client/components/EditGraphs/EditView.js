@@ -83,6 +83,7 @@ class EditView extends React.Component {
     this.titleChange = this.titleChange.bind(this)
     this.titleSubmit = this.titleSubmit.bind(this)
     this.saveNotification = this.saveNotification.bind(this)
+    this.triggerRefresh = this.triggerRefresh.bind(this)
   }
 
   async componentDidMount() {
@@ -104,6 +105,13 @@ class EditView extends React.Component {
     })
   }
 
+  triggerRefresh() {
+    this.setState({
+      x: '',
+      y: ''
+    })
+  }
+
   changeStyle(e, attribute) {
     let updated;
     e && e.target ? (updated = e.target.value) : (updated = e)
@@ -122,6 +130,14 @@ class EditView extends React.Component {
           regressionLine: [],
           regressionModel: {},
           graphic: 1
+        })
+        break
+      case 'graphSelected':
+        this.setState({
+          [attribute]: updated,
+          x: '',
+          regression: false,
+          regressionLine: []
         })
         break
       case 'pieColor':
@@ -294,7 +310,7 @@ class EditView extends React.Component {
           state: this.state,
           leaveRoom: this.leaveRoom,
           saveNotification: this.saveNotification,
-          addGraph: this.props.addGraph
+          addGraph: this.props.addGraph,
         }
 
         let notificationProps = {
@@ -343,8 +359,9 @@ class EditView extends React.Component {
           </div>
         )
       }
-    } else {
-      this.props.history.push('/room')
+    }
+    else {
+      // this.props.history.push('/room')
       return null;
     }
   }

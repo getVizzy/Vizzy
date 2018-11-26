@@ -35,6 +35,12 @@ class Axes extends React.Component {
     });
   };
 
+  triggerRefresh() {
+    this.setState({
+      column: ''
+    })
+  }
+
   render() {
     const { classes } = this.props;
     let items;
@@ -52,28 +58,28 @@ class Axes extends React.Component {
 
       name = this.props.graphSelected === 'pie'
         ? "Labels" : "Bottom Axis"
-    }
+      }
+      return (
+        <FormControl className={classes.formControl}>
+          <FormLabel className={classes.labels} >{name}</FormLabel>
 
-    return (
-      <FormControl className={classes.formControl}>
-        <FormLabel className={classes.labels} >{name}</FormLabel>
-
-      <Select
-        onChange={(e) => this.handleChange(e)}
-        displayEmpty
-        value={this.state.column}
-        className={classes.selectEmpty}>
-        <MenuItem value="">
-        </MenuItem>
-
-        {items.map(item =>
-          <MenuItem className={classes.menuItem} key={item} value={item}>
-            {item}
+        <Select
+          onChange={(e) => this.handleChange(e)}
+          displayEmpty
+          value={this.state.column}
+          className={classes.selectEmpty}>
+          <MenuItem value="">
           </MenuItem>
-        )}
+
+          {items.map(item =>
+            <MenuItem className={classes.menuItem} key={item} value={item}>
+              {item}
+            </MenuItem>
+          )}
         </Select>
-    </FormControl>
-    )
+      </FormControl>
+      )
+
   }
 }
 

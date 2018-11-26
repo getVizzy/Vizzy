@@ -11,7 +11,7 @@ const styles = {
   marginLeft: '50px'
 };
 
-export default class CoverGraphContainer extends React.Component {
+export default class PlaceholderContainer extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -24,6 +24,10 @@ export default class CoverGraphContainer extends React.Component {
   }
 
   componentDidMount() {
+    this.run()
+  }
+
+  run () {
     run = setInterval(this.addData, 100)
   }
 

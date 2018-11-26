@@ -9,10 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 export default class ChartContainer extends Component {
 
   componentDidMount() {
-    // this.props.changeStyle(this.props.x, 'x');
-    // this.props.changeStyle(this.props.y, 'y');
-    // this.props.changeStyle(this.props.color, 'color')
-    // this.props.changeStyle(this.props.graphSelected, 'graphSelected')
+
   }
 
   render() {
@@ -22,7 +19,7 @@ export default class ChartContainer extends Component {
         <CircularProgress/>
       </div>
     }
-
+    console.log("STATE COLUMNS", this.props.x, this.props.y)
     return this.props.graphSelected === 'bar' ? (
       <Bar {...this.props} />
     ) : this.props.graphSelected === 'line' ? (
