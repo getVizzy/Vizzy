@@ -11,14 +11,11 @@ import VictoryBarChart from './components/Chart/VictoryBarChart'
 import VictoryLineGraph from './components/Chart/VictoryLineGraph'
 import VictoryScatterChart from './components/Chart/VictoryScatterChart'
 import VictoryPieChart from './components/Chart/VictoryPieChart'
-
+import DoubleLine from './components/Chart/DoubleLine'
 import HomeView from './components/Home/HomeView'
 import TempDashboard from './components/TempDashboard'
 import EditView from './components/EditGraphs/EditView'
 import RoomSelection from './components/Room/RoomSelection'
-import EditRoom from './components/Room/EditRoom'
-import CreateRoom from './components/Room/CreateRoom'
-import TestSave from './components/TestSave'
 import MainPage from './components/MainPage'
 
 /**
@@ -54,7 +51,7 @@ class Routes extends Component {
               {/* <div id="globalContent"> */}
                 <Route path="/dashboard" component={TempDashboard} />
               {/* </div> */}
-              <Route path="/bar" component={VictoryBarChart} />
+              <Route path="/line2" component={DoubleLine} />
               <Route path="/line" component={VictoryLineGraph} />
               <Route path="/scatter" component={VictoryScatterChart} />
               <Route path="/pie" component={VictoryPieChart} />

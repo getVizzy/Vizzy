@@ -33,13 +33,13 @@ export default class VictoryLineGraph extends Component {
             theme={VictoryTheme.material}
             style={{parent: {maxWidth: '100%'}}}
             width={600}
-            height={470}
+            height={400}
             // scale={{x: 'time'}}
             padding={{left: 100, right: 25, top: 35, bottom: 75}}
             containerComponent={
               <VictoryVoronoiContainer
                 voronoiDimension="x"
-                labels={d => `${y}:${d[y]}`}
+                labels={d => `${y}: ${d[y]}`}
                 labelComponent={
                   <VictoryTooltip
                     cornerRadius={+this.props.tooltip}
@@ -64,7 +64,7 @@ export default class VictoryLineGraph extends Component {
             />
             <VictoryLine
               style={{
-                data: {stroke: this.props.color}
+                data: {stroke: this.props.color, strokeWidth: 6}
               }}
               data={data}
               x={x}
@@ -106,7 +106,8 @@ export default class VictoryLineGraph extends Component {
               label={x}
               style={{
                 axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 12, padding: 30}
+                axisLabel: {fontSize: 16, padding: 30,                 fontFamily: "inherit",
+              }
               }}
               tickValues={data.map(datum => datum[x])}
               tickFormat={data.map(datum => {
@@ -122,7 +123,7 @@ export default class VictoryLineGraph extends Component {
               label={y}
               style={{
                 axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 12, padding: 60}
+                axisLabel: {fontSize: 16, padding: 60}
               }}
             />
           </VictoryChart>

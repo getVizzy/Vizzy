@@ -7,11 +7,11 @@ import { postGraph } from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
 import Menu from './Menu'
-import classNames from 'classnames';
 import { connect } from 'react-redux'
 import { reinstateNumbers, download, addComma } from '../../utils'
 import { withStyles } from '@material-ui/core/styles'
 import Snackbar from '../Notifications/Snackbar'
+import DoubleLine from '../Chart/DoubleLine'
 
 const styles = theme => ({
   root: {
@@ -40,16 +40,16 @@ class EditView extends React.Component {
     super(props)
     this.state = {
       graphSelected: 'line',
-      color: 'tomato',
+      color: '#4575B4',
       title: '',
-      highlight: 'orange',
+      highlight: '#FEE090',
       tooltip: '5',
       x: '',
       y: '',
       regression: false,
       regressionLine: [],
       regressionModel: {},
-      dataId: '0',
+      dataId: '',
       zoomDomain: {
         x: [new Date(2018, 1, 1), new Date(2018, 12, 1)]
       },
@@ -300,7 +300,8 @@ class EditView extends React.Component {
             <div id="edit" className={classes.root}>
               <div id="editChart">
                   {this.state.x === '' || this.state.y === '' ? (
-                      ''
+                    this.state.dataId === '' ?
+                      <DoubleLine /> : ''
                     ) : (
                         <ChartContainer {...propPackage} />
                       )}

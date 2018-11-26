@@ -229,20 +229,16 @@ li {
 #editPaper {
   width: 350px;
   flex-grow: 1;
-  height: 570px;
-}
-
-#editMenu {
-  /* flex-grow: 1; */
+  height: 525px;
 }
 
 #editChart {
   display: flex;
   flex-direction: column;
   flex-grow: 2;
-  width: 600px;
-  margin-left: 0px;
-  margin-right: 150px;
+  width: 550px;
+  margin-left: 45px;
+  margin-right: 45px;
   justify-content: center;
 }
 

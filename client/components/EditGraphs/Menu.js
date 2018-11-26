@@ -157,7 +157,7 @@ class Menu extends React.Component {
           </Grid>
         </TabContainer>
         <TabContainer dir={theme.direction}>
-          <Grid container spacing={24} >
+          <Grid container spacing={16} >
 
             {this.props.graphSelected === 'pie' ?
               <Grid item xs={12}>
