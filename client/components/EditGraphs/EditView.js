@@ -7,6 +7,7 @@ import { postGraph } from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
 import Menu from './Menu'
+import classNames from 'classnames';
 import { connect } from 'react-redux'
 import { reinstateNumbers, download, addComma } from '../../utils'
 import { withStyles } from '@material-ui/core/styles'
@@ -16,8 +17,9 @@ const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
-  }
+    paddingBottom: theme.spacing.unit * 2,
+    margin: '0 auto',
+  },
 })
 
 const sampleData = {
@@ -295,24 +297,18 @@ class EditView extends React.Component {
         }
 
         return (
-          <div id="globalEdit">
-            <div id="edit">
+            <div id="edit" className={classes.root}>
               <div id="editChart">
-                <div style={{height: '500px'}}>
                   {this.state.x === '' || this.state.y === '' ? (
                       ''
                     ) : (
                         <ChartContainer {...propPackage} />
                       )}
-                </div>
               </div>
 
               <div id="editMenu">
                 <Menu {...propPackage } />
-              </div>
-            </div>
 
-            <div>
               {this.state.styleNotification ?
                 <Snackbar
                   {...notificationProps}
@@ -328,7 +324,7 @@ class EditView extends React.Component {
                   message={this.state.dataId !== '0' ? "Graph saved to your dashboard!" : "Cannot save graph with sample data"} /> : ''}
 
               {this.state.notification ? <Snackbar {...notificationProps} /> : ''}
-            </div>
+              </div>
           </div>
         )
       }

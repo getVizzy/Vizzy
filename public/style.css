@@ -216,17 +216,20 @@ li {
   flex-wrap: wrap;
   justify-content: center;
 }
+
 #edit {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-content: flex-start;
-  margin: auto;
+  margin: 0 auto;
+  margin-top: 75px
 }
 
 #editPaper {
   width: 350px;
   flex-grow: 1;
+  height: 570px;
 }
 
 #editMenu {
@@ -246,8 +249,9 @@ li {
 #globalEdit {
   display: flex;
   flex-direction: column;
-  margin-left: 100px;
   margin-top: 75px;
+  margin-left: 0 auto;
+  margin-right: 0 auto;
 }
 
 #homeContainer {
@@ -278,5 +282,6 @@ li {
 }
 
 #ctrlBtn {
+  margin-top: 10px;
   width: 150px;
 }
