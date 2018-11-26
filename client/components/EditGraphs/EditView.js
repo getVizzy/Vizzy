@@ -11,7 +11,8 @@ import { connect } from 'react-redux'
 import { reinstateNumbers, download, addComma } from '../../utils'
 import { withStyles } from '@material-ui/core/styles'
 import Snackbar from '../Notifications/Snackbar'
-import DoubleLine from '../Chart/DoubleLine'
+import BarChart from'@material-ui/icons/BarChart'
+import CoverGraphContainer from '../Chart/CoverGraphContainer'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 
@@ -305,7 +306,12 @@ class EditView extends React.Component {
               <div id="editChart">
                   {this.state.x === '' || this.state.y === '' ? (
                     this.state.dataId === '' ?
-                      <DoubleLine /> :
+                      <div id="working">
+                      <p>Your graph will look nice here.</p>
+                      <CoverGraphContainer />
+                      <p>Choose a dataset to get started.</p>
+                      </div>
+                      :
                       <div id="working">
                         <p>Graph in progress...</p>
                         <CircularProgress className={classes.progress} />
