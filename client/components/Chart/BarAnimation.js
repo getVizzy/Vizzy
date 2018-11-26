@@ -31,6 +31,7 @@ class Bar extends React.Component {
     const { x, y, data, height, highlightBar, highlightedBar } = this.props,
       { widthScale, heightScale } = this.state;
     return (
+
       <g
         transform={`translate(${x}, ${y})`}
         onMouseOut={() => highlightBar(null)}
