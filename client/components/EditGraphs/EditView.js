@@ -127,8 +127,9 @@ class EditView extends React.Component {
         })
         break
       case 'pieTransformation':
+        updated = updated.toLowerCase();
         this.setState({
-          pieTransformation: updated.toLowerCase()
+          pieTransformation: updated
         });
         break
       default:
