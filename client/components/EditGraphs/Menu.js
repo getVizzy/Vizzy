@@ -114,7 +114,7 @@ class Menu extends React.Component {
                     filterColumn={this.filterColumn}
                     column="x"
                   />
-            </Grid>
+              </Grid>
             {this.props.graphSelected === 'scatter' ? (
             <Grid item xs={12}>
               <FormControl component="fieldset">
