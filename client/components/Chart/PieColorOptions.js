@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {withStyles} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -37,7 +37,6 @@ class PieColorOptions extends Component {
   }
 
   handleChange(event) {
-    console.log("TARGET IN HC", event)
     this.props.changeStyle(colorThemes[event.target.value], 'pieColor')
 
     this.setState({
@@ -46,27 +45,27 @@ class PieColorOptions extends Component {
   };
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props
 
     return (
       <FormControl className={classes.formControl}>
-          <FormLabel className={classes.labels} >Color Theme</FormLabel>
+        <FormLabel className={classes.labels} >Color Theme</FormLabel>
 
-          <Select
-            onChange={(e) => this.handleChange(e)}
-            displayEmpty
-            value={this.state.theme}
-            className={classes.selectEmpty}>
+        <Select
+          onChange={(e) => this.handleChange(e)}
+          displayEmpty
+          value={this.state.theme}
+          className={classes.selectEmpty}>
 
-            <MenuItem value="" />
+          <MenuItem value="" />
 
-            {Object.keys(colorThemes).map((option) =>
-              <MenuItem key={option} value={option} className={classes.menuItem}>
-                {option}
-              </MenuItem>
-            )}
-          </Select>
-        </FormControl>
+          {Object.keys(colorThemes).map((option) =>
+            <MenuItem key={option} value={option} className={classes.menuItem}>
+              {option}
+            </MenuItem>
+          )}
+        </Select>
+      </FormControl>
     )
   }
 }
