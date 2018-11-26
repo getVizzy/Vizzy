@@ -6,7 +6,6 @@ module.exports = router
 // POST api/room - Add room
 router.post('/', async (req, res, next) => {
   try {
-    console.log('POST', req.body)
     let room = await Room.create(req.body)
 
     res.status(201).json(room)

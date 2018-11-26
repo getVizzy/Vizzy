@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Graph, Data} = require('../db/models')
+const { Graph, Data } = require('../db/models')
 
 router.post('/', async (req, res, next) => {
   try {
@@ -8,7 +8,6 @@ router.post('/', async (req, res, next) => {
       properties: req.body,
       datumId: req.body.dataId
     })
-    console.log("FIRST GRAPH", graph)
     const allData = await Graph.findAll({
       where: {
         id: graph.id
@@ -19,7 +18,6 @@ router.post('/', async (req, res, next) => {
         }
       ]
     })
-    console.log("ALL DATA", allData[0])
     res.send(allData[0])
   } catch (err) {
     next(err)

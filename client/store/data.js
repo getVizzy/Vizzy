@@ -25,9 +25,7 @@ export const postData = data => async dispatch => {
 
 export const gotData = () => async dispatch => {
   try {
-    console.log('STORE ARE YOU HITTING HERE?')
     const { data } = await axios.get('/api/data')
-    console.log('store data', data)
     dispatch(getData(data))
   } catch (err) {
     console.error(err)

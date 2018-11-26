@@ -39,9 +39,6 @@ class Dashboard extends Component {
 
   componentDidMount() { }
   render() {
-    // console.log('state', this.state)
-    // console.log('this.props', this.props)
-    // console.log('DASHBOARD', this.props)
     return (
       <div id="container-row">
         <div>

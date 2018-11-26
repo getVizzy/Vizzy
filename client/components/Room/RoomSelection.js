@@ -31,7 +31,6 @@ class RoomSelection extends Component {
   //     Math.random()
   //       .toString(36)
   //       .substr(2, 9)
-  //   console.log('roomKey', roomKey)
   //   const userName = this.props.user.user.email
 
   //   this.props.onPostRoom({roomKey: roomKey})
@@ -66,7 +65,7 @@ class RoomSelection extends Component {
   }
 
   render() {
-    if(!this.props.user.user.id) {
+    if (!this.props.user.user.id) {
       return "Loading..."
     }
     const roomKey = this.props.user.user.roomKey

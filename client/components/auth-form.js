@@ -1,8 +1,8 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
-import {Link} from 'react-router-dom'
+import { auth } from '../store'
+import { Link } from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -55,8 +55,7 @@ const styles = theme => ({
  */
 
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error, classes} = props
-  console.log('thisprops', props)
+  const { name, displayName, handleSubmit, error, classes } = props
 
   return displayName === 'Login' ? (
     <main className={classes.main}>
@@ -121,57 +120,57 @@ const AuthForm = props => {
       </Paper>
     </main>
   ) : (
-    <main className={classes.main}>
-      <CssBaseline />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign Up
-        </Typography>
-        <form className={classes.form} onSubmit={handleSubmit} name={name}>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
-              name="password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-          </FormControl>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
+      <main className={classes.main}>
+        <CssBaseline />
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
             Sign Up
+        </Typography>
+          <form className={classes.form} onSubmit={handleSubmit} name={name}>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <Input id="email" name="email" autoComplete="email" autoFocus />
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <Input
+                name="password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            </FormControl>
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign Up
           </Button>
-        </form>
-        <a href="/auth/google">
-          <Button
-            type="submit"
-            fullWidth
-            variant="outlined"
-            color="secondary"
-            className={classes.submit}
-          >
-            {displayName} with Google
+          </form>
+          <a href="/auth/google">
+            <Button
+              type="submit"
+              fullWidth
+              variant="outlined"
+              color="secondary"
+              className={classes.submit}
+            >
+              {displayName} with Google
           </Button>
-        </a>
-      </Paper>
-    </main>
-  )
+          </a>
+        </Paper>
+      </main>
+    )
   //   <div>
   //     <form onSubmit={handleSubmit} name={name}>
   //       <div>
