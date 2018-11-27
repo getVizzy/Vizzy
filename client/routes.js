@@ -30,7 +30,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const {isLoggedIn, hasRoom} = this.props
 
     return (
       <div id="globalContent">
@@ -57,7 +57,12 @@ class Routes extends Component {
               <Route path="/pie" component={VictoryPieChart} />
               <Route path="/editgraph" component={EditView} />
               <Route exact path="/room" component={RoomEntry} />
-              <Route path="/room/live" component={EditView} />
+              <Route
+                path="/room/live"
+                render={props =>
+                  hasRoom ? <EditView {...props} /> : <Redirect to="/room" />
+                }
+              />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}
@@ -75,7 +80,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.user.id
+    isLoggedIn: !!state.user.user.id,
+    hasRoom: !!state.room.singleRoom
   }
 }
 
