@@ -106,22 +106,40 @@ export default class VictoryLineGraph extends Component {
                 }
               ]}
             />
-            <VictoryAxis
-              label={x}
-              style={{
-                axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 16, padding: 30,                 fontFamily: "inherit",
-              }
-              }}
-              tickValues={data.map(datum => datum[x])}
-              tickFormat={data.map(datum => {
-                if (typeof datum[x] === 'string') {
-                  return datum[x].slice(0, 3)
-                } else {
-                  return datum[x]
-                }
-              })}
-            />
+            {typeof data[0][x] === 'string' ? (
+              <VictoryAxis
+                label={x}
+                style={{
+                  axis: {stroke: '#756f6a'},
+                  axisLabel: {
+                    fontSize: 16,
+                    padding: 30,
+                    fontFamily: 'inherit'
+                  }
+                }}
+                tickValues={data.map(datum => datum[x])}
+                tickFormat={data.map(datum => {
+                  if (typeof datum[x] === 'string') {
+                    return datum[x].slice(0, 3)
+                  } else {
+                    return datum[x]
+                  }
+                })}
+              />
+            ) : (
+              <VictoryAxis
+                label={x}
+                style={{
+                  axis: {stroke: '#756f6a'},
+                  axisLabel: {
+                    fontSize: 16,
+                    padding: 30,
+                    fontFamily: 'inherit'
+                  }
+                }}
+              />
+            )}
+
             <VictoryAxis
               dependentAxis
               label={y}
