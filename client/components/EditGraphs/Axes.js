@@ -50,7 +50,7 @@ class Axes extends React.Component {
       items = this.props.filterColumn(this.props.graphData, 'number')
       this.props.graphSelected === 'pie'
         ? (name = 'Values')
-        : (name = 'Left Axis')
+        : (name = 'Left Axis (y)')
     } else {
       //scatter charts only have numbers on the x axis, while bar charts only have strings on the x axis. Any other chart type could have a string or a number for the x axis.
       this.props.graphSelected === 'scatter'
@@ -59,7 +59,7 @@ class Axes extends React.Component {
           ? (items = this.props.filterColumn(this.props.graphData, 'string'))
           : (items = Object.keys(this.props.graphData[0]))
 
-      name = this.props.graphSelected === 'pie' ? 'Labels' : 'Bottom Axis'
+      name = this.props.graphSelected === 'pie' ? 'Labels' : 'Bottom Axis (x)'
     }
     return (
       <FormControl className={classes.formControl}>

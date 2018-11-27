@@ -88,7 +88,6 @@ class EditView extends React.Component {
     this.titleChange = this.titleChange.bind(this)
     this.titleSubmit = this.titleSubmit.bind(this)
     this.saveNotification = this.saveNotification.bind(this)
-    this.triggerRefresh = this.triggerRefresh.bind(this)
   }
 
   async componentDidMount() {
@@ -110,15 +109,8 @@ class EditView extends React.Component {
     })
   }
 
-  triggerRefresh() {
-    this.setState({
-      x: '',
-      y: ''
-    })
-  }
-
-  changeStyle(e, attribute) {
-    let updated
+  changeStyle(e, attribute, source) {
+    let updated;
     e && e.target ? (updated = e.target.value) : (updated = e)
     switch (attribute) {
       case 'dataId':
@@ -168,10 +160,12 @@ class EditView extends React.Component {
     if (attribute === 'dataId') {
       change.graphSelected = 'line'
     }
-    socket.emit('newChanges', this.props.singleRoom, change)
+    if(!source) {
+      socket.emit('newChanges', this.props.singleRoom, change)
+    }
   }
 
-  styleNotification(attribute, updated) {
+  styleNotification(attribute, updated, source) {
     let message
     switch (attribute) {
       case 'x':
@@ -188,6 +182,9 @@ class EditView extends React.Component {
         break
       case 'color':
         message = `Color changed`
+        break
+      case 'pieColor':
+        message = `Pie colors changed`
         break
       case 'tooltip':
         message = `Tooltip shape changed`
@@ -220,9 +217,9 @@ class EditView extends React.Component {
   }
 
   updateCodeFromSockets(payload) {
-    this.setState(payload)
     let attribute = Object.keys(payload)[0]
     let updated = Object.values(payload)[0]
+    this.changeStyle(updated, attribute, 'sockets')
     this.styleNotification(attribute, updated)
   }
 
@@ -254,6 +251,7 @@ class EditView extends React.Component {
     } else {
       this.setState({
         notification: false,
+        userThatJoined: ''
       })
     }
   }
