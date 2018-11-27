@@ -6,11 +6,8 @@ import {Link} from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import FormControl from '@material-ui/core/FormControl'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
 import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
+import TextField from '@material-ui/core/TextField'
 import SendIcon from '@material-ui/icons/SendOutlined'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
@@ -18,25 +15,49 @@ import withStyles from '@material-ui/core/styles/withStyles'
 const io = require('socket.io-client')
 const socket = io()
 
+// const styles = theme => ({
+//   main: {
+//     width: 'auto',
+//     display: 'block', // Fix IE 11 issue.
+//     marginLeft: theme.spacing.unit * 3,
+//     marginRight: theme.spacing.unit * 3,
+//     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+//       width: 800,
+//       marginLeft: 'auto',
+//       marginRight: 'auto'
+//     }
+//   },
+//   paper: {
+//     marginTop: theme.spacing.unit * 8,
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
+//       .spacing.unit * 3}px`
+//   },
+//   avatar: {
+//     margin: theme.spacing.unit,
+//     backgroundColor: theme.palette.primary.main
+//   }
+// })
+
 const styles = theme => ({
-  main: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 800,
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    }
-  },
   paper: {
     marginTop: theme.spacing.unit * 8,
-    display: 'flex',
-    flexDirection: 'column',
+    flex: 'auto',
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
       .spacing.unit * 3}px`
+  },
+  input: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
+  },
+  dense: {
+    marginTop: 19
+  },
+  menu: {
+    width: 200
   },
   avatar: {
     margin: theme.spacing.unit,
@@ -57,6 +78,7 @@ class Chatroom extends React.Component {
     }
     this.typeMessage = this.typeMessage.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
   componentDidMount() {
@@ -73,6 +95,7 @@ class Chatroom extends React.Component {
   handleSubmit(event) {
     const user = this.props.user.email
     console.log('user', user)
+
     const newMessage = this.state.messageInput
     if (newMessage) {
       const message = {
@@ -84,6 +107,25 @@ class Chatroom extends React.Component {
         messages: [...this.state.messages, message]
       })
       socket.emit('newMessages', this.props.singleRoom, message)
+    }
+  }
+
+  handleKeyDown(e) {
+    const user = this.props.user.email
+
+    if (e.key === 'Enter') {
+      const newMessage = this.state.messageInput
+      if (newMessage) {
+        const message = {
+          user,
+          newMessage
+        }
+
+        this.setState({
+          messages: [...this.state.messages, message]
+        })
+        socket.emit('newMessages', this.props.singleRoom, message)
+      }
     }
   }
 
@@ -104,11 +146,32 @@ class Chatroom extends React.Component {
                 </Typography>
               )
             })}
-            <input
+            {/* <input
               type="text"
               name="messageInput"
               value={this.state.messageInput}
               onChange={this.typeMessage}
+            /> */}
+
+            {/* <Input
+              name="messageInput"
+              label="Your Message"
+              style={{margin: 8}}
+              onChange={this.typeMessage}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+            /> */}
+            <TextField
+              id="standard-full-width"
+              name="messageInput"
+              label="Your Message"
+              style={{margin: 8}}
+              onChange={this.typeMessage}
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              onKeyDown={this.handleKeyDown}
             />
             <button onClick={this.handleSubmit}>
               <Avatar className={classes.avatar}>

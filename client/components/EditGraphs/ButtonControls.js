@@ -31,6 +31,7 @@ class ButtonControls extends React.Component {
   }
   render() {
     const {classes} = this.props
+    console.log('idddd', this.props.state.dataId)
     return (
       <div>
         <Typography color="primary">{this.state.error}</Typography>
@@ -47,6 +48,11 @@ class ButtonControls extends React.Component {
                 ) {
                   this.props.addGraph(this.props.state)
                   this.props.saveNotification()
+                }
+                if (this.props.state.dataId === '0') {
+                  this.setState({
+                    error: 'Sample data cannot be saved'
+                  })
                 } else {
                   this.setState({
                     error: 'Please add chart title before saving'
