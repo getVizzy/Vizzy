@@ -18,7 +18,6 @@ import Build from '@material-ui/icons/Build'
 import ColorLens from '@material-ui/icons/colorLens'
 import FormLabel from '@material-ui/core/FormLabel'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
 import {buildRegressionModel} from '../../utils'
@@ -51,10 +50,6 @@ class Menu extends React.Component {
     }
   }
 
-  filterColumn(data, dataType) {
-    return Object.keys(data[0]).filter(key => typeof data[0][key] === dataType)
-  }
-
   handleChange = (event, value) => {
     this.setState({value})
   }
@@ -65,6 +60,7 @@ class Menu extends React.Component {
 
   render() {
     const {classes, theme} = this.props
+    console.log("GRAPH DATA IN MENU", this.props.graphData)
 
     return (
       <Paper id="editPaper">
@@ -103,7 +99,6 @@ class Menu extends React.Component {
               <Grid item xs={12}>
                 <Axes
                   {...this.props}
-                  filterColumn={this.filterColumn}
                   column="y"
                 />
               </Grid>
@@ -111,7 +106,6 @@ class Menu extends React.Component {
               <Grid item xs={12}>
                 <Axes
                   {...this.props}
-                  filterColumn={this.filterColumn}
                   column="x"
                 />
               </Grid>
@@ -208,7 +202,7 @@ class Menu extends React.Component {
                     <Input
                       id="filled-name"
                       className={classes.textField}
-                      value={this.props.title}
+                      value={this.props.titleInProgress}
                       onChange={e => this.props.titleChange(e)}
                       margin="none"
                     />
@@ -218,7 +212,7 @@ class Menu extends React.Component {
                       style={{marginLeft: '30px'}}
                       onClick={this.props.titleSubmit}
                     >
-                      Apply
+                      Add Title
                     </Button>
                   </div>
                 </FormControl>

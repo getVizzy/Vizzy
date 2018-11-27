@@ -30,10 +30,13 @@ const styles = theme => ({
 
 
 class ListItemComposition extends React.Component {
-
-  state = {
-    graph: '',
-  };
+  constructor() {
+    super()
+    this.state = {
+      graph: '',
+    };
+    this.handleChange = this.handleChange.bind(this)
+  }
 
   handleChange = event => {
     this.props.changeStyle(event, 'graphSelected')

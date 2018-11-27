@@ -35,10 +35,8 @@ class Axes extends React.Component {
     })
   }
 
-  triggerRefresh() {
-    this.setState({
-      column: ''
-    })
+  filterColumn(data, dataType) {
+    return Object.keys(data[0]).filter(key => typeof data[0][key] === dataType)
   }
 
   render() {
@@ -47,21 +45,29 @@ class Axes extends React.Component {
     let name
     //all graphs take only numeric values for y. Change the name for a pie chart, because there is no axis in a pie chart.
     if (this.props.column === 'y') {
-      items = this.props.filterColumn(this.props.graphData, 'number')
+      items = this.filterColumn(this.props.graphData, 'number')
       this.props.graphSelected === 'pie'
         ? (name = 'Values')
         : (name = 'Left Axis (y)')
     } else {
       //scatter charts only have numbers on the x axis, while bar charts only have strings on the x axis. Any other chart type could have a string or a number for the x axis.
       this.props.graphSelected === 'scatter'
+<<<<<<< HEAD
+        ? (items = this.filterColumn(this.props.graphData, 'number'))
+        : this.props.graphSelected === 'bar'
+          ? (items = this.filterColumn(this.props.graphData, 'string'))
+=======
         ? (items = this.props.filterColumn(this.props.graphData, 'number'))
         : (this.props.graphSelected === 'bar') |
           (this.props.graphSelected === 'pie')
           ? (items = this.props.filterColumn(this.props.graphData, 'string'))
+>>>>>>> master
           : (items = Object.keys(this.props.graphData[0]))
 
       name = this.props.graphSelected === 'pie' ? 'Labels' : 'Bottom Axis (x)'
     }
+    console.log("GRAPH SELECTED IN AXES", this.props.graphSelected, "X RECEIVED AS PROPS", this.props.x, "Y RECEIVED AS PROPS", this.props.y, "ITEMS IN AXES", items)
+
     return (
       <FormControl className={classes.formControl}>
         <FormLabel className={classes.labels}>{name}</FormLabel>
@@ -69,7 +75,7 @@ class Axes extends React.Component {
         <Select
           onChange={e => this.handleChange(e)}
           displayEmpty
-          value={this.state.column}
+          value={this.props[this.props.column]}
           className={classes.selectEmpty}
         >
           <MenuItem value="" />
