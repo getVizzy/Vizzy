@@ -62,7 +62,7 @@ const styles = theme => ({
 });
 const roomImg = 'https://i.ibb.co/DDjqWvB/graphcomputer.jpg'
 
-function Album(props) {
+function RoomEntry(props) {
   const { classes } = props;
 
   return (
@@ -99,14 +99,15 @@ function Album(props) {
             </Grid>
           </Grid>
         </div>
+
       </main>
 
     </React.Fragment>
   );
 }
 
-Album.propTypes = {
+RoomEntry.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Album);
+export default withStyles(styles)(RoomEntry);
