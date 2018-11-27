@@ -68,7 +68,11 @@ const AuthForm = props => {
           <Typography component="h1" variant="h5">
             Log In
           </Typography>
-          <form className={classes.form} onSubmit={handleSubmit} name={name}>
+          <form
+            className={classes.form}
+            onSubmit={e => handleSubmit(e, props)}
+            name={name}
+          >
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input id="email" name="email" autoComplete="email" autoFocus />
@@ -133,7 +137,11 @@ const AuthForm = props => {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          <form className={classes.form} onSubmit={handleSubmit} name={name}>
+          <form
+            className={classes.form}
+            onSubmit={e => handleSubmit(e, props)}
+            name={name}
+          >
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input id="email" name="email" autoComplete="email" autoFocus />
@@ -204,12 +212,18 @@ const mapSignup = state => {
 
 const mapDispatch = dispatch => {
   return {
-    handleSubmit(evt) {
+    handleSubmit(evt, props) {
       evt.preventDefault()
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      let prevLoc =
+        props.location.pathname !== '/' &&
+        props.location.pathname !== '/login' &&
+        props.location.pathname !== '/signup'
+          ? props.location.pathname
+          : null
+      dispatch(auth(email, password, formName, prevLoc))
     }
   }
 }
