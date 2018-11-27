@@ -11,8 +11,6 @@ import { connect } from 'react-redux'
 import { reinstateNumbers, download, addComma } from '../../utils'
 import { withStyles } from '@material-ui/core/styles'
 import Snackbar from '../Notifications/Snackbar'
-import BarChart from '@material-ui/icons/BarChart'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import Chatroom from './Chatroom'
 import PlaceholderContainer from '../Chart/PlaceholderContainer'
 import Progress from './Progress'
@@ -135,8 +133,10 @@ class EditView extends React.Component {
         this.setState({
           [attribute]: updated,
           x: '',
+          y: '',
           regression: false,
-          regressionLine: []
+          regressionLine: [],
+          title: ''
         })
         break
       case 'pieColor':
@@ -196,11 +196,6 @@ class EditView extends React.Component {
           1
         )} updated to ${updated}`
     }
-    // let email = this.props.user.roomKey === this.props.singleRoom ?
-    //   this.state.userThatJoined
-    //   : this.props.allUsers.filter(user => user.roomKey === this.props.singleRoom)[0].email;
-
-    // message = message + ` by ${email}`
 
     this.setState({
       message: message,
@@ -260,7 +255,8 @@ class EditView extends React.Component {
 
   saveNotification() {
     this.setState({
-      saveNotification: true
+      saveNotification: true,
+      title: ''
     })
   }
 

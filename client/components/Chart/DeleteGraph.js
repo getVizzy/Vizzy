@@ -39,7 +39,10 @@ class DeleteGraph extends Component {
             variant="outlined"
             color="secondary"
             className={classes.submit}
-            onClick={() => this.props.deletingGraph(this.props.graphId)}
+            onClick={() => {
+              this.props.deletingGraph(this.props.graphId);
+              this.props.delete();
+            }}
           >
             Delete
           </Button>
