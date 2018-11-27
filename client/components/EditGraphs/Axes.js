@@ -52,9 +52,16 @@ class Axes extends React.Component {
     } else {
       //scatter charts only have numbers on the x axis, while bar charts only have strings on the x axis. Any other chart type could have a string or a number for the x axis.
       this.props.graphSelected === 'scatter'
+<<<<<<< HEAD
         ? (items = this.filterColumn(this.props.graphData, 'number'))
         : this.props.graphSelected === 'bar'
           ? (items = this.filterColumn(this.props.graphData, 'string'))
+=======
+        ? (items = this.props.filterColumn(this.props.graphData, 'number'))
+        : (this.props.graphSelected === 'bar') |
+          (this.props.graphSelected === 'pie')
+          ? (items = this.props.filterColumn(this.props.graphData, 'string'))
+>>>>>>> master
           : (items = Object.keys(this.props.graphData[0]))
 
       name = this.props.graphSelected === 'pie' ? 'Labels' : 'Bottom Axis (x)'

@@ -14,10 +14,12 @@ class MainPage extends Component {
           <div className="logo-container">
             <img id="logo" src={'https://image.ibb.co/djSCuq/vizzylogo.png'} />
           </div>
+          <div className="description">Create . Collaborate . Visualize</div>
           <div className="description">
-            Collaborate with your team in real-time to build custom graphs and
-            charts
+            Collaborate with your team in real-time to build dynamic data
+            visualizations
           </div>
+
           <div className="container">
             <Link to="/login">
               <button className="myButton">Get Started</button>
