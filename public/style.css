@@ -322,3 +322,22 @@ li {
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.message-container {
+  max-height: 80pt;
+  overflow-y: scroll;
+}
+
+.input-and-button {
+  display: flex;
+  align-content: center;
+  margin-top: 10pt;
+}
+
+.user {
+  color: lightseagreen;
+}
+
+.new-message {
+  display: flex;
+}
