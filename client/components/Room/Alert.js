@@ -29,7 +29,7 @@ class AlertDialog extends React.Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Room Does Not Exist"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"Invalid Room Entry"}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               Please enter a correct room number to begin your graphing session.
