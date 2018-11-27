@@ -45,7 +45,7 @@ class Download extends Component {
         <canvas
           id={this.props.graphId}
           width="600"
-          height="470"
+          height="400"
           display="none"
           style={{visibility: 'hidden', zIndex: -950, position: 'absolute'}}
         />
