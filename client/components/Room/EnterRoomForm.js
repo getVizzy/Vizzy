@@ -3,19 +3,16 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import FilledInput from '@material-ui/core/FilledInput';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import { gotSingleRoom } from '../../store/room'
 import { fetchAllUsers } from '../../store/user'
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Typography from 'material-ui/styles/typography';
 import EnterIconOne from '@material-ui/icons/MeetingRoom'
 import ArrowIcon from '@material-ui/icons/CallMerge'
+import Alert from './Alert'
+
 
 
 
@@ -45,11 +42,13 @@ class EnterRoomForm extends React.Component {
     this.state =
       {
         roomKey: '',
+        alert: false
       };
 
     this.userRoomSubmit = this.userRoomSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleAlert = this.handleAlert.bind(this)
   }
 
   async componentDidMount() {
@@ -68,12 +67,13 @@ class EnterRoomForm extends React.Component {
       this.props.history.push('room/live')
     } else {
       console.log('Room does not exist!')
+      this.setState({ alert: !this.state.alert });
     }
   }
 
   handleChange = event => {
     this.setState({ roomKey: event.target.value });
-    console.log('handleChage', this.state.roomKey)
+
   };
 
   handleSubmit() {
@@ -88,12 +88,20 @@ class EnterRoomForm extends React.Component {
       this.props.history.push('room/live')
     } else {
       console.log('Room does not exist!')
+      this.setState({ alert: !this.state.alert });
+
     }
+  }
+
+  //Updates alert to false once user closes notification
+  handleAlert() {
+    this.setState({ alert: false });
   }
 
   render() {
     const { classes } = this.props;
     const userKey = this.props.user.user.roomKey
+    const alert = this.state.alert
 
     return (
       <div className={classes.container} >
@@ -151,6 +159,10 @@ class EnterRoomForm extends React.Component {
              <EnterIconOne className={classes.rightIcon} />
           </Button>
         </FormControl>
+        {
+          alert ? <Alert alert={this.state.alert} handleAlert={this.handleAlert} /> : ''
+        }
+
       </div>
     );
   }
