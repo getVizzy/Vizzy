@@ -128,7 +128,6 @@ li {
   align-items: center;
 }
 
-
 .dz-message {
   text-align: center;
   padding-top: 60px;
@@ -235,7 +234,7 @@ li {
   justify-content: space-between;
   align-content: flex-start;
   margin: 0 auto;
-  margin-top: 25px
+  margin-top: 25px;
 }
 
 #editPaper {
