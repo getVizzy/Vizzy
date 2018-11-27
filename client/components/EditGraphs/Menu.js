@@ -24,6 +24,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import {buildRegressionModel} from '../../utils'
 import ButtonControls from './ButtonControls'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
+import Input from '@material-ui/core/Input';
 
 const styles = theme => ({})
 
@@ -204,12 +205,12 @@ class Menu extends React.Component {
                 <FormControl component="fieldset">
                   <FormLabel className={classes.labels}>Graph Title</FormLabel>
                   <div>
-                    <TextField
+                    <Input
                       id="filled-name"
                       className={classes.textField}
                       value={this.props.title}
                       onChange={e => this.props.titleChange(e)}
-                      margin="normal"
+                      margin="none"
                     />
                     <Button
                       variant="outlined"
