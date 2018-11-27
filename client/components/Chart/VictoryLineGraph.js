@@ -119,11 +119,7 @@ export default class VictoryLineGraph extends Component {
                 }}
                 tickValues={data.map(datum => datum[x])}
                 tickFormat={data.map(datum => {
-                  if (typeof datum[x] === 'string') {
-                    return datum[x].slice(0, 3)
-                  } else {
-                    return datum[x]
-                  }
+                  return datum[x].slice(0, 3)
                 })}
               />
             ) : (
