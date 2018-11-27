@@ -76,7 +76,8 @@ class EditView extends React.Component {
       styleNotification: false,
       saveNotification: false,
       error: '',
-      graphic: 0
+      graphic: 0,
+      titleInProgress: ''
     }
 
     this.changeStyle = this.changeStyle.bind(this)
@@ -110,8 +111,8 @@ class EditView extends React.Component {
   }
 
   changeStyle(e, attribute, source) {
-    let updated;
-    e && e.target ? (updated = e.target.value) : (updated = e)
+    let updated = e && e.target ? (updated = e.target.value) : (updated = e)
+
     switch (attribute) {
       case 'dataId':
         if (updated !== '0') {
@@ -119,7 +120,6 @@ class EditView extends React.Component {
         }
         this.setState({
           [attribute]: updated,
-          graphSelected: 'line',
           title: '',
           x: '',
           y: '',
@@ -150,6 +150,10 @@ class EditView extends React.Component {
           pieTransformation: updated
         })
         break
+      case 'title':
+        this.setState({
+          titleInProgress: ''
+        })
       default:
         this.setState({
           [attribute]: updated
@@ -167,7 +171,7 @@ class EditView extends React.Component {
     }
   }
 
-  styleNotification(attribute, updated, source) {
+  styleNotification(attribute, updated) {
     let message
     switch (attribute) {
       case 'x':
@@ -205,12 +209,12 @@ class EditView extends React.Component {
 
   titleChange(e) {
     this.setState({
-      title: e.target.value
+      titleInProgress: e.target.value
     })
   }
 
   titleSubmit(e) {
-    this.changeStyle(this.state.title, 'title')
+    this.changeStyle(this.state.titleInProgress, 'title')
   }
 
   updateCodeFromSockets(payload) {
@@ -321,7 +325,7 @@ class EditView extends React.Component {
           leaveNotification: this.leaveNotification,
           resetSnackbar: this.resetSnackbar
         }
-
+        console.log("STATE IN EDIT VIEW", this.state)
         return (
           <div>
             <div id="edit" className={classes.root}>
