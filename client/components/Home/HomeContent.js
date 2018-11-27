@@ -9,8 +9,8 @@ import CardMedia from '@material-ui/core/CardMedia'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import {withStyles} from '@material-ui/core/styles'
-import {connect} from 'react-redux'
+import { withStyles } from '@material-ui/core/styles'
+import { connect } from 'react-redux'
 import FileDrop from '../FileDrop'
 import InviteForm from '../InviteForm'
 import AddIcon from '@material-ui/icons/AddCircle'
@@ -20,7 +20,7 @@ import CreateIcon from '@material-ui/icons/Create'
 import DataIcon from '@material-ui/icons/LibraryBooks'
 import HappyIcon from '@material-ui/icons/TagFaces'
 import UserDataSets from './UserDataSets'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 //images
 const tiles = 'https://i.ibb.co/pLtgcSk/colorfultiles.jpg'
@@ -76,7 +76,8 @@ const styles = theme => ({
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing.unit * 6
+    padding: theme.spacing.unit * 3,
+    marginTop: 35
   },
   contentIcon: {
     marginRight: 20
@@ -84,7 +85,7 @@ const styles = theme => ({
 })
 
 const HomeContent = props => {
-  const {classes} = props
+  const { classes } = props
 
   return (
     <React.Fragment>
@@ -311,7 +312,7 @@ const HomeContent = props => {
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          <img src={logoImg} width="150" height="70" />
+          <img src={logoImg} width="150" height="60" />
         </Typography>
         <Typography
           variant="subtitle1"
