@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
+import DownloadIcon from '@material-ui/icons/CloudDownload'
 
 const styles = theme => ({
   main: {
@@ -14,10 +15,16 @@ const styles = theme => ({
       width: 400,
       marginLeft: 'auto',
       marginRight: 'auto'
-    }
+    },
+    vertical: 'bottom',
+    horizontal: 'center'
   },
   submit: {
     marginTop: theme.spacing.unit * 3
+  },
+  downloads: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
   }
 })
 
@@ -38,7 +45,7 @@ class Download extends Component {
             className={classes.submit}
             onClick={() => downloadPNG(this.props.title, this.props.graphId)}
           >
-            Download
+            Download <DownloadIcon className={classes.downloads} />
           </Button>
         </main>
 
