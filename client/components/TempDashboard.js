@@ -43,20 +43,20 @@ class TempDashboard extends Component {
   render() {
     const {classes} = this.props
     return (
-      <div className="main-dashboard-container">
-        <div className={classes.heroUnit}>
-          <div className={classes.heroContent}>
-            <Typography
-              component="h1"
-              variant="h4"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-            >
-              Dashboard
-            </Typography>
-          </div>
+      // <div className="main-dashboard-container">
+      <div className={classes.heroUnit}>
+        <div className={classes.heroContent}>
+          <Typography
+            component="h1"
+            variant="h4"
+            align="center"
+            color="textPrimary"
+            gutterBottom
+          >
+            Dashboard
+          </Typography>
         </div>
+        {/* </div> */}
         {this.props.graphs.length === 0 ? (
           <div className={classes.heroContent}>
             <Typography variant="h6" align="center" color="textSecondary">
@@ -76,7 +76,6 @@ class TempDashboard extends Component {
               ...graph.properties,
               delete: this.deleteNotification
             }
-
             return (
               <div id="dashboard-container" key={graph.id}>
                 <ChartContainer {...propPackage} />{' '}
@@ -84,7 +83,6 @@ class TempDashboard extends Component {
             )
           })
         )}
-
         <div>
           {this.state.notification ? (
             <Snackbar
