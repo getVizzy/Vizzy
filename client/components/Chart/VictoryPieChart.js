@@ -104,7 +104,7 @@ export default class VictoryPieChart extends Component {
                 fontWeight: 'bold'
               }}
               x={100}
-              y={10}
+              y={24}
             />
 
             <VictoryPie
