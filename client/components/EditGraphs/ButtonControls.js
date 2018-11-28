@@ -31,7 +31,6 @@ class ButtonControls extends React.Component {
   }
   render() {
     const {classes} = this.props
-    console.log('idddd', this.props.state.dataId)
     return (
       <div>
         <Typography color="primary">{this.state.error}</Typography>

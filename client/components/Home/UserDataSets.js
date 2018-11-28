@@ -65,7 +65,6 @@ class UserDataSets extends React.Component {
 
   render() {
     const { classes, userData } = this.props;
-
     return (
       <Card className={classes.card}>
         <CardActions className={classes.actions} disableActionSpacing>
@@ -91,7 +90,6 @@ class UserDataSets extends React.Component {
                     <ul className={classes.ul}>
                       {userData.map(datum => (
                         <ListItem key={datum.id}>
-                          {console.log(datum.id)}
                           <ListItemIcon>
                             <FileIcon color="primary" />
                           </ListItemIcon>

@@ -88,7 +88,6 @@ const styles = theme => ({
 
 const HomeContent = props => {
   const { classes } = props
-
   return (
     <React.Fragment>
       <CssBaseline />
