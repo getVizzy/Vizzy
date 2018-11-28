@@ -21,6 +21,8 @@ import DataIcon from '@material-ui/icons/LibraryBooks'
 import HappyIcon from '@material-ui/icons/TagFaces'
 import UserDataSets from './UserDataSets'
 import { Link } from 'react-router-dom'
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 //images
 const tiles = 'https://i.ibb.co/pLtgcSk/colorfultiles.jpg'
@@ -86,7 +88,6 @@ const styles = theme => ({
 
 const HomeContent = props => {
   const { classes } = props
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -139,14 +140,19 @@ const HomeContent = props => {
         <div className={classNames(classes.layout, classes.cardGrid)}>
           {/* End hero unit */}
           <Grid container spacing={40}>
-            {/* {cards.map(card => ( */}
+
+            {/* card 1 */}
             <Grid item sm={6} md={4} lg={3}>
+
               <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image={dataImg} // eslint-disable-line max-len
-                  title="Image title"
-                />
+                <Tooltip title={`click 'IMPORT HERE' below`} placement="bottom">
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={dataImg} // eslint-disable-line max-len
+                  // title="Image title"
+                  />
+                </Tooltip >
+
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
                     <AddIcon className={classes.contentIcon} color="primary" />
@@ -166,18 +172,24 @@ const HomeContent = props => {
                     Edit
                     </Button> */}
                 </CardActions>
+
               </Card>
+
+
             </Grid>
+
             {/* ))} */}
 
             {/* card 2 */}
             <Grid item sm={6} md={4} lg={3}>
               <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image={teamworkImg} // eslint-disable-line max-len
-                  title="Image title"
-                />
+                <Tooltip title={`click 'INVITE HERE' below`} placement="bottom">
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={teamworkImg} // eslint-disable-line max-len
+                  // title="Image title"
+                  />
+                </Tooltip>
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
                     <EmailIcon
@@ -193,7 +205,8 @@ const HomeContent = props => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <InviteForm user={props.user} />
+
+                  <InviteForm user={props.user} source="home" text="Invite Here" />
                 </CardActions>
               </Card>
             </Grid>
@@ -201,17 +214,21 @@ const HomeContent = props => {
             {/* card 3 */}
             <Grid item sm={6} md={4} lg={3}>
               <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image={createGraphImg} // eslint-disable-line max-len
-                  title="Image title"
-                />
+                <Tooltip title={`click 'GRAPH HERE' below`} placement="bottom">
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={createGraphImg} // eslint-disable-line max-len
+                  // title="Image title"
+                  />
+                </Tooltip>
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    <CreateIcon
-                      className={classes.contentIcon}
-                      color="primary"
-                    />
+                    <Link to="/room">
+                      <CreateIcon
+                        className={classes.contentIcon}
+                        color="primary"
+                      />
+                    </Link>
                     Solo Grapher
                   </Typography>
                   <Typography>
@@ -230,17 +247,21 @@ const HomeContent = props => {
             {/* card 4 */}
             <Grid item sm={6} md={4} lg={3}>
               <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image={graphsImg} // eslint-disable-line max-len
-                  title="Image title"
-                />
+                <Tooltip title={`click 'DASHBOARD HERE' below`} placement="bottom">
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={graphsImg} // eslint-disable-line max-len
+                  // title="Image title"
+                  />
+                </Tooltip>
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    <DashboardIcon
-                      className={classes.contentIcon}
-                      color="primary"
-                    />
+                    <Link to="/dashboard">
+                      <DashboardIcon
+                        className={classes.contentIcon}
+                        color="primary"
+                      />
+                    </Link>
                     {`View Past Graphs`}
                   </Typography>
                   <Typography>
@@ -261,18 +282,21 @@ const HomeContent = props => {
             {/* card 5 */}
             <Grid item sm={6} md={4} lg={3}>
               <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image={libraryImg} // eslint-disable-line max-len
-                  title="Image title"
-                />
+                <Tooltip title='toggle below to view/close data list' placement="bottom">
+
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={libraryImg} // eslint-disable-line max-len
+                  // title="Image title"
+                  />
+                </Tooltip>
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
                     <DataIcon className={classes.contentIcon} color="primary" />
                     Your Datasets
                   </Typography>
                   <Typography>
-                    View a listing of the datasets you have imported
+                    View and manage a listing of the datasets you have imported
                   </Typography>
                 </CardContent>
                 <UserDataSets userData={props.userData} />
@@ -282,17 +306,19 @@ const HomeContent = props => {
             {/* card 6 */}
             <Grid item sm={6} md={4} lg={3}>
               <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image={tiles} // eslint-disable-line max-len
-                  title="Image title"
-                />
+                <Tooltip title={`click 'FUN HERE' below`} placement="bottom">
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={tiles} // eslint-disable-line max-len
+                  // title="Image title"
+                  />
+                </Tooltip>
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    <HappyIcon
+                    <Link to="/fun"> <HappyIcon
                       className={classes.contentIcon}
                       color="primary"
-                    />
+                    /></Link>
                     Bored?
                   </Typography>
                   <Typography>
@@ -300,9 +326,9 @@ const HomeContent = props => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" color="primary">
+                  <Link to="/fun"><Button size="small" color="primary">
                     Fun Here
-                  </Button>
+                  </Button></Link>
                 </CardActions>
               </Card>
             </Grid>
@@ -312,7 +338,7 @@ const HomeContent = props => {
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          <img src={logoImg} width="150" height="60" />
+          <img src="https://i.ibb.co/Jsq4b8B/only-Icon-Logo.png" width="50" height="50" />
         </Typography>
         <Typography
           variant="subtitle1"

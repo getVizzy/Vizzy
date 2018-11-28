@@ -14,7 +14,8 @@ export default class InviteForm extends React.Component {
     this.state = {
       open: false,
       to: '',
-      note: ''
+      note: '',
+      error: false
     }
   }
 
@@ -27,21 +28,28 @@ export default class InviteForm extends React.Component {
     this.setState({open: true})
   }
 
-  handleClose = e => {
+  handleClose = () => {
     this.setState({open: false})
-    let body = {}
-    body.to = this.state.to
-    body.note = this.state.note
-    body.room = this.props.user.roomKey
-    body.userEmail = this.props.user.email
-    axios.post('/api/room/email', body)
+  }
+  handleSubmit = e => {
+    if (this.state.to === '') {
+      this.setState({error: true})
+    } else {
+      this.handleClose()
+      let body = {}
+      body.to = this.state.to
+      body.note = this.state.note
+      body.room = this.props.user.roomKey
+      body.userEmail = this.props.user.email
+      axios.post('/api/room/email', body)
+    }
   }
 
   render() {
     return (
       <div>
         <Button size="small" color="primary" onClick={this.handleClickOpen}>
-          Invite Here
+          {this.props.text}
         </Button>
         <Dialog open={this.state.open} onClose={this.handleClose}>
           <DialogTitle>Invite Collaborators</DialogTitle>
@@ -49,8 +57,8 @@ export default class InviteForm extends React.Component {
             <TextField
               onChange={this.handleChange}
               name="to"
-              required={true}
-              value={this.props.title}
+              error={this.state.error}
+              required
               margin="normal"
               label="Email:"
             />

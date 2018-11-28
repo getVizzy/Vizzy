@@ -5,6 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {deletingGraph} from '../../store/graph'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 const styles = theme => ({
   main: {
@@ -22,6 +23,10 @@ const styles = theme => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3
+  },
+  delete: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
   }
 })
 
@@ -39,9 +44,12 @@ class DeleteGraph extends Component {
             variant="outlined"
             color="secondary"
             className={classes.submit}
-            onClick={() => this.props.deletingGraph(this.props.graphId)}
+            onClick={() => {
+              this.props.deletingGraph(this.props.graphId)
+              // this.props.delete()
+            }}
           >
-            Delete
+            Delete <DeleteIcon className={classes.delete} />
           </Button>
         </main>
       </div>
@@ -49,12 +57,12 @@ class DeleteGraph extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  deletingGraph: id => dispatch(deletingGraph(id))
-})
-
 const mapStateToProps = state => ({
   graphs: state.graph
+})
+
+const mapDispatchToProps = dispatch => ({
+  deletingGraph: id => dispatch(deletingGraph(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(

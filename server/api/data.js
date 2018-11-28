@@ -1,13 +1,13 @@
 const router = require('express').Router()
-const { User, Data } = require('../db/models')
+const {User, Data} = require('../db/models')
 
 router.post('/', async (req, res, next) => {
   try {
-    await Data.create({
+    let data = await Data.create({
       userId: req.user.id,
       dataJSON: req.body
     })
-    res.send(req.body)
+    res.send(data)
   } catch (err) {
     next(err)
   }
@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
         where: {
           userId: req.user.id
         },
-        include: [{ model: User }]
+        include: [{model: User}]
       })
       res.send(data)
     } else {
@@ -28,6 +28,19 @@ router.get('/', async (req, res, next) => {
     }
   } catch (err) {
     next(err)
+  }
+})
+
+router.delete('/:dataId', async (req, res, next) => {
+  try {
+    const dataSet = await Data.destroy({
+      where: {
+        id: req.params.dataId
+      }
+    })
+    res.sendStatus(202)
+  } catch (error) {
+    next(error)
   }
 })
 module.exports = router

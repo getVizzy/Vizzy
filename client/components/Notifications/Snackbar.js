@@ -19,12 +19,18 @@ class PositionedSnackbar extends React.Component {
     })
   }
 
+  reset() {
+    if(!this.props.source) {
+      this.props.resetSnackbar()
+    }
+  }
+
   handleClose = () => {
     this.setState({ open: false });
     !this.props.styleNotification && !this.props.saveNotification ?
     (this.props.userThatJoined ? this.props.joinNotification()
       : this.props.leaveNotification())
-    : this.props.resetSnackbar();
+    : this.reset();
   };
 
   render() {

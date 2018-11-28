@@ -16,6 +16,7 @@ import Alert from './Alert'
 
 
 
+
 const styles = theme => ({
   container: {
     // display: 'flex',
@@ -148,12 +149,11 @@ class EnterRoomForm extends React.Component {
             onChange={this.handleChange}
             labelWidth={this.labelRef ? this.labelRef.offsetWidth : 0}
           />
-
           <Button
             className={classes.button}
             variant='outlined'
             color='secondary'
-            onClick={this.handleSubmit} size="small" color="primary">
+            onClick={this.handleSubmit} size="small" color="secondary">
 
             Join Another Room
              <EnterIconOne className={classes.rightIcon} />

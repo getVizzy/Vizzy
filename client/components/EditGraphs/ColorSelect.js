@@ -12,6 +12,7 @@ import Waves from '@material-ui/icons/Waves'
 import Lens from '@material-ui/icons/Lens'
 import CloudQueue from '@material-ui/icons/cloudQueue'
 import FormControl from '@material-ui/core/FormControl';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const styles = theme => ({
@@ -40,6 +41,17 @@ const colors = ['Sunshine', 'Forest', 'Blue', 'Berry', 'Tomato']
 const hexes = ['#FEE090', '#01665E', '#4575B4', '#C51B7D', '#D73027']
 const highlights = ['Gold', 'Orchid', 'Sea Green', 'Light Blue', ]
 const highHexes = ['#fee090', '#E9A3C9', '#5ab4ac', '#91BFDB']
+const labels = {
+  Color: {
+    name: "Main Color",
+    tooltip: "Color of graph"
+  },
+  Highlight: {
+    name: "Highlight Color",
+    tooltip: "Color of an element on hover"
+  },
+
+}
 
 class ColorSelect extends React.Component {
   constructor() {
@@ -80,7 +92,12 @@ class ColorSelect extends React.Component {
     let icons = this.props.name === 'Color' ? colorIcons : highIcons;
     return (
       <FormControl className={classes.formControl}>
-        <FormLabel>{this.props.name}</FormLabel>
+        <Tooltip
+            title={labels[this.props.name].tooltip}
+            placement="bottom-start">
+          <FormLabel>{labels[this.props.name].name}</FormLabel>
+        </Tooltip>
+
         <div className={classes.root}>
           {theseColors.map((option, i) =>
             <Chip

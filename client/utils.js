@@ -32,12 +32,12 @@ export function download(title, id) {
   var ctx = canvas.getContext('2d')
   var DOMURL = window.self.URL || window.self.webkitURL || window.self
   var img = new Image()
-  var svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
+  var svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'})
   var url = DOMURL.createObjectURL(svg)
   img.src = url
 
   //function executes when image loads
-  img.onload = function () {
+  img.onload = function() {
     ctx.drawImage(img, 0, 0)
     var png = canvas.toDataURL('image/png')
     document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
@@ -107,8 +107,8 @@ export function buildRegressionModel(data, xCol, yCol, setStateFunction) {
   const x2 = Math.max(...x)
   const y_pred_2 = model(x2).dataSync()[0]
   const regressionLine = [
-    { [xCol]: x1, [yCol]: y_pred_1 },
-    { [xCol]: x2, [yCol]: y_pred_2 }
+    {[xCol]: x1, [yCol]: y_pred_1},
+    {[xCol]: x2, [yCol]: y_pred_2}
   ]
 
   console.log('regressionLine', regressionLine, 'datasync x1', y_pred_1)

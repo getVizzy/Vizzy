@@ -25,6 +25,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/:roomId', (req, res, next) => {})
 // POST api/room/email - sends an email to user with the room id
 router.post('/email', (req, res, next) => {
   const transporter = nodemailer.createTransport({
