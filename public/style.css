@@ -214,7 +214,6 @@ li {
 }
 
 .description {
-  padding-top: 1em;
   padding-bottom: 1em;
   display: flex;
   flex-wrap: wrap;
@@ -345,5 +344,5 @@ li {
 }
 
 .main-dashboard-container {
-  display: flex;
+  /* display: flex; */
 }
