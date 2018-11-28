@@ -8,7 +8,8 @@ let counter = 0;
 const styles = {
   fontFamily: "sans-serif",
   textAlign: "left",
-  marginLeft: '50px'
+  marginLeft: '75px',
+  color: 'black'
 };
 
 export default class PlaceholderContainer extends React.Component {
@@ -66,19 +67,17 @@ export default class PlaceholderContainer extends React.Component {
     return (
       <MuiThemeProvider>
         <div style={styles}>
-          <p>Your graph will look nice here.</p>
-          <svg width="100%" height="150" onClick={() => clearInterval(run)}>
+        <p>Choose a dataset to get started.</p>          <svg width="100%" height="150" onClick={() => clearInterval(run)}>
             <Bar
               data={data}
               width={250}
               height={125}
-              x={0}
+              x={15}
               y={0}
               highlightBar={this.setCurrentIndex}
               highlightedBar={currentIndex}
             />
           </svg>
-          <p>Choose a dataset to get started.</p>
         </div>
       </MuiThemeProvider>
     );
