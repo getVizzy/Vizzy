@@ -164,6 +164,7 @@ class PermanentDrawerLeft extends React.Component {
               )}
             >
               <MenuIcon />
+
             </IconButton>
             <Typography
               component="h1"
