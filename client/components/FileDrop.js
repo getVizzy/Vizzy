@@ -30,42 +30,18 @@ class FileDrop extends Component {
     await reader.readAsText(files[0])
     let result = []
     reader.onload = e => {
-      let csv = reader.result
-      let lines = csv
+      var csv = reader.result
+      var lines = csv
         .split('\r')
         .join('')
         .split('\n')
-      let headers = lines[0].split(',')
+      var headers = lines[0].split(',')
       for (var i = 1; i < lines.length; i++) {
-        let obj = {}
-        let newLine;
-
-        if(lines[i].includes("")) {
-          let firstIdx = lines[i].indexOf('"')
-          let lastIdx = lines[i].lastIndexOf('"')
-
-          let beforeQuote = lines[i].slice(0, firstIdx)
-          console.log("BEFORE QUOTE", beforeQuote)
-          let afterQuote = lines[i].slice(lastIdx+1)
-          console.log("AFTER QUOTE", afterQuote)
-
-          let num = lines[i].slice(firstIdx+1, lastIdx)
-          console.log("NUM", num)
-          let commaIdx = num.indexOf(',');
-          let beforeComma = num.slice(0, commaIdx)
-          let afterComma = num.slice(commaIdx+1)
-          num = beforeComma + afterComma;
-          console.log("NUM AGAIN", num)
-          newLine = `${beforeQuote}${num}${afterQuote}`;
-        }
-        console.log("LINE BEFORE SPLIT", newLine)
-        let currentline = newLine.split(',')
-        console.log("LINE AFTER SPLIT", currentline)
-
+        var obj = {}
+        var currentline = lines[i].split(',')
         for (var j = 0; j < headers.length; j++) {
           obj[headers[j]] = currentline[j]
         }
-        console.log("FINAL OBJECT", obj)
         result.push(obj)
       }
     }
