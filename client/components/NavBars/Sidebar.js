@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {logout} from '../../store'
-import VisitorNav from './VisitorNav'
+import { connect } from 'react-redux'
+import { logout } from '../../store'
+import { sideBarItems } from './SidebarItems';
 
-
-//for styling
+//Material UI Styling
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -20,11 +17,26 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
-import Badge from '@material-ui/core/Badge';
+import Avatar from '@material-ui/core/Avatar';
+import InvertColorsIcon from '@material-ui/icons/InvertColors';
+import Tooltip from '@material-ui/core/Tooltip';
 
+let colors = [
+  '#8bc34a',
+  '#cddc39',
+  '#009688',
+  '#BDE4A7',
+  '#D4AFCD',
+  '#5C80BC',
+  '#A7ACD9',
+  '#82AEB1',
+  '#E7E08B',
+  '#7E78D2'
+]
 
-import { sideBarItems } from './SidebarItems';
+let randomColor = colors[Math.floor(Math.random() * colors.length)]
 
+// const logoOne = 'https://i.ibb.co/mS7jzXv/logo-1.png'
 
 
 const drawerWidth = 240;
@@ -40,7 +52,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    padding: '0 8px',
+    // padding: '0 8px',
     ...theme.mixins.toolbar,
   },
   appBar: {
@@ -69,7 +81,7 @@ const styles = theme => ({
     flexGrow: 1,
   },
   drawerPaper: {
-    position: 'relative',
+    // position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
     transition: theme.transitions.create('width', {
@@ -104,7 +116,19 @@ const styles = theme => ({
   h5: {
     marginBottom: theme.spacing.unit * 2,
   },
+  avatar: {
+    margin: 5,
+    color: '#fff',
+    backgroundColor: randomColor
+  },
+  user: {
+    marginRight: 20,
+    color: '#fff'
+  }
 });
+
+
+
 
 class PermanentDrawerLeft extends React.Component {
   state = {
@@ -120,14 +144,7 @@ class PermanentDrawerLeft extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
-    if (!this.props.isLoggedIn) {
-      return (
-        <VisitorNav />
-      )
-    }
-
-    else {
+    const { classes, user } = this.props;
     return (
       <div className={classes.root}>
 
@@ -146,7 +163,8 @@ class PermanentDrawerLeft extends React.Component {
                 this.state.open && classes.menuButtonHidden,
               )}
             >
-             <MenuIcon />
+              <MenuIcon />
+
             </IconButton>
             <Typography
               component="h1"
@@ -158,20 +176,40 @@ class PermanentDrawerLeft extends React.Component {
               Vizzy
             </Typography>
 
+            <Avatar className={classes.avatar}>{user.user.email.slice(0, 1).toUpperCase()}</Avatar>
 
-            <IconButton color="inherit">
-              <Typography
-                onClick={this.props.handleClick}
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
+            <Typography
+              onClick={this.props.handleClick}
+              component="h1"
+              variant="body1"
+              color="inherit"
+              noWrap
+              className={classes.user}
+            >
+              {user.user.email[0].toUpperCase() + user.user.email.substring(1, user.user.email.indexOf("@"))}
+            </Typography>
+
+            <Tooltip title='Switch between light/dark mode'>
+              <IconButton color="inherit">
+                <InvertColorsIcon onClick={this.props.handleSwitch} fontSize='small' />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={`See you again soon!`}>
+              <IconButton color="inherit">
+                <Typography
+                  onClick={this.props.handleClick}
+                  component="h1"
+                  variant="body1"
+                  color="inherit"
+                  noWrap
                 >
-                Logout
+                  Logout
               </Typography>
-              <LogoutIcon onClick={this.props.handleClick} />
+                <LogoutIcon onClick={this.props.handleClick} fontSize='small' />
 
-            </IconButton>
+              </IconButton>
+            </Tooltip>
 
           </Toolbar>
         </AppBar>
@@ -195,7 +233,7 @@ class PermanentDrawerLeft extends React.Component {
     );
   }
 }
-}
+
 
 PermanentDrawerLeft.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -203,7 +241,8 @@ PermanentDrawerLeft.propTypes = {
 
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.user.id
+    isLoggedIn: !!state.user.user.id,
+    user: state.user
   }
 }
 

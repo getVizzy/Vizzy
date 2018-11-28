@@ -26,6 +26,9 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  roomKey: {
+    type: Sequelize.STRING
   }
 })
 
@@ -63,5 +66,16 @@ const setSaltAndPassword = user => {
   }
 }
 
+const createRoomKey = user => {
+  user.roomKey =
+    Math.random()
+      .toString(36)
+      .substr(2, 9) +
+    Math.random()
+      .toString(36)
+      .substr(2, 9)
+}
+
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
+User.beforeCreate(createRoomKey)

@@ -1,21 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import { FileDrop } from './index'
+import { connect } from 'react-redux'
+import { FileDrop } from '../index'
 
 /**
  * COMPONENT
  */
 export const UserHome = props => {
-  const {email} = props
+  const { email } = props
 
   return (
     <div>
-    <div id="container-row">
-      <div>
+      <div id="user-home-container">
         <FileDrop />
       </div>
-    </div>
     </div>
   )
 }

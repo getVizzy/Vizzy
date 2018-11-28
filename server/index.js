@@ -26,7 +26,10 @@ if (process.env.NODE_ENV === 'test') {
  * keys as environment variables, so that they can still be read by the
  * Node process on process.env
  */
-if (process.env.NODE_ENV !== 'production') require('../secrets')
+if (process.env.NODE_ENV === 'development') require('../secrets')
+
+console.log(process.env.NODE_ENV)
+console.log(process.env.GOOGLE_CLIENT_ID)
 
 // passport registration
 passport.serializeUser((user, done) => done(null, user.id))
@@ -108,10 +111,14 @@ const startListening = () => {
 const syncDb = () => db.sync()
 
 async function bootApp() {
-  await sessionStore.sync()
-  await syncDb()
-  await createApp()
-  await startListening()
+  try {
+    await sessionStore.sync()
+    await syncDb()
+    await createApp()
+    await startListening()
+  } catch (error) {
+    console.log(error)
+  }
 }
 // This evaluates as true when this file is run directly from the command line,
 // i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)

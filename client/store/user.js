@@ -6,12 +6,14 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const GET_ALL_USERS = 'GET_ALL_USERS'
 
 /**
  * INITIAL STATE
  */
 const initialState = {
-  user: {}
+  user: {},
+  allUsers: []
 }
 
 /**
@@ -19,10 +21,24 @@ const initialState = {
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const getAllUsers = users => ({
+  type: GET_ALL_USERS,
+  users
+})
 
 /**
  * THUNK CREATORS
  */
+
+export const fetchAllUsers = () => async dispatch => {
+  try {
+    const {data} = await axios.get('/api/users')
+    dispatch(getAllUsers(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
@@ -32,17 +48,20 @@ export const me = () => async dispatch => {
   }
 }
 
-export const auth = (email, password, method) => async dispatch => {
+export const auth = (email, password, method, redirect) => async dispatch => {
   let res
   try {
     res = await axios.post(`/auth/${method}`, {email, password})
   } catch (authError) {
+    console.log('author', authError.response)
     return dispatch(getUser({error: authError}))
   }
 
   try {
     dispatch(getUser(res.data))
-    history.push('/home')
+    let path = redirect ? redirect : '/home'
+    console.log(path, 'path is')
+    history.push(path)
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -67,6 +86,8 @@ export default function(state = initialState, action) {
       return {...state, user: action.user}
     case REMOVE_USER:
       return {...state, user: initialState.user}
+    case GET_ALL_USERS:
+      return {...state, allUsers: action.users}
     default:
       return state
   }

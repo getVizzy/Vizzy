@@ -1,234 +1,395 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BarChart from '../VictoryBarChart'
+import {fetchAllUsers} from '../../store/user'
+import ChartContainer from '../Chart/ChartContainer'
 import {gotData} from '../../store/data'
-import classNames from 'classnames'
-import GraphMenu from './GraphMenu'
+import {postGraph} from '../../store/graph'
+const io = require('socket.io-client')
+const socket = io()
+import Menu from './Menu'
 import {connect} from 'react-redux'
-import ReactDOM from 'react-dom'
-
+import {reinstateNumbers, download, addComma} from '../../utils'
 import {withStyles} from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import SaveIcon from '@material-ui/icons/Save'
-import Button from '@material-ui/core/Button'
-
-let allData = [
-  {quarter: '1', earnings: 13000, items: 40000, state: 'NY'},
-  {quarter: '2', earnings: 16500, items: 60000, state: 'NY'},
-  {quarter: '3', earnings: 15340, items: 30000, state: 'NY'},
-  {quarter: '4', earnings: 18000, items: 70000, state: 'NY'}
-]
+import Snackbar from '../Notifications/Snackbar'
+import Chatroom from './Chatroom'
+import PlaceholderContainer from '../Chart/PlaceholderContainer'
+import Progress from './Progress'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
+    paddingBottom: theme.spacing.unit * 2,
+    margin: '0 auto'
+  },
+  chatroom: {
+    display: 'block'
   }
 })
+
+const sampleData = {
+  dataJSON: {
+    data: [
+      {quarter: '1', earnings: 13, items: 40, state: 'NY'},
+      {quarter: '2', earnings: 16, items: 60, state: 'NY'},
+      {quarter: '3', earnings: 17, items: 70, state: 'NY'},
+      {quarter: '4', earnings: 18, items: 80, state: 'NY'},
+      {quarter: '4', earnings: 18, items: 81, state: 'NY'},
+      {quarter: '4', earnings: 19, items: 90, state: 'NY'}
+    ]
+  }
+}
 
 class EditView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      graphSelected: 'bar',
-      color: 'tomato',
+      graphSelected: '',
+      color: '#4575B4',
       title: '',
-      highlight: 'orange',
+      highlight: '#FEE090',
       tooltip: '5',
       x: '',
       y: '',
-      dataId: 0
+      regression: false,
+      regressionLine: [],
+      regressionModel: {},
+      dataId: '',
+      zoomDomain: {
+        x: [new Date(2018, 1, 1), new Date(2018, 12, 1)]
+      },
+      pieColor: [
+        '#d73027',
+        '#fc8d59',
+        '#fee090',
+        '#e0f3f8',
+        '#91bfdb',
+        '#4575b4'
+      ],
+      pieTransformation: 'normal',
+      notification: false,
+      userThatLeft: '',
+      userThatJoined: '',
+      message: '',
+      styleNotification: false,
+      saveNotification: false,
+      error: '',
+      graphic: 0,
+      titleInProgress: ''
     }
-    this.handleGraphSelected = this.handleGraphSelected.bind(this)
+
     this.changeStyle = this.changeStyle.bind(this)
-    this.downloadPNG = this.downloadPNG.bind(this)
-    // this.addComma = this.addComma.bind(this)
-    // this.getDataSlice = this.getDataSlice.bind(this)
+    this.leaveRoom = this.leaveRoom.bind(this)
+    this.leaveNotification = this.leaveNotification.bind(this)
+    this.joinNotification = this.joinNotification.bind(this)
+    this.styleNotification = this.styleNotification.bind(this)
+    this.resetSnackbar = this.resetSnackbar.bind(this)
+    this.titleChange = this.titleChange.bind(this)
+    this.titleSubmit = this.titleSubmit.bind(this)
+    this.saveNotification = this.saveNotification.bind(this)
   }
 
-  componentDidMount() {
-    this.props.gotData()
+  async componentDidMount() {
+    await this.props.onFetchAllUsers()
+    await this.props.gotData()
+
+    socket.emit('joinRoom', this.props.singleRoom, this.props.user)
+
+    socket.on('receiveJoinRoom', user => {
+      this.joinNotification(user)
+    })
+
+    socket.on('receiveLeaveRoom', user => {
+      this.leaveNotification(user)
+    })
+
+    socket.on('receiveCode', payload => {
+      this.updateCodeFromSockets(payload)
+    })
   }
 
-  changeStyle(e, attribute) {
+  changeStyle(e, attribute, source) {
+    let updated = e && e.target ? (updated = e.target.value) : (updated = e)
+
+    switch (attribute) {
+      case 'dataId':
+        if (updated !== '0') {
+          updated = +e
+        }
+        this.setState({
+          [attribute]: updated,
+          title: '',
+          x: '',
+          y: '',
+          regression: false,
+          regressionLine: [],
+          regressionModel: {},
+          graphic: 1
+        })
+        break
+      case 'graphSelected':
+        this.setState({
+          [attribute]: updated,
+          x: '',
+          y: '',
+          regression: false,
+          regressionLine: [],
+          title: ''
+        })
+        break
+      case 'pieColor':
+        this.setState({
+          pieColor: updated
+        })
+        break
+      case 'pieTransformation':
+        updated = updated.toLowerCase()
+        this.setState({
+          pieTransformation: updated
+        })
+        break
+      case 'title':
+        this.setState({
+          titleInProgress: ''
+        })
+      default:
+        this.setState({
+          [attribute]: updated
+        })
+    }
+    let change = {
+      [attribute]: updated
+    }
+
     if (attribute === 'dataId') {
+      change.graphSelected = 'line'
+    }
+    if (!source) {
+      socket.emit('newChanges', this.props.singleRoom, change)
+    }
+  }
+
+  styleNotification(attribute, updated) {
+    let message
+    switch (attribute) {
+      case 'x':
+        message = `X axis changed to ${updated}`
+        break
+      case 'y':
+        message = `Y axis changed to ${updated}`
+        break
+      case 'dataId':
+        message = 'New dataset selected'
+        break
+      case 'graphSelected':
+        message = `Graph changed to ${updated}`
+        break
+      case 'color':
+        message = `Color changed`
+        break
+      case 'pieColor':
+        message = `Pie colors changed`
+        break
+      case 'tooltip':
+        message = `Tooltip shape changed`
+        break
+      default:
+        message = `${attribute[0].toUpperCase()}${attribute.slice(
+          1
+        )} updated to ${updated}`
+    }
+
+    this.setState({
+      message: message,
+      styleNotification: !this.state.styleNotification
+    })
+  }
+
+  titleChange(e) {
+    this.setState({
+      titleInProgress: e.target.value
+    })
+  }
+
+  titleSubmit(e) {
+    this.changeStyle(this.state.titleInProgress, 'title')
+  }
+
+  updateCodeFromSockets(payload) {
+    let attribute = Object.keys(payload)[0]
+    let updated = Object.values(payload)[0]
+    this.changeStyle(updated, attribute, 'sockets')
+    this.styleNotification(attribute, updated)
+  }
+
+  leaveRoom() {
+    socket.emit('leaveRoom', this.props.singleRoom, this.props.user)
+    this.props.history.push('/home')
+  }
+
+  leaveNotification(user) {
+    if (!this.state.notification) {
       this.setState({
-        [attribute]: +e.target.value
+        notification: true,
+        userThatLeft: user.email
       })
     } else {
       this.setState({
-        [attribute]: e.target.value
+        notification: false,
+        userThatLeft: ''
       })
     }
   }
 
-  addComma(stringNum) {
-    if (stringNum.length > 3) {
-      return `${stringNum.slice(0, stringNum.length - 3)},${stringNum.slice(
-        stringNum.length - 3
-      )}`
+  joinNotification(user) {
+    if (!this.state.notification) {
+      this.setState({
+        notification: true,
+        userThatJoined: user.email
+      })
+    } else {
+      this.setState({
+        notification: false,
+        userThatJoined: ''
+      })
     }
   }
 
-  downloadPNG(title) {
-    //draw canvas
-    let svgHtml = ReactDOM.findDOMNode(this).querySelector('svg')
-    var svgString = new XMLSerializer().serializeToString(svgHtml)
-    const canvas = ReactDOM.findDOMNode(this).querySelector('canvas')
-    var ctx = canvas.getContext('2d')
-    var DOMURL = window.self.URL || window.self.webkitURL || window.self
-    var img = new Image()
-    var svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'})
-    var url = DOMURL.createObjectURL(svg)
-    img.src = url
-
-    //function executes when image loads
-    img.onload = function() {
-      ctx.drawImage(img, 0, 0)
-      var png = canvas.toDataURL('image/png')
-      document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
-      DOMURL.revokeObjectURL(png)
-
-      //download png
-      const canvas2 = document.getElementsByTagName('canvas')[0]
-      let URL = canvas2.toDataURL('image/png')
-      let link = document.createElement('a')
-      link.href = URL
-      link.download = title ? title + '.png' : 'chart.png'
-
-      document.body.appendChild(link)
-      link.click()
-    }
+  saveNotification() {
+    this.setState({
+      saveNotification: true,
+      title: ''
+    })
   }
 
-  handleGraphSelected(graph) {
-    this.setState({graphSelected: graph})
+  resetSnackbar() {
+    this.setState({
+      styleNotification: false,
+      saveNotification: false
+    })
   }
 
   render() {
-    console.log('did thunk work data', this.props.data)
     const {classes} = this.props
-    const graphSelected = this.state.graphSelected
-    let data
-    if (!this.props.data) {
-      return 'Loading...'
-    } else {
-      if (this.state.dataId === 0) {
-        data = [
-          {quarter: '1', earnings: 13000, items: 40000, state: 'NY'},
-          {quarter: '2', earnings: 16500, items: 60000, state: 'NY'},
-          {quarter: '3', earnings: 15340, items: 30000, state: 'NY'},
-          {quarter: '4', earnings: 18000, items: 70000, state: 'NY'}
-        ]
+    const graphics = [<PlaceholderContainer />, <Progress {...this.state} />]
+
+    const matchingUser = this.props.allUsers.filter(user => {
+      return user.roomKey === this.props.singleRoom
+    })
+
+    if (matchingUser[0]) {
+      const dataMatch = matchingUser[0].data
+      let data
+
+      if (!dataMatch) {
+        return 'Loading...'
       } else {
-        let dataElem = this.props.data.filter(
-          elem => elem.id === this.state.dataId
+        if (this.state.dataId === '0') {
+          data = sampleData.dataJSON.data
+        } else {
+          let dataElem = dataMatch.filter(elem => {
+            return elem.id === +this.state.dataId
+          })
+
+          if (dataElem.length === 0) {
+            data = sampleData.dataJSON.data
+          } else {
+            data = reinstateNumbers(dataElem[0].dataJSON.data)
+          }
+        }
+
+        let propPackage = {
+          ...this.state,
+          downloadPNG: download,
+          addComma: addComma,
+          changeStyle: this.changeStyle,
+          data: data,
+          user: this.props.user.user,
+          titleChange: this.titleChange,
+          titleSubmit: this.titleSubmit,
+          graphData: data,
+          dataMatch: dataMatch,
+          handleGraphSelected: this.changeStyle,
+          state: this.state,
+          leaveRoom: this.leaveRoom,
+          saveNotification: this.saveNotification,
+          addGraph: this.props.addGraph
+        }
+
+        let notificationProps = {
+          notification: this.state.notification,
+          userThatJoined: this.state.userThatJoined,
+          userThatLeft: this.state.userThatLeft,
+          joinNotification: this.joinNotification,
+          leaveNotification: this.leaveNotification,
+          resetSnackbar: this.resetSnackbar
+        }
+        return (
+          <React.Fragment>
+            <CssBaseline />
+
+            <main>
+              <div>
+                <div id="edit" className={classes.root}>
+                  {/*CHART CONTAINER */}
+                  <div id="editChart">
+                    {this.state.x === '' || this.state.y === '' ? (
+                      <div id="working">{graphics[this.state.graphic]}</div>
+                    ) : (
+                      <ChartContainer {...propPackage} />
+                    )}
+                  </div>
+
+                  {/*MENU PANEL */}
+                  <div id="editMenu">
+                    <Menu {...propPackage} />
+
+                    {/*SNACKBAR NOTIFICATIONS */}
+                    {this.state.styleNotification ? (
+                      <Snackbar
+                        {...notificationProps}
+                        message={this.state.message}
+                        styleNotification={this.state.styleNotification}
+                      />
+                    ) : (
+                      ''
+                    )}
+
+                    {this.state.saveNotification ? (
+                      <Snackbar
+                        {...notificationProps}
+                        saveNotification={this.state.saveNotification}
+                        message={
+                          this.state.dataId !== '0'
+                            ? 'Graph saved to your dashboard!'
+                            : 'Cannot save graph with sample data'
+                        }
+                      />
+                    ) : (
+                      ''
+                    )}
+
+                    {this.state.notification ? (
+                      <Snackbar {...notificationProps} />
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                </div>
+                <div className={classes.chatroom}>
+                  <Chatroom
+                    singleRoom={this.props.singleRoom}
+                    user={this.props.user}
+                  />
+                </div>
+              </div>
+            </main>
+          </React.Fragment>
         )
-        console.log(dataElem, 'dataElem')
-        data = dataElem[0].dataJSON.data
-        console.log('data after datajson', data)
       }
-      return (
-        <div>
-          <Paper className={classes.root} elevation={22}>
-            <Typography variant="h5" component="h3">
-              Edit Graph
-            </Typography>
-            <Typography component="p">Some text</Typography>
-            {this.state.x === '' || this.state.y === '' ? (
-              <div>Select columns</div>
-            ) : graphSelected === 'bar' ? (
-              <BarChart
-                color={this.state.color}
-                title={this.state.title}
-                highlight={this.state.highlight}
-                tooltip={this.state.tooltip}
-                x={this.state.x}
-                y={this.state.y}
-                changeStyle={this.changeStyle}
-                data={data}
-                downloadPNG={this.downloadPNG}
-                addComma={this.addComma}
-              />
-            ) : graphSelected === 'line' ? (
-              <BarChart />
-            ) : null}
-            <GraphMenu handleGraphSelected={this.handleGraphSelected} />
-            <Button variant="contained" size="small" className={classes.button}>
-              <SaveIcon
-                className={classNames(classes.leftIcon, classes.iconSmall)}
-              />
-              Save
-            </Button>
-          </Paper>
-
-          <div id="controls">
-            <p>Choose a Dataset:</p>
-            <select onChange={e => this.changeStyle(e, 'dataId')}>
-              <option />
-              {this.props.data.map((elem, i) => (
-                <option key={i} value={elem.id}>
-                  {elem.id}
-                </option>
-              ))}
-            </select>
-            <p>Left Axis:</p>
-            <select onChange={e => this.changeStyle(e, 'y')}>
-              <option />
-              {Object.keys(data[0]).map((key, i) => (
-                <option key={i} value={key}>
-                  {key}
-                </option>
-              ))}
-            </select>
-
-            <p>Bottom Axis:</p>
-            <select onChange={e => this.changeStyle(e, 'x')}>
-              <option />
-              {Object.keys(data[0]).map((key, i) => (
-                <option key={i} value={key}>
-                  {key}
-                </option>
-              ))}
-            </select>
-
-            <p>Bar Color:</p>
-            <select onChange={e => this.changeStyle(e, 'color')}>
-              <option value="tomato">Tomato</option>
-              <option value="gold">Gold</option>
-              <option value="orange">Orange</option>
-              <option value="#f77">Salmon</option>
-              <option value="#55e">Purple</option>
-              <option value="#8af">Periwinkle</option>
-            </select>
-
-            <p>Bar Highlight:</p>
-            <select onChange={e => this.changeStyle(e, 'highlight')}>
-              <option value="orange">Orange</option>
-              <option value="tomato">Tomato</option>
-              <option value="gold">Gold</option>
-              <option value="#f77">Salmon</option>
-              <option value="#55e">Purple</option>
-              <option value="#8af">Periwinkle</option>
-            </select>
-
-            <p>Pointer:</p>
-            <select onChange={e => this.changeStyle(e, 'tooltip')}>
-              <option value={5}>Round edge</option>
-              <option value={0}>Square</option>
-              <option value={25}>Circle</option>
-            </select>
-
-            <p>Graph Title:</p>
-            <input
-              value={this.state.title}
-              onChange={e => this.changeStyle(e, 'title')}
-            />
-          </div>
-        </div>
-      )
+    } else {
+      this.props.history.push('/room')
     }
   }
 }
@@ -240,11 +401,19 @@ EditView.propTypes = {
 const mapDispatchToProps = dispatch => ({
   gotData: function() {
     dispatch(gotData())
-  }
+  },
+  addGraph: function(graphData) {
+    dispatch(postGraph(graphData))
+  },
+  onFetchAllUsers: () => dispatch(fetchAllUsers())
 })
 
 const mapStateToProps = state => ({
-  data: state.data
+  data: state.data,
+  user: state.user.user,
+  rooms: state.room.rooms,
+  singleRoom: state.room.singleRoom,
+  allUsers: state.user.allUsers
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(

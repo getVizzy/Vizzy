@@ -1,14 +1,13 @@
 const router = require('express').Router()
-const {Data} = require('../db/models')
+const { User, Data } = require('../db/models')
 
 router.post('/', async (req, res, next) => {
   try {
-    await Data.create({
+    let data = await Data.create({
       userId: req.user.id,
       dataJSON: req.body
     })
-    console.log(req.body, 'body inside of post request')
-    res.send(req.body)
+    res.send(data)
   } catch (err) {
     next(err)
   }
@@ -20,7 +19,8 @@ router.get('/', async (req, res, next) => {
       const data = await Data.findAll({
         where: {
           userId: req.user.id
-        }
+        },
+        include: [{ model: User }]
       })
       res.send(data)
     } else {
