@@ -5,13 +5,16 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import SendIcon from '@material-ui/icons/SendOutlined'
 import People from '@material-ui/icons/People'
+import Email from '@material-ui/icons/EmailSharp'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 const io = require('socket.io-client')
 const socket = io()
+import InviteForm from '../InviteForm'
 
-const styles = theme => ({
+
+let styles = theme => ({
   paper: {
     alignItems: 'center',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px`
@@ -29,7 +32,15 @@ const styles = theme => ({
   },
   header: {
     marginRight: theme.spacing.unit,
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
+  },
+  header2: {
+    marginRight: theme.spacing.unit,
+    backgroundColor: theme.palette.primary.light,
+  },
+  invite: {
+    display: 'flex',
+    flexDirection: 'row'
   },
   messages: {
     marginLeft: theme.spacing.unit * 2,
@@ -42,6 +53,9 @@ const styles = theme => ({
   },
   people: {
     marginRight: theme.spacing.unit
+  },
+  inviteMessage: {
+    marginLeft: '8px'
   }
 })
 
@@ -54,12 +68,15 @@ class Chatroom extends React.Component {
     super(props)
     this.state = {
       messageInput: '',
-      messages: []
+      messages: [],
+      chat: true,
+      invite: false
     }
     this.typeMessage = this.typeMessage.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.scrollToBottom = this.scrollToBottom.bind(this)
+    this.toggle = this.toggle.bind(this)
   }
 
   componentDidMount() {
@@ -74,7 +91,9 @@ class Chatroom extends React.Component {
   }
 
   componentDidUpdate() {
-    this.scrollToBottom()
+    if(this.state.chat) {
+      this.scrollToBottom()
+    }
   }
 
   scrollToBottom = () => {
@@ -100,7 +119,6 @@ class Chatroom extends React.Component {
       socket.emit('newMessages', this.props.singleRoom, message)
     }
   }
-  ess
 
   handleKeyDown(e) {
     const user = this.props.user.email
@@ -122,16 +140,34 @@ class Chatroom extends React.Component {
     }
   }
 
+  toggle(button1, button2) {
+    if(!this.state[button1]) {
+      this.setState({
+        [button1]: true,
+        [button2]: false,
+      })
+    }
+  }
+
   render() {
     const {classes} = this.props
     const chatMessages = this.state.messages
     return (
       <div id="chatroomMessages">
         <main className={classes.main}>
-          <Button className={classes.header}>
-            <People className={classes.people} color="000000" /> Chat With Your
-            Team
-          </Button>
+          <div className={classes.invite}>
+            <Button className={classes.header} onClick={() => this.toggle('chat', 'invite')}>
+              <People className={classes.people} color="000000" /> Chat With Your
+              Team
+            </Button>
+
+            <Button className={classes.header2} onClick={() => this.toggle('invite', 'chat')} >
+              <Email className={classes.people} color="000000" />
+              Invite Others to Collaborate
+            </Button>
+          </div>
+
+          {this.state.chat === true?
           <Paper className={classes.paper}>
             <div className="message-container">
               <Paper className={classes.allmessages}>
@@ -177,6 +213,11 @@ class Chatroom extends React.Component {
               </Avatar>
             </div>
           </Paper>
+          :
+          <Paper className={classes.paper}>
+            <InviteForm text="Email an invite" />
+            <p className={classes.inviteMessage}>Or share your room key: {this.props.user.roomKey}.</p>
+          </Paper> }
         </main>
       </div>
     )

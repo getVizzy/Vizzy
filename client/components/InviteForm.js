@@ -49,7 +49,7 @@ export default class InviteForm extends React.Component {
     return (
       <div>
         <Button size="small" color="primary" onClick={this.handleClickOpen}>
-          Invite Here
+          {this.props.text}
         </Button>
         <Dialog open={this.state.open} onClose={this.handleClose}>
           <DialogTitle>Invite Collaborators</DialogTitle>

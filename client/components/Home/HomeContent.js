@@ -206,7 +206,7 @@ const HomeContent = props => {
                 </CardContent>
                 <CardActions>
 
-                  <InviteForm user={props.user} />
+                  <InviteForm user={props.user} source="home" text="Invite Here" />
                 </CardActions>
               </Card>
             </Grid>
