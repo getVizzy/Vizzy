@@ -214,7 +214,6 @@ li {
 }
 
 .description {
-  padding-top: 1em;
   padding-bottom: 1em;
   display: flex;
   flex-wrap: wrap;
@@ -342,4 +341,14 @@ li {
 
 .new-message {
   display: flex;
+}
+
+.main-dashboard-container {
+  padding-left: 1em;
+}
+
+.graphs-dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

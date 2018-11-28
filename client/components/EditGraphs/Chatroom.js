@@ -168,6 +168,7 @@ class Chatroom extends React.Component {
           </div>
 
           {this.state.chat === true?
+
           <Paper className={classes.paper}>
             <div className="message-container">
               <Paper className={classes.allmessages}>
@@ -199,7 +200,7 @@ class Chatroom extends React.Component {
               <TextField
                 id="standard-full-width"
                 name="messageInput"
-                label="Your Message"
+                label="Enter Your Message"
                 style={{margin: 8}}
                 value={this.state.messageInput}
                 onChange={this.typeMessage}

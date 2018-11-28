@@ -1,19 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { fetchAllUsers } from '../../store/user'
+import {fetchAllUsers} from '../../store/user'
 import ChartContainer from '../Chart/ChartContainer'
-import { gotData } from '../../store/data'
-import { postGraph } from '../../store/graph'
+import {gotData} from '../../store/data'
+import {postGraph} from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
 import Menu from './Menu'
-import { connect } from 'react-redux'
-import { reinstateNumbers, download, addComma } from '../../utils'
-import { withStyles } from '@material-ui/core/styles'
+import {connect} from 'react-redux'
+import {reinstateNumbers, download, addComma} from '../../utils'
+import {withStyles} from '@material-ui/core/styles'
 import Snackbar from '../Notifications/Snackbar'
 import Chatroom from './Chatroom'
 import PlaceholderContainer from '../Chart/PlaceholderContainer'
 import Progress from './Progress'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 const styles = theme => ({
   root: {
@@ -27,16 +28,15 @@ const styles = theme => ({
   }
 })
 
-
 const sampleData = {
   dataJSON: {
     data: [
-      { quarter: '1', earnings: 13, items: 40, state: 'NY' },
-      { quarter: '2', earnings: 16, items: 60, state: 'NY' },
-      { quarter: '3', earnings: 17, items: 70, state: 'NY' },
-      { quarter: '4', earnings: 18, items: 80, state: 'NY' },
-      { quarter: '4', earnings: 18, items: 81, state: 'NY' },
-      { quarter: '4', earnings: 19, items: 90, state: 'NY' }
+      {quarter: '1', earnings: 13, items: 40, state: 'NY'},
+      {quarter: '2', earnings: 16, items: 60, state: 'NY'},
+      {quarter: '3', earnings: 17, items: 70, state: 'NY'},
+      {quarter: '4', earnings: 18, items: 80, state: 'NY'},
+      {quarter: '4', earnings: 18, items: 81, state: 'NY'},
+      {quarter: '4', earnings: 19, items: 90, state: 'NY'}
     ]
   }
 }
@@ -271,13 +271,12 @@ class EditView extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
-    const graphics = [<PlaceholderContainer />, <Progress {...this.state } />]
+    const {classes} = this.props
+    const graphics = [<PlaceholderContainer />, <Progress {...this.state} />]
 
     const matchingUser = this.props.allUsers.filter(user => {
       return user.roomKey === this.props.singleRoom
     })
-
 
     if (matchingUser[0]) {
       const dataMatch = matchingUser[0].data
@@ -315,7 +314,7 @@ class EditView extends React.Component {
           state: this.state,
           leaveRoom: this.leaveRoom,
           saveNotification: this.saveNotification,
-          addGraph: this.props.addGraph,
+          addGraph: this.props.addGraph
         }
 
         let notificationProps = {
@@ -327,66 +326,69 @@ class EditView extends React.Component {
           resetSnackbar: this.resetSnackbar
         }
         return (
-          <div>
-            <div id="edit" className={classes.root}>
-              {/*CHART CONTAINER */}
-              <div id="editChart">
-                {this.state.x === '' || this.state.y === '' ?
-                    <div id="working">
-                      {graphics[this.state.graphic]}
-                    </div>
-                  :
-                  <ChartContainer {...propPackage} />
-                }
-              </div>
+          <React.Fragment>
+            <CssBaseline />
 
-              {/*MENU PANEL */}
-              <div id="editMenu">
-                <Menu {...propPackage} />
+            <main>
+              <div>
+                <div id="edit" className={classes.root}>
+                  {/*CHART CONTAINER */}
+                  <div id="editChart">
+                    {this.state.x === '' || this.state.y === '' ? (
+                      <div id="working">{graphics[this.state.graphic]}</div>
+                    ) : (
+                      <ChartContainer {...propPackage} />
+                    )}
+                  </div>
 
-                {/*SNACKBAR NOTIFICATIONS */}
-                {this.state.styleNotification ?
-                  (<Snackbar
-                    {...notificationProps}
-                    message={this.state.message}
-                    styleNotification={this.state.styleNotification}
+                  {/*MENU PANEL */}
+                  <div id="editMenu">
+                    <Menu {...propPackage} />
+
+                    {/*SNACKBAR NOTIFICATIONS */}
+                    {this.state.styleNotification ? (
+                      <Snackbar
+                        {...notificationProps}
+                        message={this.state.message}
+                        styleNotification={this.state.styleNotification}
+                      />
+                    ) : (
+                      ''
+                    )}
+
+                    {this.state.saveNotification ? (
+                      <Snackbar
+                        {...notificationProps}
+                        saveNotification={this.state.saveNotification}
+                        message={
+                          this.state.dataId !== '0'
+                            ? 'Graph saved to your dashboard!'
+                            : 'Cannot save graph with sample data'
+                        }
+                      />
+                    ) : (
+                      ''
+                    )}
+
+                    {this.state.notification ? (
+                      <Snackbar {...notificationProps} />
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                </div>
+                <div className={classes.chatroom}>
+                  <Chatroom
+                    singleRoom={this.props.singleRoom}
+                    user={this.props.user}
                   />
-                  ) : (
-                    ''
-                  )}
-
-                {this.state.saveNotification ? (
-                  <Snackbar
-                    {...notificationProps}
-                    saveNotification={this.state.saveNotification}
-                    message={
-                      this.state.dataId !== '0'
-                        ? 'Graph saved to your dashboard!'
-                        : 'Cannot save graph with sample data'
-                    }
-                  />
-                ) : (
-                    ''
-                  )}
-
-                {this.state.notification ? (
-                  <Snackbar {...notificationProps} />
-                ) : (
-                    ''
-                  )}
+                </div>
               </div>
-            </div>
-            <div className={classes.chatroom}>
-              <Chatroom
-                singleRoom={this.props.singleRoom}
-                user={this.props.user}
-              />
-            </div>
-          </div>
+            </main>
+          </React.Fragment>
         )
       }
-    }
-    else {
+    } else {
       this.props.history.push('/room')
     }
   }
@@ -397,10 +399,10 @@ EditView.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  gotData: function () {
+  gotData: function() {
     dispatch(gotData())
   },
-  addGraph: function (graphData) {
+  addGraph: function(graphData) {
     dispatch(postGraph(graphData))
   },
   onFetchAllUsers: () => dispatch(fetchAllUsers())
