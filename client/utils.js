@@ -2,18 +2,39 @@ import ReactDOM from 'react-dom'
 import * as tf from '@tensorflow/tfjs'
 
 export function reinstateNumbers(array) {
+  //For each row in stored data array
   let restoredData = array.map(data => {
     let newFormat = {}
-    let alpha = 'abcdefghijklmnopqrstuvwxyz!#/@^*()'
+    let nums = '0123456789.,-$%'
+
+    //Check each value in row
     for (let key in data) {
       let value = data[key]
+      let valueArray = value.split('')
+
+      //Check if it includes numbers but is not a date
+      // if (
+      //   (valueArray.some(char => !nums.includes(char)) &&
+      //     valueArray.lastIndexOf('-') === 0) ||
+      //   valueArray.lastIndexOf('-') === -1
+      // )
       if (
-        !value.split('').some(char => alpha.includes(char.toLowerCase())) &&
-        (value.indexOf('-') === -1 ||
-          (value.indexOf('-') === 0 &&
-            value.split('').filter(elem => elem === '-').length === 1))
+        valueArray.every(char => nums.includes(char)) &&
+        (valueArray.lastIndexOf('-') === -1 ||
+          valueArray.lastIndexOf('-') === 0)
       ) {
+        //If it is a number, take out special characters
+        value = value
+          .split('$')
+          .join('')
+          .split('%')
+          .join('')
+          .split(',')
+          .join('')
+
+        //Coerce it to a number value
         newFormat[key] = +value
+        //If it's a categorical value, save it as a string
       } else {
         newFormat[key] = value
       }
@@ -22,7 +43,6 @@ export function reinstateNumbers(array) {
   })
   return restoredData
 }
-
 export function download(title, id) {
   //draw canvas
   let svgHtml = ReactDOM.findDOMNode(this).querySelector('svg')
@@ -32,12 +52,12 @@ export function download(title, id) {
   var ctx = canvas.getContext('2d')
   var DOMURL = window.self.URL || window.self.webkitURL || window.self
   var img = new Image()
-  var svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
+  var svg = new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'})
   var url = DOMURL.createObjectURL(svg)
   img.src = url
 
   //function executes when image loads
-  img.onload = function () {
+  img.onload = function() {
     ctx.drawImage(img, 0, 0)
     var png = canvas.toDataURL('image/png')
     document.querySelector('canvas').innerHTML = '<img src="' + png + '"/>'
@@ -107,8 +127,8 @@ export function buildRegressionModel(data, xCol, yCol, setStateFunction) {
   const x2 = Math.max(...x)
   const y_pred_2 = model(x2).dataSync()[0]
   const regressionLine = [
-    { [xCol]: x1, [yCol]: y_pred_1 },
-    { [xCol]: x2, [yCol]: y_pred_2 }
+    {[xCol]: x1, [yCol]: y_pred_1},
+    {[xCol]: x2, [yCol]: y_pred_2}
   ]
 
   console.log('regressionLine', regressionLine, 'datasync x1', y_pred_1)
