@@ -57,7 +57,6 @@ export default class InviteForm extends React.Component {
             <TextField
               onChange={this.handleChange}
               name="note"
-              required={true}
               value={this.props.title}
               margin="normal"
               label="Optional Note"
