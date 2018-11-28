@@ -6,6 +6,8 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import HomeIcon from '@material-ui/icons/Home'
 import CreateIcon from '@material-ui/icons/Create';
 import HelpIcon from '@material-ui/icons/Help';
+import HappyIcon from '@material-ui/icons/TagFaces'
+
 import { Link } from 'react-router-dom'
 
 
@@ -35,6 +37,15 @@ export const sideBarItems = (
           <CreateIcon fontSize="large" />
         </ListItemIcon>
         <ListItemText primary="Create Graphs" />
+      </ListItem>
+    </Link>
+
+    <Link to="/fun">
+      <ListItem button>
+        <ListItemIcon>
+          <HappyIcon fontSize="large" />
+        </ListItemIcon>
+        <ListItemText primary="For Fun" />
       </ListItem>
     </Link>
 

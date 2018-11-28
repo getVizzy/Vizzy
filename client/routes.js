@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, FileDrop} from './components'
-import {me} from './store'
+import { Login, Signup, UserHome, FileDrop } from './components'
+import { me } from './store'
 import Dashboard from './components/Dashboard'
-import {gotGraphs} from './store/graph'
+import { gotGraphs } from './store/graph'
 
 import VictoryBarChart from './components/Chart/VictoryBarChart'
 import VictoryLineGraph from './components/Chart/VictoryLineGraph'
@@ -18,6 +18,7 @@ import EditView from './components/EditGraphs/EditView'
 // import RoomSelection from './components/Room/RoomSelection'
 import MainPage from './components/MainPage'
 import RoomEntry from './components/Room/RoomEntry'
+import FunContainer from './components/Fun/FunContainer'
 
 /**
  * COMPONENT
@@ -29,7 +30,7 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn, hasRoom} = this.props
+    const { isLoggedIn, hasRoom } = this.props
 
     return (
       <div id="globalContent">
@@ -55,6 +56,7 @@ class Routes extends Component {
               <Route path="/scatter" component={VictoryScatterChart} />
               <Route path="/pie" component={VictoryPieChart} />
               <Route path="/editgraph" component={EditView} />
+              <Route exact path="/fun" component={FunContainer} />
               <Route exact path="/room" component={RoomEntry} />
               <Route
                 path="/room/live"

@@ -316,10 +316,10 @@ const HomeContent = props => {
                 </Tooltip>
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    <HappyIcon
+                    <Link to="/fun"> <HappyIcon
                       className={classes.contentIcon}
                       color="primary"
-                    />
+                    /></Link>
                     Bored?
                   </Typography>
                   <Typography>
@@ -327,9 +327,9 @@ const HomeContent = props => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" color="primary">
+                  <Link to="/fun"><Button size="small" color="primary">
                     Fun Here
-                  </Button>
+                  </Button></Link>
                 </CardActions>
               </Card>
             </Grid>
