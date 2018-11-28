@@ -21,6 +21,7 @@ import Avatar from '@material-ui/core/Avatar';
 import InvertColorsIcon from '@material-ui/icons/InvertColors';
 import Tooltip from '@material-ui/core/Tooltip';
 
+
 let colors = [
   '#8bc34a',
   '#cddc39',
@@ -173,8 +174,12 @@ class PermanentDrawerLeft extends React.Component {
               noWrap
               className={classes.title}
             >
+              <img height='40' width='40' src='https://i.ibb.co/Jsq4b8B/only-Icon-Logo.png' />
               Vizzy
+
             </Typography>
+
+
 
             <Avatar className={classes.avatar}>{user.user.email.slice(0, 1).toUpperCase()}</Avatar>
 
