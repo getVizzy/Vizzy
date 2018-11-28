@@ -60,7 +60,6 @@ class Menu extends React.Component {
 
   render() {
     const {classes, theme} = this.props
-    console.log("GRAPH DATA IN MENU", this.props.graphData)
 
     return (
       <Paper id="editPaper">

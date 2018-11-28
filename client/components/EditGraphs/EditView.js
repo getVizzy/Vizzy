@@ -27,7 +27,6 @@ const styles = theme => ({
   }
 })
 
-const graphics = [<PlaceholderContainer />, <Progress />]
 
 const sampleData = {
   dataJSON: {
@@ -46,7 +45,7 @@ class EditView extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      graphSelected: 'line',
+      graphSelected: '',
       color: '#4575B4',
       title: '',
       highlight: '#FEE090',
@@ -273,10 +272,12 @@ class EditView extends React.Component {
 
   render() {
     const { classes } = this.props
+    const graphics = [<PlaceholderContainer />, <Progress {...this.state } />]
 
     const matchingUser = this.props.allUsers.filter(user => {
       return user.roomKey === this.props.singleRoom
     })
+
 
     if (matchingUser[0]) {
       const dataMatch = matchingUser[0].data
@@ -325,16 +326,15 @@ class EditView extends React.Component {
           leaveNotification: this.leaveNotification,
           resetSnackbar: this.resetSnackbar
         }
-        console.log("STATE IN EDIT VIEW", this.state)
         return (
           <div>
             <div id="edit" className={classes.root}>
               {/*CHART CONTAINER */}
               <div id="editChart">
                 {this.state.x === '' || this.state.y === '' ?
-                  <div id="working">
-                    {graphics[this.state.graphic]}
-                  </div>
+                    <div id="working">
+                      {graphics[this.state.graphic]}
+                    </div>
                   :
                   <ChartContainer {...propPackage} />
                 }
@@ -387,8 +387,7 @@ class EditView extends React.Component {
       }
     }
     else {
-      // this.props.history.push('/room')
-      return null;
+      this.props.history.push('/room')
     }
   }
 }
