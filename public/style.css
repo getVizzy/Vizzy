@@ -352,3 +352,12 @@ li {
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.right-side,
+.logo-home {
+  display: contents;
+}
+
+#mini-logo {
+  margin-right: 4pt;
+}
