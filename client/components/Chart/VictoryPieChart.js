@@ -200,7 +200,10 @@ export default class VictoryPieChart extends Component {
                 title={this.props.title}
                 graphId={this.props.graphId}
               />
-              <DeleteGraph graphId={this.props.graphId} />
+              <DeleteGraph
+                graphId={this.props.graphId}
+                delete={this.props.delete}
+                />
             </div>
           ) : null}
         </div>

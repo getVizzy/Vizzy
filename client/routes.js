@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserHome, FileDrop } from './components'
-import { me } from './store'
+import {Login, Signup, UserHome, FileDrop} from './components'
+import {me} from './store'
 import Dashboard from './components/Dashboard'
-import { gotGraphs } from './store/graph'
+import {gotGraphs} from './store/graph'
 
 import VictoryBarChart from './components/Chart/VictoryBarChart'
 import VictoryLineGraph from './components/Chart/VictoryLineGraph'
@@ -20,7 +20,6 @@ import MainPage from './components/MainPage'
 import InviteForm from './components/InviteForm'
 import RoomEntry from './components/Room/RoomEntry'
 
-
 /**
  * COMPONENT
  */
@@ -31,7 +30,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props
+    const {isLoggedIn, hasRoom} = this.props
 
     return (
       <div id="globalContent">
@@ -58,7 +57,12 @@ class Routes extends Component {
               <Route path="/pie" component={VictoryPieChart} />
               <Route path="/editgraph" component={EditView} />
               <Route exact path="/room" component={RoomEntry} />
-              <Route path="/room/live" component={EditView} />
+              <Route
+                path="/room/live"
+                render={props =>
+                  hasRoom ? <EditView {...props} /> : <Redirect to="/room" />
+                }
+              />
             </Switch>
           )}
           {/* Displays our Login component as a fallback */}
@@ -76,7 +80,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.user.id
+    isLoggedIn: !!state.user.user.id,
+    hasRoom: !!state.room.singleRoom
   }
 }
 

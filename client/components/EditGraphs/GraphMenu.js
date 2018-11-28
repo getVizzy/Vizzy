@@ -30,10 +30,13 @@ const styles = theme => ({
 
 
 class ListItemComposition extends React.Component {
-
-  state = {
-    graph: '',
-  };
+  constructor() {
+    super()
+    this.state = {
+      graph: '',
+    };
+    this.handleChange = this.handleChange.bind(this)
+  }
 
   handleChange = event => {
     this.props.changeStyle(event, 'graphSelected')
@@ -81,7 +84,7 @@ class ListItemComposition extends React.Component {
         <ListItemText classes={{ primary: classes.primary }} inset primary="Scatter" />
       </MenuItem>
 
-      <MenuItem className={classes.menuItem} value="map">
+      {/* <MenuItem className={classes.menuItem} value="map">
         <ListItemIcon>
           <MapChartIcon />
         </ListItemIcon>
@@ -93,7 +96,7 @@ class ListItemComposition extends React.Component {
           <BubbleChartIcon />
         </ListItemIcon>
         <ListItemText classes={{ primary: classes.primary }} inset primary="Bubble" />
-      </MenuItem>
+      </MenuItem> */}
       </Select>
     </FormControl>  );
   }

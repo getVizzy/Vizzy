@@ -1,67 +1,47 @@
 import React from 'react'
-import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../../store'
-import {Link} from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Input from '@material-ui/core/Input'
 import TextField from '@material-ui/core/TextField'
 import SendIcon from '@material-ui/icons/SendOutlined'
+import People from '@material-ui/icons/People'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 const io = require('socket.io-client')
 const socket = io()
 
-// const styles = theme => ({
-//   main: {
-//     width: 'auto',
-//     display: 'block', // Fix IE 11 issue.
-//     marginLeft: theme.spacing.unit * 3,
-//     marginRight: theme.spacing.unit * 3,
-//     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-//       width: 800,
-//       marginLeft: 'auto',
-//       marginRight: 'auto'
-//     }
-//   },
-//   paper: {
-//     marginTop: theme.spacing.unit * 8,
-//     display: 'flex',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-//       .spacing.unit * 3}px`
-//   },
-//   avatar: {
-//     margin: theme.spacing.unit,
-//     backgroundColor: theme.palette.primary.main
-//   }
-// })
-
 const styles = theme => ({
   paper: {
-    marginTop: theme.spacing.unit * 8,
-    flex: 'auto',
     alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px`
   },
   input: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
   },
-  dense: {
-    marginTop: 19
+  allmessages: {
+    marginTop: '8pt',
+    marginBottom: '5pt',
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    backgroundColor: '#fafafa'
   },
-  menu: {
-    width: 200
+  header: {
+    marginRight: theme.spacing.unit,
+    backgroundColor: theme.palette.primary.main
+  },
+  messages: {
+    marginLeft: theme.spacing.unit * 2,
+    color: theme.palette.secondary.main,
+    backgroundColor: '#fafafa'
   },
   avatar: {
-    margin: theme.spacing.unit,
+    margin: 10,
     backgroundColor: theme.palette.primary.main
+  },
+  people: {
+    marginRight: theme.spacing.unit
   }
 })
 
@@ -79,6 +59,7 @@ class Chatroom extends React.Component {
     this.typeMessage = this.typeMessage.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.scrollToBottom = this.scrollToBottom.bind(this)
   }
 
   componentDidMount() {
@@ -90,6 +71,14 @@ class Chatroom extends React.Component {
   }
   typeMessage(event) {
     this.setState({[event.target.name]: event.target.value})
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom()
+  }
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({behavior: 'smooth'})
   }
 
   handleSubmit(event) {
@@ -104,11 +93,14 @@ class Chatroom extends React.Component {
       }
 
       this.setState({
-        messages: [...this.state.messages, message]
+        messages: [...this.state.messages, message],
+        messageInput: ''
       })
+
       socket.emit('newMessages', this.props.singleRoom, message)
     }
   }
+  ess
 
   handleKeyDown(e) {
     const user = this.props.user.email
@@ -120,10 +112,11 @@ class Chatroom extends React.Component {
           user,
           newMessage
         }
-
         this.setState({
-          messages: [...this.state.messages, message]
+          messages: [...this.state.messages, message],
+          messageInput: ''
         })
+
         socket.emit('newMessages', this.props.singleRoom, message)
       }
     }
@@ -131,53 +124,58 @@ class Chatroom extends React.Component {
 
   render() {
     const {classes} = this.props
-    console.log('helloooo', this.props)
-    console.log(this.state)
     const chatMessages = this.state.messages
     return (
       <div id="chatroomMessages">
         <main className={classes.main}>
-          <CssBaseline />
+          <Button className={classes.header}>
+            <People className={classes.people} color="000000" /> Chat With Your
+            Team
+          </Button>
           <Paper className={classes.paper}>
-            {chatMessages.map(message => {
-              return (
-                <Typography key={message.newMessage}>
-                  {message.user}: {message.newMessage}
-                </Typography>
-              )
-            })}
-            {/* <input
-              type="text"
-              name="messageInput"
-              value={this.state.messageInput}
-              onChange={this.typeMessage}
-            /> */}
-
-            {/* <Input
-              name="messageInput"
-              label="Your Message"
-              style={{margin: 8}}
-              onChange={this.typeMessage}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-            /> */}
-            <TextField
-              id="standard-full-width"
-              name="messageInput"
-              label="Your Message"
-              style={{margin: 8}}
-              onChange={this.typeMessage}
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              onKeyDown={this.handleKeyDown}
-            />
-            <button onClick={this.handleSubmit}>
-              <Avatar className={classes.avatar}>
+            <div className="message-container">
+              <Paper className={classes.allmessages}>
+                {chatMessages.map((message, index) => {
+                  const user = message.user
+                  const incomingMessage = message.newMessage
+                  return (
+                    <div key={index}>
+                      <Typography
+                        className={classes.messages}
+                        key={message.newMessage}
+                      >
+                        <div className="new-message">
+                          <div className="user">{user}</div> : {incomingMessage}
+                        </div>
+                      </Typography>
+                    </div>
+                  )
+                })}
+                <div
+                  style={{float: 'left', clear: 'both'}}
+                  ref={el => {
+                    this.messagesEnd = el
+                  }}
+                />
+              </Paper>
+            </div>
+            <div className="input-and-button">
+              <TextField
+                id="standard-full-width"
+                name="messageInput"
+                label="Your Message"
+                style={{margin: 8}}
+                value={this.state.messageInput}
+                onChange={this.typeMessage}
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                onKeyDown={this.handleKeyDown}
+              />
+              <Avatar className={classes.avatar} onClick={this.handleSubmit}>
                 <SendIcon />
               </Avatar>
-            </button>
+            </div>
           </Paper>
         </main>
       </div>
@@ -185,50 +183,11 @@ class Chatroom extends React.Component {
   }
 }
 
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
-const mapLogin = state => {
-  return {
-    name: 'login',
-    displayName: 'Login',
-    error: state.user.user.error
-  }
-}
-
-const mapSignup = state => {
-  return {
-    name: 'signup',
-    displayName: 'Sign Up',
-    error: state.user.user.error
-  }
-}
-
-const mapDispatch = dispatch => {
-  return {
-    handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
-    }
-  }
-}
-
-export default connect(mapSignup, mapDispatch)(withStyles(styles)(Chatroom))
+export default withStyles(styles)(Chatroom)
 
 /**
  * PROP TYPES
  */
 Chatroom.propTypes = {
-  name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object,
   classes: PropTypes.object.isRequired
 }
