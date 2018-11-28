@@ -166,7 +166,7 @@ class EditView extends React.Component {
     if (attribute === 'dataId') {
       change.graphSelected = 'line'
     }
-    if(!source) {
+    if (!source) {
       socket.emit('newChanges', this.props.singleRoom, change)
     }
   }
