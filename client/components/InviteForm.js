@@ -14,7 +14,8 @@ export default class InviteForm extends React.Component {
     this.state = {
       open: false,
       to: '',
-      note: ''
+      note: '',
+      error: false
     }
   }
 
@@ -27,14 +28,21 @@ export default class InviteForm extends React.Component {
     this.setState({open: true})
   }
 
-  handleClose = e => {
+  handleClose = () => {
     this.setState({open: false})
-    let body = {}
-    body.to = this.state.to
-    body.note = this.state.note
-    body.room = this.props.user.roomKey
-    body.userEmail = this.props.user.email
-    axios.post('/api/room/email', body)
+  }
+  handleSubmit = e => {
+    if (this.state.to === '') {
+      this.setState({error: true})
+    } else {
+      this.handleClose()
+      let body = {}
+      body.to = this.state.to
+      body.note = this.state.note
+      body.room = this.props.user.roomKey
+      body.userEmail = this.props.user.email
+      axios.post('/api/room/email', body)
+    }
   }
 
   render() {
@@ -49,15 +57,14 @@ export default class InviteForm extends React.Component {
             <TextField
               onChange={this.handleChange}
               name="to"
-              required={true}
-              value={this.props.title}
+              error={this.state.error}
+              required
               margin="normal"
               label="Email:"
             />
             <TextField
               onChange={this.handleChange}
               name="note"
-              required={true}
               value={this.props.title}
               margin="normal"
               label="Optional Note"
@@ -69,7 +76,7 @@ export default class InviteForm extends React.Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button type="submit" onClick={this.handleClose} color="primary">
+            <Button type="submit" onClick={this.handleSubmit} color="primary">
               Subscribe
             </Button>
           </DialogActions>
