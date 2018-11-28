@@ -73,7 +73,6 @@ class ListItemComposition extends React.Component {
   render() {
     const {classes} = this.props
     const types = this.dataTypes(this.props.data)
-
     return (
       <FormControl className={classes.formControl}>
         <FormLabel className={classes.labels}>Graph Type</FormLabel>
@@ -83,6 +82,7 @@ class ListItemComposition extends React.Component {
           value={this.state.graph}
         >
           <MenuItem value="" />
+
           <MenuItem
             className={classes.menuItem}
             value="line"
@@ -143,27 +143,19 @@ class ListItemComposition extends React.Component {
             />
           </MenuItem>
 
-          <MenuItem className={classes.menuItem} value="map">
-            <ListItemIcon>
-              <MapChartIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{primary: classes.primary}}
-              inset
-              primary="Map"
-            />
-          </MenuItem>
+          {/* <MenuItem className={classes.menuItem} value="map">
+        <ListItemIcon>
+          <MapChartIcon />
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Map" />
+      </MenuItem>
 
-          <MenuItem className={classes.menuItem} value="bubble">
-            <ListItemIcon>
-              <BubbleChartIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{primary: classes.primary}}
-              inset
-              primary="Bubble"
-            />
-          </MenuItem>
+      <MenuItem className={classes.menuItem} value="bubble">
+        <ListItemIcon>
+          <BubbleChartIcon />
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Bubble" />
+      </MenuItem> */}
         </Select>
       </FormControl>
     )

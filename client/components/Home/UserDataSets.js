@@ -91,10 +91,11 @@ class UserDataSets extends React.Component {
                     <ul className={classes.ul}>
                       {userData.map(datum => (
                         <ListItem key={datum.id}>
+                          {console.log(datum.id)}
                           <ListItemIcon>
                             <FileIcon color="primary" />
                           </ListItemIcon>
-                          <ListItemText primary={datum.name} />
+                          <ListItemText primary={datum.dataJSON.name} />
                         </ListItem>
                       ))}
                     </ul>
