@@ -97,8 +97,8 @@ export default class VictoryPieChart extends Component {
               text={this.props.title}
               style={{
                 fontSize: 20,
-                textAnchor: 'left',
-                verticalAnchor: 'left',
+                textAnchor: 'start',
+                verticalAnchor: 'end',
                 fill: '#000000',
                 fontFamily: 'inherit',
                 fontWeight: 'bold'
@@ -203,7 +203,7 @@ export default class VictoryPieChart extends Component {
               <DeleteGraph
                 graphId={this.props.graphId}
                 delete={this.props.delete}
-                />
+              />
             </div>
           ) : null}
         </div>
