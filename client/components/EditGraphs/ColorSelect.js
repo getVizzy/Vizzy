@@ -49,7 +49,8 @@ const labels = {
   Highlight: {
     name: "Highlight Color",
     tooltip: "Color of an element on hover"
-  }
+  },
+
 }
 
 class ColorSelect extends React.Component {

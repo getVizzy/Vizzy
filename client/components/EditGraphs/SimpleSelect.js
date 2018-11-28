@@ -31,6 +31,10 @@ const labels = {
   Pointer: {
     name: "Info Box",
     tooltip: "Shape of info box on hover"
+  },
+  ["Pie Style"]: {
+    name: "Pie Style",
+    tooltip: "Shape of pie"
   }
 }
 
