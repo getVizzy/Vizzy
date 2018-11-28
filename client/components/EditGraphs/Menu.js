@@ -24,6 +24,8 @@ import { buildRegressionModel } from '../../utils'
 import ButtonControls from './ButtonControls'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
 import Input from '@material-ui/core/Input';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 const styles = theme => ({})
 
@@ -73,8 +75,12 @@ class Menu extends React.Component {
             textColor="primary"
             fullWidth
           >
+          <Tooltip title="Build the graph">
             <Tab label={<Build />} />
+          </Tooltip>
+          <Tooltip title="Customize the look">
             <Tab label={<ColorLens />} />
+          </Tooltip>
           </Tabs>
         </AppBar>
 
