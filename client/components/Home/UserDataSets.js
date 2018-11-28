@@ -68,7 +68,7 @@ class UserDataSets extends React.Component {
     return (
       <Card className={classes.card}>
         <CardActions className={classes.actions} disableActionSpacing>
-          <Tooltip title='Toggle to view/close data list'>
+          <Tooltip title='toggle to view/close data list'>
             <IconButton
               className={classnames(classes.expand, {
                 [classes.expandOpen]: this.state.expanded,

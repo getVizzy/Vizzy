@@ -21,8 +21,6 @@ import Avatar from '@material-ui/core/Avatar';
 import InvertColorsIcon from '@material-ui/icons/InvertColors';
 import Tooltip from '@material-ui/core/Tooltip';
 
-
-
 let colors = [
   '#8bc34a',
   '#cddc39',

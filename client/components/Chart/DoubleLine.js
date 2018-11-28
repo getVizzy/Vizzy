@@ -5,7 +5,7 @@ import {
   VictoryAxis,
   VictoryLabel,
 }
-from 'victory'
+  from 'victory'
 
 export default class CustomTheme extends React.Component {
   render() {
@@ -15,12 +15,12 @@ export default class CustomTheme extends React.Component {
     const tickValues = this.getTickValues();
 
     return (
-      <div style={{marginLeft: '100px', marginTop: '30px'}}>
-        <svg style={styles.parent} viewBox="0 0 500 700">
+      <div style={{ marginLeft: '100px', marginTop: '10px' }}>
+        <svg style={styles.parent} viewBox="0 0 500 400">
 
           {/* Create stylistic elements */}
-          <rect x="0" y="0" width="10" height="30" fill="#C51B7D"/>
-          <rect x="420" y="10" width="20" height="20" fill="#E9A3C9"/>
+          <rect x="0" y="0" width="10" height="30" fill="#C51B7D" />
+          <rect x="420" y="10" width="20" height="20" fill="#E9A3C9" />
 
           {/* Define labels */}
           <VictoryLabel x={25} y={24} style={styles.title}
@@ -88,7 +88,7 @@ export default class CustomTheme extends React.Component {
                 y: [5, 15]
               }}
               interpolation="monotoneX"
-              scale={{x: "time", y: "linear"}}
+              scale={{ x: "time", y: "linear" }}
               standalone={false}
               style={styles.lineOne}
             />
@@ -112,7 +112,7 @@ export default class CustomTheme extends React.Component {
                 y: [0, 15]
               }}
               interpolation="monotoneX"
-              scale={{x: "time", y: "linear"}}
+              scale={{ x: "time", y: "linear" }}
               standalone={false}
               style={styles.lineTwo}
             />
@@ -124,33 +124,33 @@ export default class CustomTheme extends React.Component {
 
   getDataSetOne() {
     return [
-      {x: new Date(1999, 1, 1), y: 9},
-      {x: new Date(2000, 1, 1), y: 8},
-      {x: new Date(2001, 1, 1), y: 11},
-      {x: new Date(2002, 1, 1), y: 12},
-      {x: new Date(2003, 1, 1), y: 11},
-      {x: new Date(2004, 1, 1), y: 13},
-      {x: new Date(2005, 1, 1), y: 12},
-      {x: new Date(2006, 1, 1), y: 9},
-      {x: new Date(2007, 1, 1), y: 9},
-      {x: new Date(2008, 1, 1), y: 7},
-      {x: new Date(2009, 1, 1), y: 9},
+      { x: new Date(1999, 1, 1), y: 9 },
+      { x: new Date(2000, 1, 1), y: 8 },
+      { x: new Date(2001, 1, 1), y: 11 },
+      { x: new Date(2002, 1, 1), y: 12 },
+      { x: new Date(2003, 1, 1), y: 11 },
+      { x: new Date(2004, 1, 1), y: 13 },
+      { x: new Date(2005, 1, 1), y: 12 },
+      { x: new Date(2006, 1, 1), y: 9 },
+      { x: new Date(2007, 1, 1), y: 9 },
+      { x: new Date(2008, 1, 1), y: 7 },
+      { x: new Date(2009, 1, 1), y: 9 },
     ];
   }
 
   getDataSetTwo() {
     return [
-      {x: new Date(1999, 1, 1), y: 6},
-      {x: new Date(2000, 1, 1), y: 5},
-      {x: new Date(2001, 1, 1), y: 5},
-      {x: new Date(2002, 1, 1), y: 10},
-      {x: new Date(2003, 1, 1), y: 8},
-      {x: new Date(2004, 1, 1), y: 14},
-      {x: new Date(2005, 1, 1), y: 10},
-      {x: new Date(2006, 1, 1), y: 4},
-      {x: new Date(2007, 2, 1), y: 8},
-      {x: new Date(2008, 1, 1), y: 5},
-      {x: new Date(2009, 1, 1), y: 6},
+      { x: new Date(1999, 1, 1), y: 6 },
+      { x: new Date(2000, 1, 1), y: 5 },
+      { x: new Date(2001, 1, 1), y: 5 },
+      { x: new Date(2002, 1, 1), y: 10 },
+      { x: new Date(2003, 1, 1), y: 8 },
+      { x: new Date(2004, 1, 1), y: 14 },
+      { x: new Date(2005, 1, 1), y: 10 },
+      { x: new Date(2006, 1, 1), y: 4 },
+      { x: new Date(2007, 2, 1), y: 8 },
+      { x: new Date(2008, 1, 1), y: 5 },
+      { x: new Date(2009, 1, 1), y: 6 },
     ];
   }
 
@@ -185,6 +185,7 @@ export default class CustomTheme extends React.Component {
         fontFamily: "'Fira Sans', sans-serif",
         maxWidth: "100%",
         height: "auto"
+
       },
       title: {
         textAnchor: "start",
@@ -212,7 +213,7 @@ export default class CustomTheme extends React.Component {
 
       // INDEPENDENT AXIS
       axisYears: {
-        axis: { stroke: "black", strokeWidth: 1},
+        axis: { stroke: "black", strokeWidth: 1 },
         ticks: {
           size: (tick) => {
             const tickSize =
