@@ -44,20 +44,21 @@ router.post('/email', (req, res, next) => {
 
   const html = `
   <div height="70" style="background-color:#3bc2ea">
-  <img
+  <center><img
     src="https://i.ibb.co/PhrKRFj/83ee2462-22d7-4278-a9d0-6c513ae2d4af.png"
     alt="83ee2462-22d7-4278-a9d0-6c513ae2d4af"
     border="0"
     width="70"
     height="70"
-  />
+  /></center>
 </div>
+<center>
   <h3 style="font-family: Roboto, Helvetica, Arial, sans-serif; color:black">Let's get Vizzy! ${
     req.body.userEmail
   } has invited you to collaborate. Please go to your <a href=${address} >room</a>, and enter your key: <h3 style="color:black">${
     req.body.room
   }</h3 style="display:block;color:black"></h3>
-  <p style="color:black">${note}</p>`
+  <p style="color:black">${note}</p> </center>`
 
   //email contents
   const mailOptions = {
