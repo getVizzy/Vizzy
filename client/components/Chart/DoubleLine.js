@@ -15,12 +15,12 @@ export default class CustomTheme extends React.Component {
     const tickValues = this.getTickValues();
 
     return (
-      <div style={{ marginLeft: '100px', marginTop: '10px' }}>
+      <div style={{ marginLeft: '40px', marginTop: '10px', postion: 'center' }}>
         <svg style={styles.parent} viewBox="0 0 500 400">
 
           {/* Create stylistic elements */}
-          <rect x="0" y="0" width="10" height="30" fill="#C51B7D" />
-          <rect x="420" y="10" width="20" height="20" fill="#E9A3C9" />
+          {/* <rect x="0" y="0" width="10" height="30" fill="#C51B7D" />
+          <rect x="420" y="10" width="20" height="20" fill="#E9A3C9" /> */}
 
           {/* Define labels */}
           <VictoryLabel x={25} y={24} style={styles.title}

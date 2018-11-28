@@ -48,7 +48,7 @@ export const sideBarItems = (
     </Link>
 
     <Link to="/fun">
-      <Tooltip title='Boredom Relief' placement="right">
+      <Tooltip title='Graph of the Day' placement="right">
 
         <ListItem button>
           <ListItemIcon>
