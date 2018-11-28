@@ -76,8 +76,8 @@ export default class InviteForm extends React.Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button type="submit" onClick={this.handleSubmit} color="primary">
-              Subscribe
+            <Button type="submit" onClick={this.handleClose} color="primary">
+              Send
             </Button>
           </DialogActions>
         </Dialog>
