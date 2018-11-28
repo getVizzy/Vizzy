@@ -3,11 +3,11 @@ const { User, Data } = require('../db/models')
 
 router.post('/', async (req, res, next) => {
   try {
-    await Data.create({
+    let data = await Data.create({
       userId: req.user.id,
       dataJSON: req.body
     })
-    res.send(req.body)
+    res.send(data)
   } catch (err) {
     next(err)
   }

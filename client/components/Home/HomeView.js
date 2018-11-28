@@ -18,7 +18,6 @@ class HomeView extends React.Component {
 
   render() {
     const {classes} = this.props
-    console.log(this.props, 'props inside home view')
     return (
       <div id="homeContainer">
         {/* <HeaderGrid /> */}
