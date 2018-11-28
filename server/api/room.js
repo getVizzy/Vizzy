@@ -37,17 +37,27 @@ router.post('/email', (req, res, next) => {
 
   const address = `https://getvizzy.herokuapp.com/room`
   let note = req.body.note
-    ? `A note from your Collaborator: ${req.body.note}`
+    ? `<h3 style="color:black">A note from your Collaborator:</h3> ${
+        req.body.note
+      }`
     : ''
 
   const html = `
-  <img src="https://i.ibb.co/gd3w2qb/VizLogo.png" width="150" height="70">
-  <p>${note}</p>
-  <p>Hello! ${
+  <div height="70" style="background-color:#3bc2ea">
+  <img
+    src="https://i.ibb.co/PhrKRFj/83ee2462-22d7-4278-a9d0-6c513ae2d4af.png"
+    alt="83ee2462-22d7-4278-a9d0-6c513ae2d4af"
+    border="0"
+    width="70"
+    height="70"
+  />
+</div>
+  <h3 style="font-family: Roboto, Helvetica, Arial, sans-serif; color:black">Let's get Vizzy! ${
     req.body.userEmail
-  } has invited you to collaborate. Please go to your <a href=${address} >room</a>, and enter your key: ${
+  } has invited you to collaborate. Please go to your <a href=${address} >room</a>, and enter your key: <h3 style="color:black">${
     req.body.room
-  }</p>`
+  }</h3 style="display:block;color:black"></h3>
+  <p style="color:black">${note}</p>`
 
   //email contents
   const mailOptions = {
