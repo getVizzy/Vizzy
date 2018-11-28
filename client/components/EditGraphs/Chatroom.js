@@ -130,7 +130,7 @@ class Chatroom extends React.Component {
         <main className={classes.main}>
           <Button className={classes.header}>
             <People className={classes.people} color="000000" /> Chat With Your
-            Team
+            Team Below
           </Button>
           <Paper className={classes.paper}>
             <div className="message-container">
