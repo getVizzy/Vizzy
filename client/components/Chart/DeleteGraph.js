@@ -46,7 +46,7 @@ class DeleteGraph extends Component {
             className={classes.submit}
             onClick={() => {
               this.props.deletingGraph(this.props.graphId)
-              this.props.delete()
+              // this.props.delete()
             }}
           >
             Delete <DeleteIcon className={classes.delete} />
@@ -57,12 +57,12 @@ class DeleteGraph extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  deletingGraph: id => dispatch(deletingGraph(id))
-})
-
 const mapStateToProps = state => ({
   graphs: state.graph
+})
+
+const mapDispatchToProps = dispatch => ({
+  deletingGraph: id => dispatch(deletingGraph(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(
