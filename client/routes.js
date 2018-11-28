@@ -17,7 +17,6 @@ import TempDashboard from './components/TempDashboard'
 import EditView from './components/EditGraphs/EditView'
 // import RoomSelection from './components/Room/RoomSelection'
 import MainPage from './components/MainPage'
-import InviteForm from './components/InviteForm'
 import RoomEntry from './components/Room/RoomEntry'
 
 /**

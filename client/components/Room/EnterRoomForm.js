@@ -153,7 +153,7 @@ class EnterRoomForm extends React.Component {
             className={classes.button}
             variant='outlined'
             color='secondary'
-            onClick={this.handleSubmit} size="small" color="primary">
+            onClick={this.handleSubmit} size="small" color="secondary">
 
             Join Another Room
              <EnterIconOne className={classes.rightIcon} />
