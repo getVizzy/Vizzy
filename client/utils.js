@@ -2,39 +2,18 @@ import ReactDOM from 'react-dom'
 import * as tf from '@tensorflow/tfjs'
 
 export function reinstateNumbers(array) {
-  //For each row in stored data array
   let restoredData = array.map(data => {
     let newFormat = {}
-    let nums = '0123456789.,-$%'
-
-    //Check each value in row
+    let alpha = 'abcdefghijklmnopqrstuvwxyz!#/@^*()'
     for (let key in data) {
       let value = data[key]
-      let valueArray = value.split('')
-
-      //Check if it includes numbers but is not a date
-      // if (
-      //   (valueArray.some(char => !nums.includes(char)) &&
-      //     valueArray.lastIndexOf('-') === 0) ||
-      //   valueArray.lastIndexOf('-') === -1
-      // )
       if (
-        valueArray.every(char => nums.includes(char)) &&
-        (valueArray.lastIndexOf('-') === -1 ||
-          valueArray.lastIndexOf('-') === 0)
+        !value.split('').some(char => alpha.includes(char.toLowerCase())) &&
+        (value.indexOf('-') === -1 ||
+          (value.indexOf('-') === 0 &&
+            value.split('').filter(elem => elem === '-').length === 1))
       ) {
-        //If it is a number, take out special characters
-        value = value
-          .split('$')
-          .join('')
-          .split('%')
-          .join('')
-          .split(',')
-          .join('')
-
-        //Coerce it to a number value
         newFormat[key] = +value
-        //If it's a categorical value, save it as a string
       } else {
         newFormat[key] = value
       }
@@ -43,6 +22,7 @@ export function reinstateNumbers(array) {
   })
   return restoredData
 }
+
 export function download(title, id) {
   //draw canvas
   let svgHtml = ReactDOM.findDOMNode(this).querySelector('svg')
