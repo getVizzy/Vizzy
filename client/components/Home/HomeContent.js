@@ -296,7 +296,7 @@ const HomeContent = props => {
                     Your Datasets
                   </Typography>
                   <Typography>
-                    View a listing of the datasets you have imported
+                    View and manage a listing of the datasets you have imported
                   </Typography>
                 </CardContent>
                 <UserDataSets userData={props.userData} />
