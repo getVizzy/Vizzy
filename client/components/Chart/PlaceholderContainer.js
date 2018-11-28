@@ -8,7 +8,7 @@ let counter = 0;
 const styles = {
   fontFamily: "sans-serif",
   textAlign: "left",
-  marginLeft: '75px',
+  marginLeft: '20px',
   color: 'black'
 };
 
