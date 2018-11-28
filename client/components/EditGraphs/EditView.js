@@ -170,34 +170,32 @@ class EditView extends React.Component {
     }
   }
 
-  styleNotification(attribute, updated) {
+  styleNotification(attribute, updated, user) {
     let message
     switch (attribute) {
       case 'x':
-        message = `X axis changed to ${updated}`
+        message = `${user} changed X axis to ${updated}`
         break
       case 'y':
-        message = `Y axis changed to ${updated}`
+        message = `${user} changed Y axis to ${updated} `
         break
       case 'dataId':
-        message = 'New dataset selected'
+        message = `${user} changed new dataset`
         break
       case 'graphSelected':
-        message = `Graph changed to ${updated}`
+        message = `${user} changed graph to ${updated}`
         break
       case 'color':
-        message = `Color changed`
+        message = `${user} changed color`
         break
       case 'pieColor':
-        message = `Pie colors changed`
+        message = `${user} changed pie color`
         break
       case 'tooltip':
-        message = `Tooltip shape changed`
+        message = `${user} changed tooltip shape to ${updated}`
         break
       default:
-        message = `${attribute[0].toUpperCase()}${attribute.slice(
-          1
-        )} updated to ${updated}`
+        message = `${user} updated ${attribute} to ${updated}`
     }
 
     this.setState({
@@ -220,7 +218,7 @@ class EditView extends React.Component {
     let attribute = Object.keys(payload)[0]
     let updated = Object.values(payload)[0]
     this.changeStyle(updated, attribute, 'sockets')
-    this.styleNotification(attribute, updated)
+    this.styleNotification(attribute, updated, this.props.user.email)
   }
 
   leaveRoom() {
