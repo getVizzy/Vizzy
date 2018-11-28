@@ -43,8 +43,7 @@ class TempDashboard extends Component {
   render() {
     const {classes} = this.props
     return (
-      // <div className="main-dashboard-container">
-      <div className={classes.heroUnit}>
+      <div className="main-dashboard-container">
         <div className={classes.heroContent}>
           <Typography
             component="h1"
@@ -56,33 +55,34 @@ class TempDashboard extends Component {
             Dashboard
           </Typography>
         </div>
-        {/* </div> */}
-        {this.props.graphs.length === 0 ? (
-          <div className={classes.heroContent}>
-            <Typography variant="h6" align="center" color="textSecondary">
-              No graphs right now. Let's get Vizzy!
-            </Typography>
-          </div>
-        ) : (
-          this.props.graphs.map((graph, i) => {
-            let data = reinstateNumbers(graph.datum.dataJSON.data)
-            let propPackage = {
-              data: data,
-              createdAt: graph.createdAt,
-              addComma: addComma,
-              downloadPNG: download,
-              changeStyle: this.changeStyle,
-              graphId: graph.id,
-              ...graph.properties,
-              delete: this.deleteNotification
-            }
-            return (
-              <div id="dashboard-container" key={graph.id}>
-                <ChartContainer {...propPackage} />{' '}
-              </div>
-            )
-          })
-        )}
+        <div className="graphs-dashboard">
+          {this.props.graphs.length === 0 ? (
+            <div className={classes.heroContent}>
+              <Typography variant="h6" align="center" color="textSecondary">
+                No graphs right now. Let's get Vizzy!
+              </Typography>
+            </div>
+          ) : (
+            this.props.graphs.map((graph, i) => {
+              let data = reinstateNumbers(graph.datum.dataJSON.data)
+              let propPackage = {
+                data: data,
+                createdAt: graph.createdAt,
+                addComma: addComma,
+                downloadPNG: download,
+                changeStyle: this.changeStyle,
+                graphId: graph.id,
+                ...graph.properties,
+                delete: this.deleteNotification
+              }
+              return (
+                <div id="dashboard-container" key={graph.id}>
+                  <ChartContainer {...propPackage} />{' '}
+                </div>
+              )
+            })
+          )}
+        </div>
         <div>
           {this.state.notification ? (
             <Snackbar

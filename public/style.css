@@ -344,5 +344,11 @@ li {
 }
 
 .main-dashboard-container {
+  padding-left: 1em;
+}
+
+.graphs-dashboard {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
