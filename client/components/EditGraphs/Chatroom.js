@@ -13,7 +13,6 @@ const io = require('socket.io-client')
 const socket = io()
 import InviteForm from '../InviteForm'
 
-
 let styles = theme => ({
   paper: {
     alignItems: 'center',
@@ -32,11 +31,11 @@ let styles = theme => ({
   },
   header: {
     marginRight: theme.spacing.unit,
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main
   },
   header2: {
     marginRight: theme.spacing.unit,
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.light
   },
   invite: {
     display: 'flex',
@@ -91,7 +90,7 @@ class Chatroom extends React.Component {
   }
 
   componentDidUpdate() {
-    if(this.state.chat) {
+    if (this.state.chat) {
       this.scrollToBottom()
     }
   }
@@ -141,10 +140,10 @@ class Chatroom extends React.Component {
   }
 
   toggle(button1, button2) {
-    if(!this.state[button1]) {
+    if (!this.state[button1]) {
       this.setState({
         [button1]: true,
-        [button2]: false,
+        [button2]: false
       })
     }
   }
@@ -155,72 +154,78 @@ class Chatroom extends React.Component {
     return (
       <div id="chatroomMessages">
         <main className={classes.main}>
-
           <div className={classes.invite}>
-            <Button className={classes.header} onClick={() => this.toggle('chat', 'invite')}>
-              <People className={classes.people} /> Chat With Your
-              Team
+            <Button
+              className={classes.header}
+              onClick={() => this.toggle('chat', 'invite')}
+            >
+              <People className={classes.people} /> Chat With Your Team
             </Button>
 
-            <Button className={classes.header2} onClick={() => this.toggle('invite', 'chat')} >
-              <Email className={classes.people} color="000000" />
+            <Button
+              className={classes.header2}
+              onClick={() => this.toggle('invite', 'chat')}
+            >
+              <Email className={classes.people} />
               Invite Others to Collaborate
             </Button>
           </div>
 
-          {this.state.chat === true?
-
-
-          <Paper className={classes.paper}>
-            <div className="message-container">
-              <Paper className={classes.allmessages}>
-                {chatMessages.map((message, index) => {
-                  const user = message.user
-                  const incomingMessage = message.newMessage
-                  return (
-                    <div key={index}>
-                      <Typography
-                        className={classes.messages}
-                        key={message.newMessage}
-                      >
-                        <div className="new-message">
-                          <div className="user">{user}</div> : {incomingMessage}
-                        </div>
-                      </Typography>
-                    </div>
-                  )
-                })}
-                <div
-                  style={{float: 'left', clear: 'both'}}
-                  ref={el => {
-                    this.messagesEnd = el
-                  }}
+          {this.state.chat === true ? (
+            <Paper className={classes.paper}>
+              <div className="message-container">
+                <Paper className={classes.allmessages}>
+                  {chatMessages.map((message, index) => {
+                    const user = message.user
+                    const incomingMessage = message.newMessage
+                    return (
+                      <div key={index}>
+                        <Typography
+                          className={classes.messages}
+                          key={message.newMessage}
+                        >
+                          <div className="new-message">
+                            <div className="user">{user}</div> :{' '}
+                            {incomingMessage}
+                          </div>
+                        </Typography>
+                      </div>
+                    )
+                  })}
+                  <div
+                    style={{float: 'left', clear: 'both'}}
+                    ref={el => {
+                      this.messagesEnd = el
+                    }}
+                  />
+                </Paper>
+              </div>
+              <div className="input-and-button">
+                <TextField
+                  id="standard-full-width"
+                  name="messageInput"
+                  label="Enter Your Message"
+                  style={{margin: 8}}
+                  value={this.state.messageInput}
+                  onChange={this.typeMessage}
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  onKeyDown={this.handleKeyDown}
                 />
-              </Paper>
-            </div>
-            <div className="input-and-button">
-              <TextField
-                id="standard-full-width"
-                name="messageInput"
-                label="Enter Your Message"
-                style={{margin: 8}}
-                value={this.state.messageInput}
-                onChange={this.typeMessage}
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                onKeyDown={this.handleKeyDown}
-              />
-              <Avatar className={classes.avatar} onClick={this.handleSubmit}>
-                <SendIcon />
-              </Avatar>
-            </div>
-          </Paper>
-          :
-          <Paper className={classes.paper}>
-            <InviteForm text="Email an invite" />
-            <p className={classes.inviteMessage}>Or share your room key: {this.props.user.roomKey}.</p>
-          </Paper> }
+                <Avatar className={classes.avatar} onClick={this.handleSubmit}>
+                  <SendIcon />
+                </Avatar>
+              </div>
+            </Paper>
+          ) : (
+            <Paper className={classes.paper}>
+              <InviteForm text="Email an invite" />
+              <p className={classes.inviteMessage}>
+                Or share your room key: {this.props.user.roomKey}.
+              </p>
+            </Paper>
+          )}
         </main>
       </div>
     )
