@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {withStyles} from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -16,8 +16,8 @@ import DeleteForever from '@material-ui/icons/DeleteForever'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import SadIcon from '@material-ui/icons/SentimentDissatisfied'
 import Typography from '@material-ui/core/Typography'
-import {deletingData} from '../../store/data'
-import {connect} from 'react-redux'
+import { deletingData } from '../../store/data'
+import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
@@ -50,7 +50,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
-    maxHeight: 300
+    maxHeight: 175
   },
 
   ul: {
@@ -63,14 +63,14 @@ const styles = theme => ({
 })
 
 class UserDataSets extends React.Component {
-  state = {expanded: false}
+  state = { expanded: false }
 
   handleExpandClick = () => {
-    this.setState(state => ({expanded: !state.expanded}))
+    this.setState(state => ({ expanded: !state.expanded }))
   }
 
   render() {
-    const {classes, userData} = this.props
+    const { classes, userData } = this.props
 
     return (
       <Card className={classes.card}>
@@ -105,7 +105,7 @@ class UserDataSets extends React.Component {
                           />
                         </ListItemIcon>
                         <ListItemText
-                          classes={{primary: classes.file}}
+                          classes={{ primary: classes.file }}
                           primary={datum.dataJSON.name}
                         />
                       </ListItem>
@@ -114,12 +114,12 @@ class UserDataSets extends React.Component {
                 </li>
               </List>
             ) : (
-              <Typography>
-                <SadIcon color="primary" />
-                You currently have no datasets. To start graphing, please import
-                a dataset
+                <Typography>
+                  <SadIcon color="primary" />
+                  You currently have no datasets. To start graphing, please import
+                  a dataset
               </Typography>
-            )}
+              )}
           </CardContent>
         </Collapse>
       </Card>
