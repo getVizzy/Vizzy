@@ -59,7 +59,7 @@ function Fun(props) {
               Graph of the Day
             </Typography>
             <Typography variant="h6" align="center" color="textSecondary" paragraph>
-              Bored? Perhaps this interesting visualization will help
+              Interesting visualizations created for you
             </Typography>
           </div>
         </div>

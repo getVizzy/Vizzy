@@ -155,9 +155,10 @@ class Chatroom extends React.Component {
     return (
       <div id="chatroomMessages">
         <main className={classes.main}>
+
           <div className={classes.invite}>
             <Button className={classes.header} onClick={() => this.toggle('chat', 'invite')}>
-              <People className={classes.people} color="000000" /> Chat With Your
+              <People className={classes.people} /> Chat With Your
               Team
             </Button>
 
@@ -168,6 +169,7 @@ class Chatroom extends React.Component {
           </div>
 
           {this.state.chat === true?
+
 
           <Paper className={classes.paper}>
             <div className="message-container">
