@@ -9,6 +9,8 @@ import Email from '@material-ui/icons/EmailSharp'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
+import Key from '@material-ui/icons/VpnKey'
+
 const io = require('socket.io-client')
 const socket = io()
 import InviteForm from '../InviteForm'
@@ -221,9 +223,13 @@ class Chatroom extends React.Component {
           ) : (
             <Paper className={classes.paper}>
               <InviteForm text="Email an invite" />
-              <p className={classes.inviteMessage}>
-                Or share your room key: {this.props.user.roomKey}.
-              </p>
+              <Typography className={classes.inviteMessage}>
+                Or share your room key:
+                <strong>
+                  {'   '}
+                  {this.props.user.roomKey}
+                </strong>
+              </Typography>
             </Paper>
           )}
         </main>
