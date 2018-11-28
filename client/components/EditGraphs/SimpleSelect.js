@@ -5,6 +5,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import FormLabel from '@material-ui/core/FormLabel';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 const styles = theme => ({
   root: {
@@ -20,6 +22,17 @@ const styles = theme => ({
 });
 
 const pointers = ["Rounded edge", "Square", "Circle"]
+
+const labels = {
+  Dataset: {
+    name: "Dataset",
+    tooltip: "Select from saved data"
+  },
+  Pointer: {
+    name: "Info Box",
+    tooltip: "Shape of info box on hover"
+  }
+}
 
 class SimpleSelect extends React.Component {
   constructor() {
@@ -46,7 +59,11 @@ class SimpleSelect extends React.Component {
     const {classes} = this.props
     return (
       <FormControl className={classes.formControl}>
-        <FormLabel className={classes.labels} >{this.props.name}</FormLabel>
+        <Tooltip
+            title={labels[this.props.name].tooltip}
+            placement="bottom-start">
+          <FormLabel className={classes.labels} >{labels[this.props.name].name}</FormLabel>
+        </Tooltip>
         <Select
           onChange={(e) => this.handleChange(e)}
           displayEmpty
