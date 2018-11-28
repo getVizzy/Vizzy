@@ -343,3 +343,7 @@ li {
 .new-message {
   display: flex;
 }
+
+.main-dashboard-container {
+  display: flex;
+}

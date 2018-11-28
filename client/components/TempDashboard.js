@@ -31,7 +31,7 @@ class TempDashboard extends Component {
 
   render() {
     return (
-      <div>
+      <div className="main-dashboard-container">
         {this.props.graphs.map((graph, i) => {
           let data = reinstateNumbers(graph.datum.dataJSON.data)
           let propPackage = {
