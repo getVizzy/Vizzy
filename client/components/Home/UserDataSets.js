@@ -12,12 +12,13 @@ import Tooltip from '@material-ui/core/Tooltip'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import FileIcon from '@material-ui/icons/InsertDriveFile'
+import DeleteForever from '@material-ui/icons/DeleteForever'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import SadIcon from '@material-ui/icons/SentimentDissatisfied'
 import Typography from '@material-ui/core/Typography'
-import deletingData from '../../store/data'
+import {deletingData} from '../../store/data'
 import {connect} from 'react-redux'
+import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   card: {
@@ -55,6 +56,9 @@ const styles = theme => ({
   ul: {
     backgroundColor: 'inherit',
     padding: 0
+  },
+  file: {
+    fontSize: '0.9em'
   }
 })
 
@@ -67,9 +71,6 @@ class UserDataSets extends React.Component {
 
   render() {
     const {classes, userData} = this.props
-    const hello = userData[0]
-    console.log('dataaaa', this.props)
-    // console.log('ehhhhh', userData[0].id)
 
     return (
       <Card className={classes.card}>
@@ -96,16 +97,17 @@ class UserDataSets extends React.Component {
                     {userData.map(datum => (
                       <ListItem key={datum.id}>
                         <ListItemIcon>
-                          <FileIcon color="primary" />
+                          <DeleteForever
+                            color="primary"
+                            onClick={() => {
+                              this.props.deletingData(datum.id)
+                            }}
+                          />
                         </ListItemIcon>
-                        <button
-                          onClick={() => {
-                            this.props.deletingData(datum.id)
-                          }}
-                        >
-                          {datum.dataJSON.name}
-                        </button>
-                        {/* <ListItemText primary={datum.dataJSON.name} /> */}
+                        <ListItemText
+                          classes={{primary: classes.file}}
+                          primary={datum.dataJSON.name}
+                        />
                       </ListItem>
                     ))}
                   </ul>
