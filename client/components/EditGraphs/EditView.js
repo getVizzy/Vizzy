@@ -1,15 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {fetchAllUsers} from '../../store/user'
+import { fetchAllUsers } from '../../store/user'
 import ChartContainer from '../Chart/ChartContainer'
-import {gotData} from '../../store/data'
-import {postGraph} from '../../store/graph'
+import { gotData } from '../../store/data'
+import { postGraph } from '../../store/graph'
 const io = require('socket.io-client')
 const socket = io()
 import Menu from './Menu'
-import {connect} from 'react-redux'
-import {reinstateNumbers, download, addComma} from '../../utils'
-import {withStyles} from '@material-ui/core/styles'
+import { connect } from 'react-redux'
+import { reinstateNumbers, download, addComma } from '../../utils'
+import { withStyles } from '@material-ui/core/styles'
 import Snackbar from '../Notifications/Snackbar'
 import Chatroom from './Chatroom'
 import PlaceholderContainer from '../Chart/PlaceholderContainer'
@@ -31,12 +31,12 @@ const styles = theme => ({
 const sampleData = {
   dataJSON: {
     data: [
-      {quarter: '1', earnings: 13, items: 40, state: 'NY'},
-      {quarter: '2', earnings: 16, items: 60, state: 'NY'},
-      {quarter: '3', earnings: 17, items: 70, state: 'NY'},
-      {quarter: '4', earnings: 18, items: 80, state: 'NY'},
-      {quarter: '4', earnings: 18, items: 81, state: 'NY'},
-      {quarter: '4', earnings: 19, items: 90, state: 'NY'}
+      { quarter: '1', earnings: 13, items: 40, state: 'NY' },
+      { quarter: '2', earnings: 16, items: 60, state: 'NJ' },
+      { quarter: '3', earnings: 17, items: 70, state: 'PA' },
+      { quarter: '4', earnings: 18, items: 80, state: 'NY' },
+      { quarter: '4', earnings: 18, items: 81, state: 'NY' },
+      { quarter: '4', earnings: 19, items: 90, state: 'NY' }
     ]
   }
 }
@@ -269,7 +269,7 @@ class EditView extends React.Component {
   }
 
   render() {
-    const {classes} = this.props
+    const { classes } = this.props
     const graphics = [<PlaceholderContainer />, <Progress {...this.state} />]
 
     const matchingUser = this.props.allUsers.filter(user => {
@@ -337,8 +337,8 @@ class EditView extends React.Component {
                     {this.state.x === '' || this.state.y === '' ? (
                       <div id="working">{graphics[this.state.graphic]}</div>
                     ) : (
-                      <ChartContainer {...propPackage} />
-                    )}
+                        <ChartContainer {...propPackage} />
+                      )}
                   </div>
 
                   {/*MENU PANEL */}
@@ -353,8 +353,8 @@ class EditView extends React.Component {
                         styleNotification={this.state.styleNotification}
                       />
                     ) : (
-                      ''
-                    )}
+                        ''
+                      )}
 
                     {this.state.saveNotification ? (
                       <Snackbar
@@ -367,14 +367,14 @@ class EditView extends React.Component {
                         }
                       />
                     ) : (
-                      ''
-                    )}
+                        ''
+                      )}
 
                     {this.state.notification ? (
                       <Snackbar {...notificationProps} />
                     ) : (
-                      ''
-                    )}
+                        ''
+                      )}
                   </div>
                 </div>
                 <div className={classes.chatroom}>
@@ -399,10 +399,10 @@ EditView.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  gotData: function() {
+  gotData: function () {
     dispatch(gotData())
   },
-  addGraph: function(graphData) {
+  addGraph: function (graphData) {
     dispatch(postGraph(graphData))
   },
   onFetchAllUsers: () => dispatch(fetchAllUsers())
