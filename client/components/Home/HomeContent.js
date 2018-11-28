@@ -338,7 +338,7 @@ const HomeContent = props => {
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          <img src={logoImg} width="150" height="60" />
+          <img src="https://i.ibb.co/Jsq4b8B/only-Icon-Logo.png" width="50" height="50" />
         </Typography>
         <Typography
           variant="subtitle1"
