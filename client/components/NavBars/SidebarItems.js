@@ -7,6 +7,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import CreateIcon from '@material-ui/icons/Create';
 import HelpIcon from '@material-ui/icons/Help';
 import HappyIcon from '@material-ui/icons/TagFaces'
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Link } from 'react-router-dom'
 
@@ -14,49 +15,58 @@ import { Link } from 'react-router-dom'
 export const sideBarItems = (
   <div >
     <Link to="/home">
-      <ListItem button>
-        <ListItemIcon>
-          <HomeIcon fontSize="large" />
-        </ListItemIcon>
-        <ListItemText primary="Home" />
-      </ListItem>
+      <Tooltip title='Go Home' placement="right">
+        <ListItem button>
+          <ListItemIcon>
+            <HomeIcon fontSize="large" />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
+      </Tooltip>
     </Link>
 
     <Link to="/dashboard">
-      <ListItem button>
-        <ListItemIcon>
-          <DashboardIcon fontSize="large" />
-        </ListItemIcon>
-        <ListItemText primary="Dashboards" />
-      </ListItem>
+      <Tooltip title='Go to Dashboard' placement="right">
+        <ListItem button>
+          <ListItemIcon>
+            <DashboardIcon fontSize="large" />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+      </Tooltip>
     </Link>
 
     <Link to="/room">
-      <ListItem button>
-        <ListItemIcon>
-          <CreateIcon fontSize="large" />
-        </ListItemIcon>
-        <ListItemText primary="Create Graphs" />
-      </ListItem>
+      <Tooltip title='Start Graphing' placement="right">
+        <ListItem button>
+          <ListItemIcon>
+            <CreateIcon fontSize="large" />
+          </ListItemIcon>
+          <ListItemText primary="Create Graphs" />
+        </ListItem>
+      </Tooltip>
     </Link>
 
     <Link to="/fun">
-      <ListItem button>
-        <ListItemIcon>
-          <HappyIcon fontSize="large" />
-        </ListItemIcon>
-        <ListItemText primary="For Fun" />
-      </ListItem>
+      <Tooltip title='Boredom Relief' placement="right">
+
+        <ListItem button>
+          <ListItemIcon>
+            <HappyIcon fontSize="large" />
+          </ListItemIcon>
+          <ListItemText primary="For Fun" />
+        </ListItem>
+      </Tooltip>
     </Link>
 
     {/* <Link to="/room"> */}
-    <ListItem button>
+    {/* <ListItem button>
       <ListItemIcon>
         <HelpIcon fontSize="large" />
       </ListItemIcon>
       <ListItemText primary="Help" />
     </ListItem>
-    {/* </Link> */}
+    </Link> */}
   </div>
 );
 
