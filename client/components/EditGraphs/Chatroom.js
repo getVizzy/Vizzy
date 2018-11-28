@@ -129,8 +129,7 @@ class Chatroom extends React.Component {
       <div id="chatroomMessages">
         <main className={classes.main}>
           <Button className={classes.header}>
-            <People className={classes.people} color="000000" /> Chat With Your
-            Team Below
+            <People className={classes.people} /> Chat With Your Team Below
           </Button>
           <Paper className={classes.paper}>
             <div className="message-container">
