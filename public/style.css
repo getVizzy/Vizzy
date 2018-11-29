@@ -361,3 +361,9 @@ li {
 #mini-logo {
   margin-right: 4px;
 }
+
+#google-logo {
+  width: 20px;
+  height: auto;
+  padding-right: 3px;
+}
