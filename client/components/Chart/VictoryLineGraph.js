@@ -56,12 +56,11 @@ export default class VictoryLineGraph extends Component {
             <VictoryLabel
               text={this.props.title}
               style={{
-                fontSize: 16,
+                fontSize: 20,
                 textAnchor: 'start',
                 verticalAnchor: 'end',
-                fill: '#000000',
-                fontFamily: 'inherit',
-                fontWeight: 'bold'
+                fill: '#455A64',
+                fontFamily: 'inherit'
               }}
               x={100}
               y={24}
