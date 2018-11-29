@@ -206,7 +206,7 @@ class EditView extends React.Component {
         message = `${user} changed pie color`
         break
       case 'tooltip':
-        message = `${user} changed tooltip shape to ${updated}`
+        message = `${user} changed tooltip shape`
         break
       default:
         message = `${user} updated ${attribute}`
