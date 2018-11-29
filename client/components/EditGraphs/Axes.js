@@ -29,10 +29,12 @@ class Axes extends React.Component {
   }
 
   handleChange(event) {
-    this.props.changeStyle(event, this.props.column)
-    this.setState({
-      column: event.target.value
-    })
+    if(event.target.value !== '') {
+      this.props.changeStyle(event, this.props.column)
+      this.setState({
+        column: event.target.value
+      })
+    }
   }
 
   filterColumn(data, dataType) {
