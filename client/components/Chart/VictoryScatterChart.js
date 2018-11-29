@@ -55,12 +55,11 @@ export default class VictoryScatterChart extends Component {
             <VictoryLabel
               text={this.props.title}
               style={{
-                fontSize: 16,
+                fontSize: 20,
                 textAnchor: 'start',
                 verticalAnchor: 'end',
-                fill: '#000000',
-                fontFamily: 'inherit',
-                fontWeight: 'bold'
+                fill: '#455A64',
+                fontFamily: 'inherit'
               }}
               x={100}
               y={24}
@@ -172,7 +171,8 @@ export default class VictoryScatterChart extends Component {
                 />
                 <DeleteGraph
                   graphId={this.props.graphId}
-                  delete={this.props.delete} />
+                  delete={this.props.delete}
+                />
               </div>
             ) : null}
           </div>

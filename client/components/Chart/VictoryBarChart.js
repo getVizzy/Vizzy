@@ -15,7 +15,7 @@ import DeleteGraph from './DeleteGraph'
 
 export default class VictoryBarChart extends Component {
   render() {
-    console.log("PROPS IN BAR")
+    console.log('PROPS IN BAR')
     let data = this.props.data
     let downloadPNG = download.bind(this)
     const date = new Date(this.props.createdAt).toDateString()
@@ -38,12 +38,11 @@ export default class VictoryBarChart extends Component {
             <VictoryLabel
               text={this.props.title}
               style={{
-                fontSize: 16,
+                fontSize: 20,
                 textAnchor: 'start',
                 verticalAnchor: 'end',
-                fill: '#000000',
-                fontFamily: 'inherit',
-                fontWeight: 'bold'
+                fill: '#455A64',
+                fontFamily: 'inherit'
               }}
               x={100}
               y={24}
@@ -52,13 +51,13 @@ export default class VictoryBarChart extends Component {
             <VictoryAxis
               label={this.props.x}
               style={{
-                axis: { stroke: '#756f6a' },
-                axisLabel: { fontSize: 16, padding: 30 }
+                axis: {stroke: '#756f6a'},
+                axisLabel: {fontSize: 16, padding: 30}
               }}
               tickValues={data.map(datum => datum[this.props.x])}
               tickFormat={data.map(datum => {
                 if (typeof datum[this.props.x] === 'string') {
-                  if(this.props.x === "Month") {
+                  if (this.props.x === 'Month') {
                     return datum[this.props.x].slice(0, 3)
                   } else {
                     return datum[this.props.x].slice(0, 4)
@@ -73,8 +72,8 @@ export default class VictoryBarChart extends Component {
               dependentAxis
               label={this.props.y}
               style={{
-                axis: { stroke: '#756f6a' },
-                axisLabel: { fontSize: 16, padding: 60 }
+                axis: {stroke: '#756f6a'},
+                axisLabel: {fontSize: 16, padding: 60}
               }}
             />
             <VictoryStack>
