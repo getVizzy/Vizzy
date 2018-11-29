@@ -26,7 +26,6 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox'
 import Input from '@material-ui/core/Input';
 import Tooltip from '@material-ui/core/Tooltip';
 
-
 const styles = theme => ({})
 
 function TabContainer(props) {
@@ -91,7 +90,7 @@ class Menu extends React.Component {
         >
           <TabContainer dir={theme.direction}>
             <Grid container spacing={8}>
-              <Grid item xs={1}>
+              <Grid className={classes.grid} item xs={1}>
                 <SimpleSelect
                   name="Dataset"
                   items={this.props.dataMatch}
