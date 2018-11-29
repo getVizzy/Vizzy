@@ -110,7 +110,7 @@ export default class VictoryScatterChart extends Component {
               ]}
             />
             <VictoryLine data={this.props.regressionLine} x={x} y={y} />
-            <VictoryLabel
+            {/* <VictoryLabel
               text={this.props.title}
               style={{
                 fontSize: 16,
@@ -122,7 +122,7 @@ export default class VictoryScatterChart extends Component {
               }}
               x={100}
               y={24}
-            />
+            /> */}
 
             <VictoryAxis
               label={x}
