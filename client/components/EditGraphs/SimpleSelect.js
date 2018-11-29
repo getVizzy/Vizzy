@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import FormLabel from '@material-ui/core/FormLabel'
 import Tooltip from '@material-ui/core/Tooltip'
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const styles = theme => ({
   root: {
@@ -51,11 +52,8 @@ class SimpleSelect extends React.Component {
       this.props.name === 'Dataset'
         ? 'dataId'
         : this.props.name === 'Pointer' ? 'tooltip' : 'pieTransformation'
-    if (event.target.value !== '0') {
-      this.props.changeStyle(event.target.value, attribute)
-    } else {
-      this.props.changeStyle('0', attribute)
-    }
+    this.props.changeStyle(event.target.value, attribute)
+
     this.setState({
       data: event.target.value
     })
@@ -81,14 +79,9 @@ class SimpleSelect extends React.Component {
         >
           <MenuItem value="" />
 
-          {this.props.name === 'Dataset' ? (
-            <MenuItem value="0">Sample Data - Data Cannot Be Saved</MenuItem>
-          ) : (
-            ''
-          )}
-
           {this.props.items.map((option, i) => {
             let val = this.props.name === 'Dataset' ? option.id : option
+
             let display =
               this.props.name === 'Dataset'
                 ? option.dataJSON.name

@@ -24,7 +24,7 @@ class FileDrop extends Component {
 
   }
 
-  async onChange(e) {
+async onChange(e) {
     let files = e.target.files
     let reader = new FileReader()
     await reader.readAsText(files[0])

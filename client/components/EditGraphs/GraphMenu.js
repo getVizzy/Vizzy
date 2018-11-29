@@ -73,6 +73,7 @@ class ListItemComposition extends React.Component {
   render() {
     const {classes} = this.props
     const types = this.dataTypes(this.props.data)
+
     return (
       <FormControl className={classes.formControl}>
         <FormLabel className={classes.labels}>Graph Type</FormLabel>
