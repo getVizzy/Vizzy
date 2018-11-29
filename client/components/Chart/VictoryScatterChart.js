@@ -81,6 +81,12 @@ export default class VictoryScatterChart extends Component {
                     onMouseOver: () => {
                       return [
                         {
+                          target: 'data',
+                          mutation: () => ({
+                            style: {fill: this.props.highlight}
+                          })
+                        },
+                        {
                           target: 'labels',
                           mutation: () => ({active: true})
                         }
@@ -95,7 +101,7 @@ export default class VictoryScatterChart extends Component {
                         },
                         {
                           target: 'labels',
-                          mutation: () => ({active: false})
+                          mutation: () => ({active: true})
                         }
                       ]
                     }

@@ -15,6 +15,7 @@ import LockIcon from '@material-ui/icons/LockOutlined'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
+import Ionicon from 'react-ionicons'
 
 const styles = theme => ({
   main: {
@@ -109,6 +110,10 @@ const AuthForm = props => {
               variant="outlined"
               className={classes.submit}
             >
+              <img
+                id="google-logo"
+                src=" https://seeklogo.net/wp-content/uploads/2015/09/google-favicon-vector-400x400.png"
+              />
               {displayName} with Google
             </Button>
           </a>
@@ -178,6 +183,10 @@ const AuthForm = props => {
               color="secondary"
               className={classes.submit}
             >
+              <img
+                id="google-logo"
+                src=" https://seeklogo.net/wp-content/uploads/2015/09/google-favicon-vector-400x400.png"
+              />
               {displayName} with Google
             </Button>
           </a>
