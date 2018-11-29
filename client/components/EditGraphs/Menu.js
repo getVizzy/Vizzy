@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid'
 import FormControl from '@material-ui/core/FormControl'
 import Paper from '@material-ui/core/Paper'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import GraphMenu from './GraphMenu'
 import SimpleSelect from './SimpleSelect'
 import Axes from './Axes'
@@ -20,19 +20,19 @@ import FormLabel from '@material-ui/core/FormLabel'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
-import { buildRegressionModel } from '../../utils'
+import {buildRegressionModel} from '../../utils'
 import ButtonControls from './ButtonControls'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
-import Input from '@material-ui/core/Input';
-import Tooltip from '@material-ui/core/Tooltip';
+import Input from '@material-ui/core/Input'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = theme => ({})
 
 function TabContainer(props) {
-  const { children, dir } = props
+  const {children, dir} = props
 
   return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
+    <Typography component="div" dir={dir} style={{padding: 8 * 3}}>
       {children}
     </Typography>
   )
@@ -52,17 +52,15 @@ class Menu extends React.Component {
   }
 
   handleChange = (event, value) => {
-    this.setState({ value })
+    this.setState({value})
   }
 
   handleChangeIndex = index => {
-    this.setState({ value: index })
+    this.setState({value: index})
   }
 
   render() {
-
     const {classes, theme} = this.props
-
 
     return (
       <Paper id="editPaper">
@@ -74,12 +72,12 @@ class Menu extends React.Component {
             textColor="primary"
             fullWidth
           >
-          <Tooltip title="Build the graph">
-            <Tab label={<Build />} />
-          </Tooltip>
-          <Tooltip title="Customize the look">
-            <Tab label={<ColorLens />} />
-          </Tooltip>
+            <Tooltip title="Build the graph">
+              <Tab label={<Build />} />
+            </Tooltip>
+            <Tooltip title="Customize the look">
+              <Tab label={<ColorLens />} />
+            </Tooltip>
           </Tabs>
         </AppBar>
 
@@ -103,17 +101,11 @@ class Menu extends React.Component {
               </Grid>
 
               <Grid item xs={12}>
-                <Axes
-                  {...this.props}
-                  column="y"
-                />
+                <Axes {...this.props} column="y" />
               </Grid>
 
               <Grid item xs={12}>
-                <Axes
-                  {...this.props}
-                  column="x"
-                />
+                <Axes {...this.props} column="x" />
               </Grid>
               {this.props.graphSelected === 'scatter' ? (
                 <Grid item xs={12}>
@@ -129,7 +121,6 @@ class Menu extends React.Component {
                               !this.props.regression,
                               'regression'
                             )
-                            // console.log('x and y on state', props.x, props.y)
                             if (!this.props.regression) {
                               buildRegressionModel(
                                 this.props.graphData,
@@ -150,8 +141,8 @@ class Menu extends React.Component {
                   </FormControl>
                 </Grid>
               ) : (
-                  <div style={{ height: '48px' }} />
-                )}
+                <div style={{height: '48px'}} />
+              )}
               <Grid item xs={12}>
                 <ButtonControls
                   state={this.props.state}
@@ -169,18 +160,18 @@ class Menu extends React.Component {
                   <PieColorOptions {...this.props} />
                 </Grid>
               ) : (
-                  <Grid item xs={12}>
-                    <ColorSelect name="Color" {...this.props} />
-                  </Grid>
-                )}
+                <Grid item xs={12}>
+                  <ColorSelect name="Color" {...this.props} />
+                </Grid>
+              )}
 
               {this.props.graphSelected === 'line' ? (
                 ''
               ) : (
-                  <Grid item xs={12}>
-                    <ColorSelect name="Highlight" {...this.props} />
-                  </Grid>
-                )}
+                <Grid item xs={12}>
+                  <ColorSelect name="Highlight" {...this.props} />
+                </Grid>
+              )}
 
               <Grid item xs={12}>
                 <SimpleSelect
@@ -198,8 +189,8 @@ class Menu extends React.Component {
                   />
                 </Grid>
               ) : (
-                  ''
-                )}
+                ''
+              )}
               <Grid item xs={12}>
                 <FormControl component="fieldset">
                   <FormLabel className={classes.labels}>Graph Title</FormLabel>
@@ -214,7 +205,7 @@ class Menu extends React.Component {
                     <Button
                       variant="outlined"
                       color="secondary"
-                      style={{ marginLeft: '30px' }}
+                      style={{marginLeft: '30px'}}
                       onClick={this.props.titleSubmit}
                     >
                       Add Title
@@ -235,4 +226,4 @@ Menu.propTypes = {
   theme: PropTypes.object.isRequired
 }
 
-export default withStyles(styles, { withTheme: true })(Menu)
+export default withStyles(styles, {withTheme: true})(Menu)

@@ -15,7 +15,6 @@ import DeleteGraph from './DeleteGraph'
 
 export default class VictoryBarChart extends Component {
   render() {
-    console.log('PROPS IN BAR')
     let data = this.props.data
     let downloadPNG = download.bind(this)
     const date = new Date(this.props.createdAt).toDateString()

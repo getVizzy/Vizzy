@@ -14,9 +14,8 @@ describe('Data model', () => {
       try {
         row = await Data.create({dataJSON: JSON})
       } catch (err) {
-        console.log(err)
+        console.error(err)
       }
-      console.log('row is', row)
       const string1 = JSON.stringify(row.dataValues.dataJSON)
       const string2 = JSON.stringify(JSON)
       //converting to string because two objects are stored at different locations in memory

@@ -38,7 +38,7 @@ export const deletingData = id => {
       const action = deleteData(id)
       dispatch(action)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 }

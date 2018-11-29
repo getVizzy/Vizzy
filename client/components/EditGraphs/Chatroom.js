@@ -103,7 +103,6 @@ class Chatroom extends React.Component {
 
   handleSubmit(event) {
     const user = this.props.user.email
-    console.log('user', user)
 
     const newMessage = this.state.messageInput
     if (newMessage) {
