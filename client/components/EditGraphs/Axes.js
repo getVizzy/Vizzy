@@ -72,12 +72,13 @@ class Axes extends React.Component {
           className={classes.selectEmpty}
         >
           <MenuItem value="" />
-
-          {items.map(item => (
-            <MenuItem className={classes.menuItem} key={item} value={item}>
-              {item}
-            </MenuItem>
-          ))}
+          {this.props.dataId !== '' ?
+            items.map(item => (
+              <MenuItem className={classes.menuItem} key={item} value={item}>
+                {item}
+              </MenuItem>
+            ))
+            : '' }
         </Select>
       </FormControl>
     )

@@ -144,7 +144,7 @@ class EditView extends React.Component {
           y: '',
           regression: false,
           regressionLine: [],
-          title: ''
+          title: '',
         })
         break
       case 'pieColor':
@@ -298,7 +298,7 @@ class EditView extends React.Component {
       if (!dataMatch) {
         return 'Loading...'
       } else {
-        if (this.state.dataId === '0') {
+        if (this.state.dataId === '') {
           data = sampleData.dataJSON.data
         } else {
           let dataElem = dataMatch.filter(elem => {
@@ -308,9 +308,7 @@ class EditView extends React.Component {
           if (dataElem.length === 0) {
             data = sampleData.dataJSON.data
           } else {
-            console.log('data before', dataElem[0].dataJSON.data)
             data = reinstateNumbers(dataElem[0].dataJSON.data)
-            console.log('data after', data)
           }
         }
 
