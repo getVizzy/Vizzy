@@ -7,14 +7,6 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 export default class ChartContainer extends Component {
   render() {
-    if (!Object.keys(this.props.data[0]).includes(this.props.x)) {
-      return (
-        <div id="working">
-          <p>Graph in progress...</p>
-          <CircularProgress />
-        </div>
-      )
-    }
 
     return this.props.graphSelected === 'bar' ? (
       <Bar {...this.props} />

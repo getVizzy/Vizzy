@@ -32,11 +32,6 @@ const sampleData = {
   dataJSON: {
     data: [
       { quarter: '1', earnings: 13, items: 40, state: 'NY' },
-      { quarter: '2', earnings: 16, items: 60, state: 'NJ' },
-      { quarter: '3', earnings: 17, items: 70, state: 'PA' },
-      { quarter: '4', earnings: 18, items: 80, state: 'NY' },
-      { quarter: '4', earnings: 18, items: 81, state: 'NY' },
-      { quarter: '4', earnings: 19, items: 90, state: 'NY' }
     ]
   }
 }
@@ -114,9 +109,6 @@ class EditView extends React.Component {
 
     switch (attribute) {
       case 'dataId':
-        if (updated !== '0') {
-          updated = +e
-        }
         this.setState({
           [attribute]: updated,
           title: '',
@@ -135,7 +127,7 @@ class EditView extends React.Component {
           y: '',
           regression: false,
           regressionLine: [],
-          title: ''
+          title: '',
         })
         break
       case 'pieColor':
@@ -283,7 +275,7 @@ class EditView extends React.Component {
       if (!dataMatch) {
         return 'Loading...'
       } else {
-        if (this.state.dataId === '0') {
+        if (this.state.dataId === '') {
           data = sampleData.dataJSON.data
         } else {
           let dataElem = dataMatch.filter(elem => {
@@ -293,9 +285,7 @@ class EditView extends React.Component {
           if (dataElem.length === 0) {
             data = sampleData.dataJSON.data
           } else {
-            console.log('data before', dataElem[0].dataJSON.data)
             data = reinstateNumbers(dataElem[0].dataJSON.data)
-            console.log('data after', data)
           }
         }
 

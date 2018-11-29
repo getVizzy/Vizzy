@@ -58,7 +58,11 @@ export default class VictoryBarChart extends Component {
               tickValues={data.map(datum => datum[this.props.x])}
               tickFormat={data.map(datum => {
                 if (typeof datum[this.props.x] === 'string') {
-                  return datum[this.props.x].slice(0, 3)
+                  if(this.props.x === "Month") {
+                    return datum[this.props.x].slice(0, 3)
+                  } else {
+                    return datum[this.props.x].slice(0, 4)
+                  }
                 } else {
                   return datum[this.props.x]
                 }
