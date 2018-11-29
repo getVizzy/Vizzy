@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   VictoryPie,
   VictoryTheme,
@@ -10,16 +10,16 @@ import {
 } from 'victory'
 import history from '../../history'
 import DeleteGraph from './DeleteGraph'
-import {download} from '../../utils'
+import { download } from '../../utils'
 import Download from './Download'
-import {conv1dWithBias} from '@tensorflow/tfjs-layers/dist/layers/convolutional'
+import { conv1dWithBias } from '@tensorflow/tfjs-layers/dist/layers/convolutional'
 
 const data = [
-  {x: 'puppy', y: 4},
-  {x: 'cat', y: 2},
-  {x: 'birds', y: 3},
-  {x: 'fish', y: 2},
-  {x: 'frogs', y: 1}
+  { x: 'puppy', y: 4 },
+  { x: 'cat', y: 2 },
+  { x: 'birds', y: 3 },
+  { x: 'fish', y: 2 },
+  { x: 'frogs', y: 1 }
 ]
 
 let colorOptions = {
@@ -48,7 +48,7 @@ const styles = theme => ({
 export default class VictoryPieChart extends Component {
   render() {
     let downloadPNG = download.bind(this)
-    let {data, x, y, pieColor, pieTransformation, pieLabel} = this.props
+    let { data, x, y, pieColor, pieTransformation, pieLabel } = this.props
 
     //code to parse and aggregate data that can be consumed for Victory pie chart (i.e. {x:label, y:value})
     let filterData = []
@@ -57,7 +57,7 @@ export default class VictoryPieChart extends Component {
     data.forEach(datum => {
       let label = datum[x].toString()
       let value = datum[y]
-      filterData.push({x: label, y: value})
+      filterData.push({ x: label, y: value })
     })
 
     filterData.forEach(obj => {
@@ -66,8 +66,8 @@ export default class VictoryPieChart extends Component {
       else dict[key] += obj.y
     })
 
-    let parsedData = Object.keys(dict).map(function(key) {
-      return {x: key, y: dict[key]}
+    let parsedData = Object.keys(dict).map(function (key) {
+      return { x: key, y: dict[key] }
     })
 
     let totalValues = 0
@@ -79,7 +79,7 @@ export default class VictoryPieChart extends Component {
     let forLegend = []
     parsedData.forEach(datum => {
       let value = datum.x
-      forLegend.push({name: value})
+      forLegend.push({ name: value })
     })
 
     const date = new Date(this.props.createdAt).toDateString()
@@ -94,11 +94,11 @@ export default class VictoryPieChart extends Component {
         <div id="chart">
           <VictoryChart
             // theme={VictoryTheme.material}
-            style={{parent: {maxWidth: '100%'}}}
+            style={{ parent: { maxWidth: '100%' } }}
             domainPadding={60}
             width={600}
             height={400}
-            padding={{left: 100, right: 25, top: 35, bottom: 75}}
+            padding={{ left: 100, right: 25, top: 35, bottom: 75 }}
           >
             <VictoryLabel
               text={this.props.title}
@@ -116,7 +116,7 @@ export default class VictoryPieChart extends Component {
             <VictoryPie
               labelComponent={
                 <VictoryTooltip
-                  flyoutStyle={{fill: 'white', stroke: 'lightgrey'}}
+                  flyoutStyle={{ fill: 'white', stroke: 'lightgrey' }}
                   cornerRadius={+this.props.tooltip}
                 />
               }
@@ -143,7 +143,7 @@ export default class VictoryPieChart extends Component {
               }}
               animate={{
                 duration: 2000,
-                onLoad: {duration: 1000}
+                onLoad: { duration: 1000 }
               }}
               events={[
                 {
@@ -154,12 +154,12 @@ export default class VictoryPieChart extends Component {
                         {
                           target: 'data',
                           mutation: () => ({
-                            style: {fill: this.props.highlight}
+                            style: { fill: this.props.highlight }
                           })
                         },
                         {
                           target: 'labels',
-                          mutation: () => ({active: true})
+                          mutation: () => ({ active: true })
                         }
                       ]
                     },
@@ -167,11 +167,11 @@ export default class VictoryPieChart extends Component {
                       return [
                         {
                           target: 'data',
-                          mutation: () => {}
+                          mutation: () => { }
                         },
                         {
                           target: 'labels',
-                          mutation: () => ({active: false})
+                          mutation: () => ({ active: false })
                         }
                       ]
                     }
@@ -184,7 +184,7 @@ export default class VictoryPieChart extends Component {
               padAngle={pieTransformation === 'windmill' ? 10 : 0}
             />
             <VictoryLegend
-              x={24}
+              x={15}
               y={25}
               title={
                 this.props.x.slice(0, 1).toUpperCase() + this.props.x.slice(1)
@@ -193,8 +193,8 @@ export default class VictoryPieChart extends Component {
               orientation="vertical"
               gutter={40}
               style={{
-                border: {stroke: 'black'},
-                title: {fontSize: 12},
+                border: { stroke: 'black' },
+                title: { fontSize: 12 },
                 zIndex: 2
               }}
               data={forLegend}
@@ -202,7 +202,7 @@ export default class VictoryPieChart extends Component {
             />
             <VictoryAxis
               style={{
-                axis: {stroke: 'none'}
+                axis: { stroke: 'none' }
               }}
               tickFormat={() => ''}
             />
