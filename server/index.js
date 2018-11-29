@@ -28,9 +28,6 @@ if (process.env.NODE_ENV === 'test') {
  */
 if (process.env.NODE_ENV === 'development') require('../secrets')
 
-console.log(process.env.NODE_ENV)
-console.log(process.env.GOOGLE_CLIENT_ID)
-
 // passport registration
 passport.serializeUser((user, done) => done(null, user.id))
 

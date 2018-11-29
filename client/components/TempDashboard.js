@@ -42,7 +42,6 @@ class TempDashboard extends Component {
 
   render() {
     const {classes} = this.props
-    console.log("GRAPHS", this.props.graphs)
     return (
       <div className="main-dashboard-container">
         <div className={classes.heroContent}>

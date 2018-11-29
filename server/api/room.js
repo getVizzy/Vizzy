@@ -71,7 +71,6 @@ router.post('/email', (req, res, next) => {
 
   transporter.sendMail(mailOptions, function(err, info) {
     if (err) console.log(err)
-    else console.log(info)
   })
 
   res.send()

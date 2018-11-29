@@ -46,7 +46,7 @@ export const deletingGraph = id => {
       const action = deleteGraph(id)
       dispatch(action)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 }

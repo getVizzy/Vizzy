@@ -53,14 +53,13 @@ export const auth = (email, password, method, redirect) => async dispatch => {
   try {
     res = await axios.post(`/auth/${method}`, {email, password})
   } catch (authError) {
-    console.log('author', authError.response)
+    console.error('author', authError.response)
     return dispatch(getUser({error: authError}))
   }
 
   try {
     dispatch(getUser(res.data))
     let path = redirect ? redirect : '/home'
-    console.log(path, 'path is')
     history.push(path)
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)

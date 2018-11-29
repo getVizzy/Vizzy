@@ -19,7 +19,8 @@ export function reinstateNumbers(array) {
       //   valueArray.lastIndexOf('-') === -1
       // )
       if (
-        (key !== "Date" && key !== "Year") &&
+        key !== 'Date' &&
+        key !== 'Year' &&
         valueArray.every(char => nums.includes(char)) &&
         (valueArray.lastIndexOf('-') === -1 ||
           valueArray.lastIndexOf('-') === 0)
@@ -92,8 +93,7 @@ export function buildRegressionModel(data, xCol, yCol, setStateFunction) {
 
   const ys = tf.tensor1d(yData)
   const xs = tf.tensor1d(xData)
-  console.log(ys.dataSync(), 'ys')
-  console.log(xs.dataSync(), 'xs')
+
   //in tensorflow, variables can be mutated. We will be changing the values of these variables when we run the optimizer. Here we make a scalar and turn it into a variable so we can change it.
   let m = tf.scalar(Math.random()).variable()
   let b = tf.scalar(Math.random()).variable()
@@ -133,7 +133,6 @@ export function buildRegressionModel(data, xCol, yCol, setStateFunction) {
     {[xCol]: x2, [yCol]: y_pred_2}
   ]
 
-  console.log('regressionLine', regressionLine, 'datasync x1', y_pred_1)
   setStateFunction(regressionLine, 'regressionLine')
   setStateFunction(model, 'regressionModel')
 }
