@@ -202,7 +202,6 @@ class Chatroom extends React.Component {
                   />
                 </Paper>
               </div>
-              }
               <div className="input-and-button">
                 <TextField
                   id="standard-full-width"
