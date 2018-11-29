@@ -175,36 +175,34 @@ class Chatroom extends React.Component {
 
           {this.state.chat === true ? (
             <Paper className={classes.paper}>
-              {this.state.messages.length !== 0 ? (
-                <div className="message-container">
-                  <Paper className={classes.allmessages}>
-                    {chatMessages.map((message, index) => {
-                      const user = message.user
-                      const incomingMessage = message.newMessage
-                      return (
-                        <div key={index}>
-                          <Typography
-                            className={classes.messages}
-                            key={message.newMessage}
-                          >
-                            <div className="new-message">
-                              <div className="user">{user}</div> :{' '}
-                              {incomingMessage}
-                            </div>
-                          </Typography>
-                        </div>
-                      )
-                    })}
-                    <div
-                      style={{float: 'left', clear: 'both'}}
-                      ref={el => {
-                        this.messagesEnd = el
-                      }}
-                    />
-                  </Paper>
-                </div>
-              ) : null}
-
+              <div className="message-container">
+                <Paper className={classes.allmessages}>
+                  {chatMessages.map((message, index) => {
+                    const user = message.user
+                    const incomingMessage = message.newMessage
+                    return (
+                      <div key={index}>
+                        <Typography
+                          className={classes.messages}
+                          key={message.newMessage}
+                        >
+                          <div className="new-message">
+                            <div className="user">{user}</div> :{' '}
+                            {incomingMessage}
+                          </div>
+                        </Typography>
+                      </div>
+                    )
+                  })}
+                  <div
+                    style={{float: 'left', clear: 'both'}}
+                    ref={el => {
+                      this.messagesEnd = el
+                    }}
+                  />
+                </Paper>
+              </div>
+              }
               <div className="input-and-button">
                 <TextField
                   id="standard-full-width"
