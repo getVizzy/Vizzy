@@ -47,6 +47,9 @@ class ButtonControls extends React.Component {
                 ) {
                   this.props.addGraph(this.props.state)
                   this.props.saveNotification()
+                  this.setState({
+                    error: ''
+                  })
                 }
                 if (this.props.state.dataId === '0') {
                   this.setState({
