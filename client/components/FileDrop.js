@@ -15,8 +15,7 @@ class FileDrop extends Component {
       // files: [],
       modalIsOpen: false,
       data: {},
-      upload: false,
-      progress: false
+      view: 'select',
     }
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
@@ -45,45 +44,49 @@ async onChange(e) {
         result.push(obj)
       }
     }
+    await this.toggle('upload')
+    console.log("STATE HERE", this.state)
     this.setState({
       data: {
         name: files[0].name,
-        data: result
+        data: result,
+        view: 'upload'
       }
     })
   }
 
   toggle(element) {
     this.setState({
-      [element]: true
+      view: element
     })
   }
 
   openModal() {
-    this.setState({modalIsOpen: true})
+    this.setState({
+      modalIsOpen: true})
   }
 
   closeModal() {
     this.setState({
       modalIsOpen: false,
-      upload: false,
-      progress: false
+      view: 'select',
+      data: {}
     })
   }
 
   render() {
     const {classes} = this.props
     let name = this.state.data.name || ''
+    console.log("STATE", this.state)
     return (
       <div>
-        {/* <AddIcon onClick={this.openModal} className={classes.icon} /> */}
         <Button
           size="small"
           color="primary"
           onClick={this.openModal}>
           Import Here
         </Button>
-        {/* <button onClick={this.openModal}>Import Data</button> */}
+
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -91,28 +94,26 @@ async onChange(e) {
           ariaHideApp={false}
           className="modal"
         >
+        {this.state.view === 'select' ?
           <div id="dropzone-div">
             <Dropzone
               accept="text/csv"
               onDrop={this.onDrop}
               className="dropzone"
               onChange={e => this.onChange(e)}>
-              {!this.state.upload ?
                 <div className="dz-message">
                   <p>Please upload a .csv file.</p>
                   <Button
-                    onClick={this.closeModal}
                     variant="outlined"
                     color="primary"
                     size="small"
-                    onClick={() => this.toggle('upload')}>
+                    >
                     Choose a file
                   </Button>
                 </div>
-                : '' }
             </Dropzone>
-          <div>
-            {this.state.upload && !this.state.progress?
+          </div>
+          : this.state.view === 'upload' ?
               <div className="dz-message">
                 <p>Selected file:
                   <strong>{` ${name}`}</strong>
@@ -128,22 +129,19 @@ async onChange(e) {
                   Upload and Save
                 </Button>
               </div>
-            : ''}
-            {this.state.progress ?
-              <div className="dz-message-2">
-                <p><Ionicon icon="md-heart" fontSize="60px" color="#3bc2ea" beat={true} /></p>
-                <p>Got it!</p>
-                <Button
-                onClick={this.closeModal}
-                variant="outlined"
-                color="primary"
-                size="small">
-                  Get vizzy!
-                </Button>
-              </div>
-            : '' }
-            </div>
-          </div>
+            : this.state.view === 'progress' ?
+                <div className="dz-message-2">
+                  <p><Ionicon icon="md-heart" fontSize="60px" color="#3bc2ea" beat={true} /></p>
+                  <p>Got it!</p>
+                  <Button
+                  onClick={this.closeModal}
+                  variant="outlined"
+                  color="primary"
+                  size="small">
+                    Get vizzy!
+                  </Button>
+                </div>
+              : '' }
         </Modal>
       </div>
     )
