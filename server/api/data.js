@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {User, Data} = require('../db/models')
+const {User, Data, Graph} = require('../db/models')
 
 router.post('/', async (req, res, next) => {
   try {
@@ -33,11 +33,18 @@ router.get('/', async (req, res, next) => {
 
 router.delete('/:dataId', async (req, res, next) => {
   try {
+    await Graph.destroy({
+      where: {
+        datumId: req.params.dataId
+      }
+    })
+
     const dataSet = await Data.destroy({
       where: {
         id: req.params.dataId
       }
     })
+
     res.sendStatus(202)
   } catch (error) {
     next(error)
