@@ -104,12 +104,12 @@ export default class VictoryPieChart extends Component {
               text={this.props.title}
               style={{
                 fontSize: 20,
-                textAnchor: 'start',
+                textAnchor: 'middle',
                 verticalAnchor: 'end',
                 fill: '#455A64',
                 fontFamily: 'inherit'
               }}
-              x={100}
+              x={325}
               y={24}
             />
 
