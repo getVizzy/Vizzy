@@ -51,9 +51,11 @@ export default class VictoryBarChart extends Component {
               label={this.props.x}
               style={{
                 axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 16, padding: 30}
+                axisLabel: {fontSize: 16, padding: 60},
+                tickLabels: {angle: 45}
               }}
               tickValues={data.map(datum => datum[this.props.x])}
+
               tickFormat={data.map(datum => {
                 if (typeof datum[this.props.x] === 'string') {
                   if (this.props.x === 'Month') {
