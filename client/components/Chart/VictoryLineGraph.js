@@ -112,13 +112,14 @@ export default class VictoryLineGraph extends Component {
                   axis: {stroke: '#756f6a'},
                   axisLabel: {
                     fontSize: 16,
-                    padding: 30,
-                    fontFamily: 'inherit'
-                  }
+                    padding: 60,
+                    fontFamily: 'inherit',
+                  },
+                  tickLabels: {angle: 20, y: 150}
                 }}
                 tickValues={data.map(datum => datum[x])}
                 tickFormat={data.map(datum => {
-                  return datum[x].slice(0, 3)
+                  return datum[x]
                 })}
               />
             ) : (
@@ -128,9 +129,11 @@ export default class VictoryLineGraph extends Component {
                   axis: {stroke: '#756f6a'},
                   axisLabel: {
                     fontSize: 16,
-                    padding: 30,
+                    padding: 60,
                     fontFamily: 'inherit'
-                  }
+                  },
+                  tickLabels: {angle: 20}
+
                 }}
               />
             )}
