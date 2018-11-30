@@ -59,7 +59,7 @@ export default class VictoryBarChart extends Component {
                   if (this.props.x === 'Month') {
                     return datum[this.props.x].slice(0, 3)
                   } else {
-                    return datum[this.props.x].slice(0, 4)
+                    return datum[this.props.x]
                   }
                 } else {
                   return datum[this.props.x]
