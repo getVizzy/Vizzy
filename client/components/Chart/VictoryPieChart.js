@@ -79,6 +79,9 @@ export default class VictoryPieChart extends Component {
     let forLegend = []
     parsedData.forEach(datum => {
       let value = datum.x
+      if (x === 'Month') {
+        value = value.slice(0, 3)
+      }
       forLegend.push({ name: value })
     })
 
@@ -189,9 +192,10 @@ export default class VictoryPieChart extends Component {
               title={
                 this.props.x.slice(0, 1).toUpperCase() + this.props.x.slice(1)
               }
+              rowGutter={{ top: 0, bottom: -5 }}
               centerTitle
               orientation="vertical"
-              gutter={40}
+              gutter={20}
               style={{
                 border: { stroke: 'black' },
                 title: { fontSize: 12 },
