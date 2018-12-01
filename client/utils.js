@@ -5,7 +5,7 @@ export function reinstateNumbers(array) {
   //For each row in stored data array
   let restoredData = array.map(data => {
     let newFormat = {}
-    let nums = '0123456789.,-$%'
+    let nums = '0123456789.,-$%" '
 
     //Check each value in row
     for (let key in data) {
@@ -33,6 +33,9 @@ export function reinstateNumbers(array) {
           .join('')
           .split(',')
           .join('')
+          .split('"')
+          .join('')
+          .split()
 
         //Coerce it to a number value
         newFormat[key] = +value
