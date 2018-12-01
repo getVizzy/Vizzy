@@ -309,7 +309,9 @@ class EditView extends React.Component {
           if (dataElem.length === 0) {
             data = sampleData.dataJSON.data
           } else {
+            console.log("DATA BEFORE REINSTATE", data)
             data = reinstateNumbers(dataElem[0].dataJSON.data)
+            console.log("DATA AFTER REINSTATE", data)
           }
         }
 

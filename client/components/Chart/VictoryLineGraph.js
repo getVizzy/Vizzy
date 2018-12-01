@@ -119,7 +119,11 @@ export default class VictoryLineGraph extends Component {
                 }}
                 tickValues={data.map(datum => datum[x])}
                 tickFormat={data.map(datum => {
-                  return datum[x]
+                  if (this.props.x === 'Month') {
+                    return datum[this.props.x].slice(0, 3)
+                  } else {
+                    return datum[this.props.x]
+                  }
                 })}
               />
             ) : (
@@ -143,7 +147,7 @@ export default class VictoryLineGraph extends Component {
               label={y}
               style={{
                 axis: {stroke: '#756f6a'},
-                axisLabel: {fontSize: 16, padding: 60}
+                axisLabel: {fontSize: 16, padding: 80}
               }}
             />
           </VictoryChart>

@@ -4,9 +4,8 @@ import Modal from 'react-modal'
 import {postData} from '../store/data'
 import {connect} from 'react-redux'
 import Button from '@material-ui/core/Button'
-import {white} from 'material-ui/styles/colors'
 import Ionicon from 'react-ionicons'
-import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 class FileDrop extends Component {
   constructor() {
@@ -29,23 +28,33 @@ async onChange(e) {
     await reader.readAsText(files[0])
     let result = []
     reader.onload = e => {
-      var csv = reader.result
-      var lines = csv
+      let csv = reader.result
+      let lines = csv
         .split('\r')
         .join('')
         .split('\n')
-      var headers = lines[0].split(',')
+
+      console.log("LINES", lines)
+
+      let headers = lines[0].split(',')
+
       for (var i = 1; i < lines.length; i++) {
-        var obj = {}
-        var currentline = lines[i].split(',')
-        for (var j = 0; j < headers.length; j++) {
-          obj[headers[j]] = currentline[j]
+        if(lines[i][0] !== ",") {
+          console.log("ONE LINE", lines[i])
+          let currentline = lines[i].match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
+
+          let obj = {}
+          for (let j = 0; j < headers.length; j++) {
+            obj[headers[j]] = currentline[j]
+          }
+          if(Object.keys(obj)[0] !== '' && Object.values(obj)[0]) {
+            result.push(obj)
+          }
         }
-        result.push(obj)
       }
     }
     await this.toggle('upload')
-    console.log("STATE HERE", this.state)
+
     this.setState({
       data: {
         name: files[0].name,
@@ -77,7 +86,6 @@ async onChange(e) {
   render() {
     const {classes} = this.props
     let name = this.state.data.name || ''
-    console.log("STATE", this.state)
     return (
       <div>
         <Button
