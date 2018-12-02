@@ -3,7 +3,6 @@ import Bar from './VictoryBarChart'
 import Line from './VictoryLineGraph'
 import Scatter from './VictoryScatterChart'
 import Pie from './VictoryPieChart'
-import CircularProgress from '@material-ui/core/CircularProgress'
 
 export default class ChartContainer extends Component {
   render() {
