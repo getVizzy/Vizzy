@@ -5,7 +5,7 @@ export function reinstateNumbers(array) {
   //For each row in stored data array
   let restoredData = array.map(data => {
     let newFormat = {}
-    let nums = '0123456789.,-$%" '
+    let nums = '0123456789.,-$%" \t'
 
     //Check each value in row
     for (let key in data) {
@@ -13,14 +13,11 @@ export function reinstateNumbers(array) {
       let valueArray = value.split('')
 
       //Check if it includes numbers but is not a date
-      // if (
-      //   (valueArray.some(char => !nums.includes(char)) &&
-      //     valueArray.lastIndexOf('-') === 0) ||
-      //   valueArray.lastIndexOf('-') === -1
-      // )
       if (
         key !== 'Date' &&
         key !== 'Year' &&
+        key !== 'Week' &&
+        !key.includes("ID") &&
         valueArray.every(char => nums.includes(char)) &&
         (valueArray.lastIndexOf('-') === -1 ||
           valueArray.lastIndexOf('-') === 0)
@@ -35,6 +32,8 @@ export function reinstateNumbers(array) {
           .join('')
           .split('"')
           .join('')
+          .split(" ")
+          .join("")
           .split()
 
         //Coerce it to a number value
@@ -82,10 +81,9 @@ export function download(title, id) {
 }
 
 export function addComma(stringNum) {
-  if (stringNum.length > 3) {
-    return `${stringNum.slice(0, stringNum.length - 3)},${stringNum.slice(
-      stringNum.length - 3
-    )}`
+  if (stringNum.length > 3 && !stringNum.includes(".")) {
+    stringNum = +stringNum
+    return stringNum.toLocaleString()
   }
 }
 
@@ -139,3 +137,23 @@ export function buildRegressionModel(data, xCol, yCol, setStateFunction) {
   setStateFunction(regressionLine, 'regressionLine')
   setStateFunction(model, 'regressionModel')
 }
+
+// export function dataAggregator(data) {
+//   let dataSlice = [];
+//   let dataObj = {};
+//     data.forEach(datum => {
+//       let keys = Object.keys(datum)
+//       keys.forEach(key => {
+//       if(dataObj[key]) {
+//         if(typeof dataObj[key] === 'number') {
+//         dataObj[key] = dataObj[key] + datum[key];
+//         }
+//       } else {
+//         dataObj[key] = datum[key];
+//       }})
+//     })
+//   for(let key in dataObj) {
+//     dataSlice.push({ [key]: dataObj[key] })
+//   }
+//   return dataSlice;
+// }

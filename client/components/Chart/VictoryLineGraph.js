@@ -43,7 +43,11 @@ export default class VictoryLineGraph extends Component {
             containerComponent={
               <VictoryVoronoiContainer
                 voronoiDimension="x"
-                labels={d => `${y}: ${d[y]}`}
+                labels={d => {
+                  let label = d[y].toString()
+                  let withComma = this.props.addComma(label) || label
+                  return `${y}: ${withComma}`
+                }}
                 labelComponent={
                   <VictoryTooltip
                     cornerRadius={+this.props.tooltip}
