@@ -29,4 +29,10 @@ describe('User model', () => {
       })
     }) // end describe('correctPassword')
   }) // end describe('instanceMethods')
+  describe('Room Key Hook', () => {
+    it('it generates a room key before saving to database', async () => {
+      await User.create({email: 'ginger@email.com', password: 'candy'})
+      expect(User.roomKey).to.not.equal(null)
+    })
+  })
 }) // end describe('User model')
