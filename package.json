@@ -41,6 +41,7 @@
     "@material-ui/icons": "^3.0.1",
     "@tensorflow/tfjs": "^0.13.5",
     "axios": "^0.15.3",
+    "child_process": "^1.0.2",
     "chroma-js": "^1.4.0",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^4.1.0",

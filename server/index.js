@@ -64,8 +64,17 @@ const createApp = () => {
   app.use(passport.session())
 
   // auth and api routes
+
+  //middleware function to check for user
+  const requireLogin = function(req, res, next) {
+    if (!req.user) {
+      let err = new Error('Unauthorized')
+      next(err)
+    }
+    return next()
+  }
   app.use('/auth', require('./auth'))
-  app.use('/api', require('./api'))
+  app.use('/api', requireLogin, require('./api'))
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))

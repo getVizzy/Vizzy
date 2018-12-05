@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Graph, Data } = require('../db/models')
+const {Graph, Data} = require('../db/models')
 
 router.post('/', async (req, res, next) => {
   try {
@@ -58,4 +58,5 @@ router.delete('/:graphId', async (req, res, next) => {
     next(error)
   }
 })
+
 module.exports = router
