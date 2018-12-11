@@ -4,6 +4,9 @@ Create, collaborate, and visualize with Vizzy. Vizzy is a web platform that allo
  ## About Vizzy
  Vizzy is a web platform that allows you to easily generate dynamic data visualizations so that you can gain actionable insights and communicate information quickly. After uploading data, a user can create customized graphs in just a few clicks, with the option to collaborate with others in real-time via a shared view and chat tool. In developing Vizzy, we learned how to dynamically render data, save user-generated graphs, and re-render them in a way that maintained their interactivity. We also gained a greater understanding of sockets and state management.
 
+  ## Deployed at
+ https://getvizzy.herokuapp.com/
+
  ## Technologies Used
  1. Front-end: React, Redux, Victory, D3, OAuth, Material UI
  2. Back-end: Node, Express, PostgreSQL, Sequelize, Socket.io, Nodemailer
