@@ -1,6 +1,8 @@
 ## Vizzy 📊
 Create, collaborate, and visualize with Vizzy. Vizzy is a web platform that allows you to build fuss-free, dynamic data visualizations in real-time with your team so that you can gain greater insights from your data---fast
 
+Check out demo video here -> https://www.youtube.com/watch?v=UwuCwKIepcs
+
  ## About Vizzy
  Vizzy is a web platform that allows you to easily generate dynamic data visualizations so that you can gain actionable insights and communicate information quickly. After uploading data, a user can create customized graphs in just a few clicks, with the option to collaborate with others in real-time via a shared view and chat tool. In developing Vizzy, we learned how to dynamically render data, save user-generated graphs, and re-render them in a way that maintained their interactivity. We also gained a greater understanding of sockets and state management.
 
