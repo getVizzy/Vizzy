@@ -32,6 +32,7 @@ export default class InviteForm extends React.Component {
     this.setState({open: false})
   }
   handleSubmit = e => {
+    console.log(this.props)
     if (this.state.to === '') {
       this.setState({error: true})
     } else {
@@ -49,7 +50,7 @@ export default class InviteForm extends React.Component {
     return (
       <div>
         <Button size="small" color="primary" onClick={this.handleClickOpen}>
-          {this.props.text}
+          {'Email an Invite'}
         </Button>
         <Dialog open={this.state.open} onClose={this.handleClose}>
           <DialogTitle>Invite Collaborators</DialogTitle>

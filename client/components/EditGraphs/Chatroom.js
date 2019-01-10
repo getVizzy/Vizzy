@@ -221,7 +221,7 @@ class Chatroom extends React.Component {
             </Paper>
           ) : (
             <Paper className={classes.paper}>
-              <InviteForm text="Email an invite" />
+              <InviteForm user={this.props.user} />
               <Typography className={classes.inviteMessage}>
                 Or share your room key:
                 <strong>
