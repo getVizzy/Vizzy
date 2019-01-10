@@ -16,18 +16,6 @@ import PlaceholderContainer from '../Chart/PlaceholderContainer'
 import Progress from './Progress'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
-const styles = theme => ({
-  root: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    margin: '0 auto'
-  },
-  chatroom: {
-    display: 'block'
-  }
-})
-
 const sampleData = {
   dataJSON: {
     data: [
@@ -40,6 +28,18 @@ const sampleData = {
     ]
   }
 }
+
+const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    margin: '0 auto'
+  },
+  chatroom: {
+    display: 'block'
+  }
+})
 
 class EditView extends React.Component {
   constructor(props) {
@@ -89,14 +89,41 @@ class EditView extends React.Component {
     this.titleChange = this.titleChange.bind(this)
     this.titleSubmit = this.titleSubmit.bind(this)
     this.saveNotification = this.saveNotification.bind(this)
+
+    //put things that should only happen once upon joining inside the constructor, so it doesn't update every time the state does.
+    socket.emit('joinRoom', this.props.singleRoom, this.props.user)
   }
 
   async componentDidMount() {
     await this.props.onFetchAllUsers()
     await this.props.gotData()
 
-    socket.emit('joinRoom', this.props.singleRoom, this.props.user)
+    // socket.emit('joinRoom', this.props.singleRoom, this.props.user)
+    socket.on('sendInitialDataRequest', () => {
+      console.log('initialDataRequest', this.state)
+      socket.emit('sendInitialData', this.state)
+    })
 
+    socket.on('receiveInitialData', initialData => {
+      console.log('initialData', initialData)
+      //update the initial state
+      this.setState({
+        graphSelected: initialData.graphSelected,
+        color: initialData.color,
+        title: initialData.title,
+        highlight: initialData.highlight,
+        tooltip: initialData.tooltip,
+        x: initialData.x,
+        y: initialData.y,
+        regression: initialData.regression,
+        regressionLine: initialData.regressionLine,
+        regressionModel: initialData.regressionModel,
+        dataId: initialData.dataId,
+        zoomDomain: initialData.zoomDomain,
+        pieColor: initialData.pieColor,
+        pieTransformation: initialData.pieTransformation
+      })
+    })
     socket.on('receiveJoinRoom', user => {
       this.joinNotification(user)
     })

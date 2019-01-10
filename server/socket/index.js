@@ -22,9 +22,14 @@ module.exports = io => {
     socket.on('joinRoom', (roomKey, user) => {
       socket.join(roomKey)
       socket.to(roomKey).emit('receiveJoinRoom', user)
+      socket.broadcast.emit('sendInitialDataRequest')
       console.log(`success, ${user.email} has joined ${roomKey}`)
     })
 
+    socket.on('sendInitialData', initialData => {
+      console.log('sendInitialData has been hit, server side')
+      socket.broadcast.emit('receiveInitialData', initialData)
+    })
     socket.on('newChanges', function(room, data) {
       socket.join(room)
       socket.to(room).emit('receiveCode', data)
