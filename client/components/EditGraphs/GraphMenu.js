@@ -143,20 +143,6 @@ class ListItemComposition extends React.Component {
               primary="Scatter"
             />
           </MenuItem>
-
-          {/* <MenuItem className={classes.menuItem} value="map">
-        <ListItemIcon>
-          <MapChartIcon />
-        </ListItemIcon>
-        <ListItemText classes={{ primary: classes.primary }} inset primary="Map" />
-      </MenuItem>
-
-      <MenuItem className={classes.menuItem} value="bubble">
-        <ListItemIcon>
-          <BubbleChartIcon />
-        </ListItemIcon>
-        <ListItemText classes={{ primary: classes.primary }} inset primary="Bubble" />
-      </MenuItem> */}
         </Select>
       </FormControl>
     )

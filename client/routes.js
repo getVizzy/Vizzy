@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserHome, FileDrop } from './components'
-import { me } from './store'
+import {Login, Signup, UserHome, FileDrop} from './components'
+import {me} from './store'
 import Dashboard from './components/Dashboard'
-import { gotGraphs } from './store/graph'
+import {gotGraphs} from './store/graph'
 
 import VictoryBarChart from './components/Chart/VictoryBarChart'
 import VictoryLineGraph from './components/Chart/VictoryLineGraph'
@@ -13,9 +13,7 @@ import VictoryScatterChart from './components/Chart/VictoryScatterChart'
 import VictoryPieChart from './components/Chart/VictoryPieChart'
 import DoubleLine from './components/Chart/DoubleLine'
 import HomeView from './components/Home/HomeView'
-import TempDashboard from './components/TempDashboard'
 import EditView from './components/EditGraphs/EditView'
-// import RoomSelection from './components/Room/RoomSelection'
 import MainPage from './components/MainPage'
 import RoomEntry from './components/Room/RoomEntry'
 import FunContainer from './components/Fun/FunContainer'
@@ -30,7 +28,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { isLoggedIn, hasRoom } = this.props
+    const {isLoggedIn, hasRoom} = this.props
 
     return (
       <div id="globalContent">
@@ -50,7 +48,7 @@ class Routes extends Component {
               <Route exact path="/" component={HomeView} />
               <Route path="/home" component={HomeView} />
               <Route path="/upload" component={FileDrop} />
-              <Route path="/dashboard" component={TempDashboard} />
+              <Route path="/dashboard" component={Dashboard} />
               <Route path="/bar" component={VictoryBarChart} />
               <Route path="/line" component={VictoryLineGraph} />
               <Route path="/scatter" component={VictoryScatterChart} />

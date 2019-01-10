@@ -1,82 +1,116 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import BarChart from './BarChart'
-import LineChart from './LineChart'
+import React, {Component} from 'react'
+import {gotGraphs} from '../store/graph'
+import {connect} from 'react-redux'
+import {download, addComma, reinstateNumbers} from '../utils'
+import ChartContainer from './Chart/ChartContainer'
+import Snackbar from './Notifications/Snackbar'
+import PropTypes from 'prop-types'
+import Typography from '@material-ui/core/Typography'
+import {withStyles} from '@material-ui/core/styles'
 
-const io = require('socket.io-client')
-const socket = io()
-// import socket from '../socket'
+const styles = theme => ({
+  heroContent: {
+    maxWidth: 600,
+    margin: '0 auto',
+    padding: 15
+  }
+})
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
-      data: [],
-      select: '',
-      text: ''
+      notification: false
     }
-    socket.on('receiveCode', payload => {
-      this.updateCodeFromSockets(payload)
-    })
-    this.onChange = this.onChange.bind(this)
+    this.deleteNotification = this.deleteNotification.bind(this)
   }
 
-  updateCodeFromSockets(payload) {
-    this.setState(payload)
+  componentDidMount() {
+    this.props.getGraphs()
   }
 
-  onChange(event) {
+  deleteNotification() {
     this.setState({
-      [event.target.name]: event.target.value
+      notification: true
     })
-    // socket.emit('new changes','4kvi2mukbi9rkzz0p7', {
-    //   [event.target.name]: event.target.value
-    // })
-    socket.emit('newChanges', this.props.singleRoom, {
-      [event.target.name]: event.target.value
-    })
+    setTimeout(() => {
+      this.setState({
+        notification: false
+      })
+    }, 3000)
   }
 
-  componentDidMount() { }
   render() {
+    const {classes} = this.props
     return (
-      <div id="container-row">
-        <div>
-          <div>
-            Your Room Id is: {this.props.singleRoom}, please share with
-            participants
-          </div>
-          <form>
-            <input
-              type="text"
-              name="text"
-              onChange={this.onChange}
-              placeholder="Type Here"
-            />
-          </form>
+      <div className="main-dashboard-container">
+        <div className={classes.heroContent}>
+          <Typography
+            component="h1"
+            variant="h4"
+            align="center"
+            color="textPrimary"
+            gutterBottom
+          >
+            Dashboard
+          </Typography>
         </div>
-
-        <div>{/* <BarChart data={data} /> */}</div>
-        <div>{/* <LineChart data={data} /> */}</div>
-
+        <div className="graphs-dashboard">
+          {this.props.graphs.length === 0 ? (
+            <div className={classes.heroContent}>
+              <Typography variant="h6" align="center" color="textSecondary">
+                No graphs right now. Let's get Vizzy!
+              </Typography>
+            </div>
+          ) : (
+            this.props.graphs.map((graph, i) => {
+              let data = reinstateNumbers(graph.datum.dataJSON.data)
+              let propPackage = {
+                data: data,
+                createdAt: graph.createdAt,
+                addComma: addComma,
+                downloadPNG: download,
+                changeStyle: this.changeStyle,
+                graphId: graph.id,
+                ...graph.properties,
+                delete: this.deleteNotification
+              }
+              return (
+                <div id="dashboard-container" key={graph.id}>
+                  <ChartContainer {...propPackage} />{' '}
+                </div>
+              )
+            })
+          )}
+        </div>
         <div>
-          <select name="select" onChange={this.onChange}>
-            <option value="Blue">Blue</option>
-            <option value="Yellow">Yellow</option>
-            <option value="Red">Red</option>
-            <option value="Orange">Orange</option>
-            <option value="Pink">Pink</option>
-          </select>
+          {this.state.notification ? (
+            <Snackbar
+              message="Graph deleted!"
+              saveNotification={this.state.notification}
+              source="delete"
+            />
+          ) : (
+            ''
+          )}
         </div>
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  data: state.user.data,
-  rooms: state.room.rooms,
-  singleRoom: state.room.singleRoom
+const mapDispatchToProps = dispatch => ({
+  getGraphs: () => dispatch(gotGraphs())
 })
 
-export default connect(mapStateToProps)(Dashboard)
+const mapStateToProps = state => ({
+  graphs: state.graph
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(Dashboard)
+)
+
+Dashboard.propTypes = {
+  classes: PropTypes.object.isRequired
+}
