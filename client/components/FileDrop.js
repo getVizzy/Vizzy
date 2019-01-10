@@ -6,7 +6,6 @@ import {connect} from 'react-redux'
 import Button from '@material-ui/core/Button'
 import Ionicon from 'react-ionicons'
 
-
 class FileDrop extends Component {
   constructor() {
     super()
@@ -14,15 +13,14 @@ class FileDrop extends Component {
       // files: [],
       modalIsOpen: false,
       data: {},
-      view: 'select',
+      view: 'select'
     }
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
     this.toggle = this.toggle.bind(this)
-
   }
 
-async onChange(e) {
+  async onChange(e) {
     let files = e.target.files
     let reader = new FileReader()
     await reader.readAsText(files[0])
@@ -34,20 +32,20 @@ async onChange(e) {
         .join('')
         .split('\n')
 
-      console.log("LINES", lines)
+      console.log('LINES', lines)
 
       let headers = lines[0].split(',')
 
       for (var i = 1; i < lines.length; i++) {
-        if(lines[i][0] !== ",") {
-          console.log("ONE LINE", lines[i])
-          let currentline = lines[i].match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
+        if (lines[i][0] !== ',') {
+          console.log('ONE LINE', lines[i])
+          let currentline = lines[i].match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
 
           let obj = {}
           for (let j = 0; j < headers.length; j++) {
             obj[headers[j]] = currentline[j]
           }
-          if(Object.keys(obj)[0] !== '' && Object.values(obj)[0]) {
+          if (Object.keys(obj)[0] !== '' && Object.values(obj)[0]) {
             result.push(obj)
           }
         }
@@ -62,6 +60,8 @@ async onChange(e) {
         view: 'upload'
       }
     })
+
+    console.log('data when you add to dropzone', this.state.data)
   }
 
   toggle(element) {
@@ -72,7 +72,8 @@ async onChange(e) {
 
   openModal() {
     this.setState({
-      modalIsOpen: true})
+      modalIsOpen: true
+    })
   }
 
   closeModal() {
@@ -88,10 +89,7 @@ async onChange(e) {
     let name = this.state.data.name || ''
     return (
       <div>
-        <Button
-          size="small"
-          color="primary"
-          onClick={this.openModal}>
+        <Button size="small" color="primary" onClick={this.openModal}>
           Import Here
         </Button>
 
@@ -102,54 +100,63 @@ async onChange(e) {
           ariaHideApp={false}
           className="modal"
         >
-        {this.state.view === 'select' ?
-          <div id="dropzone-div">
-            <Dropzone
-              accept="text/csv"
-              onDrop={this.onDrop}
-              className="dropzone"
-              onChange={e => this.onChange(e)}>
+          {this.state.view === 'select' ? (
+            <div id="dropzone-div">
+              <Dropzone
+                accept="text/csv"
+                // onDrop={this.onDrop}
+                className="dropzone"
+                onChange={e => this.onChange(e)}
+              >
                 <div className="dz-message">
                   <p>Please upload a .csv file.</p>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    >
+                  <Button variant="outlined" color="primary" size="small">
                     Choose a file
                   </Button>
                 </div>
-            </Dropzone>
-          </div>
-          : this.state.view === 'upload' ?
-              <div className="dz-message">
-                <p>Selected file:
-                  <strong>{` ${name}`}</strong>
-                </p>
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    onClick={() => {
-                    this.props.addData(this.state.data);
-                    this.toggle('progress');
-                  }}>
-                  Upload and Save
-                </Button>
-              </div>
-            : this.state.view === 'progress' ?
-                <div className="dz-message-2">
-                  <p><Ionicon icon="md-heart" fontSize="60px" color="#3bc2ea" beat={true} /></p>
-                  <p>Got it!</p>
-                  <Button
-                  onClick={this.closeModal}
-                  variant="outlined"
-                  color="primary"
-                  size="small">
-                    Get vizzy!
-                  </Button>
-                </div>
-              : '' }
+              </Dropzone>
+            </div>
+          ) : this.state.view === 'upload' ? (
+            <div className="dz-message">
+              <p>
+                Selected file:
+                <strong>{` ${name}`}</strong>
+              </p>
+              <Button
+                variant="outlined"
+                color="primary"
+                size="small"
+                onClick={() => {
+                  this.props.addData(this.state.data)
+                  this.toggle('progress')
+                }}
+              >
+                Upload and Save
+              </Button>
+            </div>
+          ) : this.state.view === 'progress' ? (
+            <div className="dz-message-2">
+              <p>
+                <Ionicon
+                  icon="md-heart"
+                  fontSize="60px"
+                  color="#3bc2ea"
+                  beat={true}
+                />
+              </p>
+              <p>Got it!</p>
+              <Button
+                onClick={this.closeModal}
+                variant="outlined"
+                color="primary"
+                size="small"
+              >
+                Get vizzy!
+              </Button>
+            </div>
+          ) : (
+            ''
+          )}
         </Modal>
       </div>
     )

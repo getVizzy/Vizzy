@@ -61,7 +61,7 @@ class Menu extends React.Component {
 
   render() {
     const {classes, theme} = this.props
-
+    console.log('datamatch', this.props.dataMatch)
     return (
       <Paper id="editPaper">
         <AppBar position="static" color="default">
@@ -88,7 +88,7 @@ class Menu extends React.Component {
         >
           <TabContainer dir={theme.direction}>
             <Grid container spacing={8}>
-              <Grid className={classes.grid} item xs={1}>
+              <Grid className={classes.grid} item xs={12}>
                 <SimpleSelect
                   name="Dataset"
                   items={this.props.dataMatch}

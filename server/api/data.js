@@ -5,7 +5,8 @@ router.post('/', async (req, res, next) => {
   try {
     let data = await Data.create({
       userId: req.user.id,
-      dataJSON: req.body
+      dataJSON: req.body,
+      name: req.body.name
     })
     res.send(data)
   } catch (err) {
