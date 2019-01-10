@@ -8,7 +8,7 @@ const io = require('socket.io-client')
 const socket = io()
 import Menu from './Menu'
 import {connect} from 'react-redux'
-import {reinstateNumbers, download, addComma } from '../../utils'
+import {reinstateNumbers, download, addComma} from '../../utils'
 import {withStyles} from '@material-ui/core/styles'
 import Snackbar from '../Notifications/Snackbar'
 import Chatroom from './Chatroom'
@@ -309,7 +309,7 @@ class EditView extends React.Component {
           if (dataElem.length === 0) {
             data = sampleData.dataJSON.data
           } else {
-            data = reinstateNumbers(dataElem[0].dataJSON.data);
+            data = reinstateNumbers(dataElem[0].dataJSON.data)
           }
         }
 
