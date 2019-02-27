@@ -200,9 +200,9 @@ class PermanentDrawerLeft extends React.Component {
               </Typography>
 
               <Tooltip title="Switch between light/dark mode">
-                <IconButton color="inherit">
+                <IconButton color="inherit" onClick={this.props.handleSwitch}>
                   <InvertColorsIcon
-                    onClick={this.props.handleSwitch}
+                    // onClick={this.props.handleSwitch}
                     fontSize="small"
                   />
                 </IconButton>
